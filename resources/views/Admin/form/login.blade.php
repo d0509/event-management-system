@@ -1,5 +1,5 @@
 @extends('layouts.adminlayout')
-@section('title', 'Registeration page')
+@section('title', 'Login page')
 {{-- {{dd('im afetr title')}} --}}
 @section('container')
 <body class="bg-gradient-primary">
@@ -65,7 +65,7 @@
                                         <a class="small" href="{{ route('register') }}">Create an Account as User!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="{{ route('companyRegister') }}">Create an Account as Company!</a>
+                                        <a class="small" href="{{ route('guest.company.store') }}">Create an Account as Company!</a>
                                     </div>
                                 </div>
 

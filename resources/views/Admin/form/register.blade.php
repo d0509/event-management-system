@@ -37,16 +37,28 @@
                         </select>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label for="state" class="col-sm-2 col-form-label">State</label>
-                    <div class="col-sm-10">
-                        <select class="form-select" name="state" id="state">
 
-                            {{-- @foreach ($states as $state)
-                                    <option value="{{ $country['id'] }}"> {{ $country['name'] }} </option>
-                                @endforeach --}}
-                        </select>
-                    </div>
+                
+                <div class="form-group">
+
+                    <input type="password" name="password" id="password"
+                        class="form-control form-control-user" id="exampleInputPassword"
+                        placeholder="Password" value="{{ old('password') }}">
+
+                    @error('password')
+                        <div class="text-danger"> {{ $message }} </div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+
+                    <input type="password" name="password_confirmation" id="password_confirmation"
+                        class="form-control form-control-user" id="exampleInputPassword"
+                        placeholder="Confirm Password" value="{{ old('password') }}">
+
+                    @error('password_confirmation')
+                        <div class="text-danger"> {{ $message }} </div>
+                    @enderror
                 </div>
             </form>
         </div>

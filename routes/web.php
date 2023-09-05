@@ -1,7 +1,9 @@
 
 <?php
 
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,14 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware('guest')->group(function () {
+Route::group(['middleware' => ['guest']], function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
-    Route::post('login', [AuthController::class, 'signin'])->name('signin');
-    Route::post('register', [AuthController::class, 'signup'])->name('signup');
     Route::get('register', [AuthController::class, 'register'])->name('register');
 
-    Route::get('company-register', [AuthController::class, 'companyRegisterForm'])->name('companyRegisterForm');
-    Route::post('company-register', [AuthController::class, 'companyRegister'])->name('companyRegister');
+    Route::post('login', [AuthController::class, 'signin'])->name('signin');
+    Route::post('register',[AuthController::class, 'signup'])->name('signup');
+
+    Route::get('company-register', [AuthCompanyController::class, 'create'])->name('guest.company.create');
+    Route::post('company-register', [AuthCompanyController::class, 'store'])->name('guest.company.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -32,3 +35,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
+
+Route::group(['prefix' => 'admin','middleware' => ['admin']], function() {
+    Route::get('/dashboard',[AuthController::class,'adminDashboard'])->name('adminDashboard');
+    Route::get('/company',[CompanyController::class,'index'])->name('companyListing');
+    Route::get('/company/{company}/edit',[CompanyController::class,'edit'])->name('editCompany');
+    Route::patch('/company/{company}/edit',[CompanyController::class,'update'])->name('updateCompany');
+    Route::delete('/company/{company}',[CompanyController::class,'destroy'])->name('destroyCompany');
+    Route::get('/add-company',[CompanyController::class,'create'])->name('company.create');
+    Route::post('/add-company',[CompanyController::class,'store'])->name('company.store');
+});
+
+Route::get('company/dashboard',[AuthController::class,'companyDashboard'])->middleware('company')->name('companyDashboard');

@@ -18,8 +18,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                                     </div>
                                     @if (request()->is('company-register'))
-                                    
-                                        <form class="user" action="{{ route('companyRegister') }}" method="POST">
+                                        <form class="user" action="{{ route('guest.company.store') }}" method="POST">
                                         @elseif(request()->is('register'))
                                             <form class="user" action="{{ route('signup') }}" method="POST">
                                     @endif
@@ -35,6 +34,44 @@
                                             <span class="text-danger"> {{ $message }} </span>
                                         @enderror
                                     </div>
+
+                                    @if (request()->is('company-register'))
+
+                                    
+
+                                    <div class="form-group">
+
+                                        <input type="text" id="company_name" name="company_name"
+                                            class="form-control form-control-user" id="exampleFirstName"
+                                            placeholder="Company name" value="{{ old('company_name') }}">
+
+                                        @error('company_name')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                        <div class="form-group">
+
+                                            <input type="text" id="description" name="description"
+                                                class="form-control form-control-user" id="exampleFirstName"
+                                                placeholder="Company description" value="{{ old('description') }}">
+
+                                            @error('description')
+                                                <span class="text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <input type="text" id="address" name="address"
+                                                class="form-control form-control-user" id="exampleFirstName"
+                                                placeholder="Company Address" value="{{ old('address') }}">
+
+                                            @error('address')
+                                                <span class="text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+
+                                    @endif
                                     <div class="form-group">
 
                                         <input type="email" name="email" id="email"
@@ -59,10 +96,8 @@
                                     <div class="form-group">
 
                                         <select class="form-control rounded-pill form-select-lg"
-                                            aria-label="Default select example" name="city_id" id="city_id"
-                                            value="{{ old('city_id') }}">
-                                            <option value="all"> Please select a city
-                                            </option>
+                                            aria-label="Default select example" name="city_id" id="city_id">
+                                            <option >Please select a city</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"> {{ $city->name }}
                                                 </option>

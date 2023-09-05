@@ -8,11 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements CanResetPassword
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -44,7 +45,23 @@ class User extends Authenticatable implements CanResetPassword
         'password' => 'hashed',
     ];
 
-    public function city(){
+    public function city()
+    {
         return $this->belongsTo(City::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles->contains('name', $role);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }
