@@ -13,6 +13,7 @@ use App\Models\RoleUser;
 use App\Models\User;
 use App\Services\CityService;
 use App\Services\CompanyService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,11 +53,11 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Add $request)
-    {
-        $this->companyservice->storeByAdmin($request);
-        return redirect()->route('companyListing');
-    }
+    public function store(Add $request): RedirectResponse
+{
+    $this->companyservice->storeByAdmin($request);
+    return redirect()->route('companyListing');
+}
 
     /**
      * Display the specified resource.

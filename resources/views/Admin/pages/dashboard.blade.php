@@ -37,7 +37,7 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="{{route('companyRegisterForm')}}" data-toggle="collapse" data-target="#collapseTwo"
+                    <a class="nav-link collapsed" href="{{route('guest.company.create')}}" data-toggle="collapse" data-target="#collapseTwo"
                         aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Register a company</span>
@@ -53,8 +53,7 @@
 
                 <!-- Nav Item - Utilities Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="{{ route('companyListing') }}" data-toggle="collapse"
-                        data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                    <a class="nav-link collapsed" href="{{ route('companyListing') }}">
                         <i class="fas fa-fw fa-wrench"></i>
                         <span>Company</span>
                     </a>

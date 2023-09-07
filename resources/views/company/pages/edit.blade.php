@@ -167,7 +167,7 @@
                                                                 <option>Please select a Status</option>
                                                                 {{-- {{dd($cities)}} --}}
 
-                                                                <option  @if (isset($company))
+                                                                <option  @if (isset($company)) value="pending"
                                                                 {{ $company->user->status == 'pending' ? 'selected' : '' }}
                                                             @endif>
                                                                     Pending

@@ -99,39 +99,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function companyRegister(CompanyRegister $request):RedirectResponse
-    {
-        ddd('inside company register in controller');
-        $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'password' => $validated['password'],
-            'email' => $validated['email'],
-            'city_id' => $validated['city_id'],
-            'mobile_no' => $validated['mobile_no'],
-            'status' =>  'pending'
-        ]);
-
-        $lastUserId = $user->id;
-
-        $company = Company::create([
-            'user_id' => $lastUserId,
-            'address' => $validated['address'],
-            'description' => $validated['description'],
-            'name' => $validated['company_name']
-        ]);
-
-        $user_role = RoleUser::create([
-            'user_id' => $lastUserId,
-            'role_id' => '2'
-        ]);
-
-        auth()->login($user);
-
-        return redirect()->route('companyDashboard');
-    }
+   
 
     public function adminDashboard()
     {

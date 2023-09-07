@@ -1,4 +1,4 @@
-@section('title', 'Login')
+@section('title', 'Register')
 
 <x-layout>
 
