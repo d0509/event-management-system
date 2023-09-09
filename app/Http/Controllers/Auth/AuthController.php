@@ -110,4 +110,8 @@ class AuthController extends Controller
     {
         return view('User.pages.dashboard');
     }
+
+    public function forgotPassword(){
+
+    }
 }

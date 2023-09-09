@@ -8,6 +8,8 @@ use App\Http\Requests\Company\EditCompany;
 use App\Models\Company;
 use App\Models\RoleUser;
 use App\Models\User;
+use App\Notifications\CompanyRegistered;
+use App\Notifications\CompanyUpdated;
 use Illuminate\Support\Facades\Hash;
 
 class CompanyService
@@ -45,6 +47,11 @@ class CompanyService
             'user_id' => $lastUserId,
             'role_id' => '2'
         ]);
+
+        // dd($request->toArray());
+
+        $user->notify(new CompanyRegistered($request));
+        
     }
 
     public function updateByAdmin(EditCompany $request, Company $company)
@@ -53,7 +60,7 @@ class CompanyService
 
         $user = $company->user;
         // dd($validated);
-        $user->update([
+        $updated_user = $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
@@ -62,11 +69,15 @@ class CompanyService
         ]);
 
 
-        $company->update([
+        $updated_company = $company->update([
             'address' => $validated['address'],
             'description' => $validated['description'],
             'name' => $validated['company_name']
         ]);
+
+        // dd($user->toArray());
+
+        $user->notify(new CompanyUpdated($company, $user));
     }
 
     public function registeredByCompany(CompanyRegister $request){

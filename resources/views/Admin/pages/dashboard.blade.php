@@ -360,6 +360,10 @@
                     @yield('edit')
                 @endif
 
+                @if (request()->route()->getName() == 'forgot-password' )
+                    @yield('forgotPassword')
+                @endif
+
                 {{-- @if (request()->route()->getName() == "editCompany")
                     @yield('edit')
                 @endif --}}
