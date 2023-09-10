@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CompanyRegister;
+use App\Http\Requests\Auth\ResetPassword;
 use App\Models\City;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Company;
@@ -53,7 +54,7 @@ class AuthController extends Controller
     }
 
     public function register()
-    {       
+    {
         return view('User.form.register', [
             'cities' => $this->cityservice->getAllCities()
         ]);
@@ -62,27 +63,6 @@ class AuthController extends Controller
     public function signup(Register $request)
     {
         $this->authservice->signup($request);
-        // $validated = $request->validated();
-        // $validated['password'] = Hash::make($validated['password']);
-
-        // $user = User::create([
-        //     'name' => $validated['name'],
-        //     'password' => $validated['password'],
-        //     'email' => $validated['email'],
-        //     'city_id' => $validated['city_id'],
-        //     'mobile_no' => $validated['mobile_no'],
-        //     'status' =>  'pending'
-        // ]);
-
-        // $lastUserId = $user->id;
-
-        // $user_role = RoleUser::create([
-        //     'user_id' => $lastUserId,
-        //     'role_id' => '3'
-        // ]);
-
-        // auth()->login($user);
-
         return redirect()->route('homepage');
     }
 
@@ -99,7 +79,7 @@ class AuthController extends Controller
         ]);
     }
 
-   
+
 
     public function adminDashboard()
     {
@@ -111,7 +91,12 @@ class AuthController extends Controller
         return view('User.pages.dashboard');
     }
 
-    public function forgotPassword(){
+    public function forgotPassword()
+    {
+        return view('User.form.forgotPassword');
+    }
 
+    public function resetPassword(ResetPassword $request):RedirectResponse{
+        $this->authservice->resetPassword($request);
     }
 }

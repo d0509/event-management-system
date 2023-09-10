@@ -28,7 +28,7 @@
 </head>
 {{-- @if (request()->route()->getName() == 'forgot-password')
 {{@dd('im inside forgot password')}} --}}
-    @yield('forgotPassword')
+    {{-- @yield('forgotPassword') --}}
 {{-- @endif --}}
 
 

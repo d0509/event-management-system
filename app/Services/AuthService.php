@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
+use App\Http\Requests\Auth\ResetPassword;
 use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -42,5 +43,9 @@ class AuthService{
 
         auth()->login($user);
 
+    }
+
+    public function resetPassword(ResetPassword $request){
+        $validated = $request->validated();
     }
 }
