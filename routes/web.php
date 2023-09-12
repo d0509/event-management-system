@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
+use App\Http\Controllers\Company\EventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,13 @@ Route::group(['prefix' => 'admin','middleware' => ['admin']], function() {
     Route::delete('/company/{company}',[CompanyController::class,'destroy'])->name('destroyCompany');
     Route::get('/add-company',[CompanyController::class,'create'])->name('company.create');
     Route::post('/add-company',[CompanyController::class,'store'])->name('company.store');
+});
+
+Route::group(['middleware' => ['company']], function () {
+    Route::get('events',[EventController::class,'index'])->name('event.index');
+    Route::get('addEvent',[EventController::class,'create'])->name('event.create');
+    Route::post('addEvent',[EventController::class,'store'])->name('event.store');
+
 });
 
 Route::get('company/dashboard',[AuthController::class,'companyDashboard'])->middleware('company')->name('companyDashboard');

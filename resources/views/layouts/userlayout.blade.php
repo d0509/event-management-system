@@ -19,7 +19,8 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&amp;display=swap" rel="stylesheet">
 
-
+{{-- sweet alert --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('user_assets/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('user_assets/css/font-awesome.min.css') }}" type="text/css">
@@ -38,8 +39,8 @@
 
 <body>
     <!-- Page Preloder -->
+    @include('sweetalert::alert')
     @yield('dashboard')
-
     <!-- Js Plugins -->
     <script src="{{ asset('user_assets/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('user_assets/js/bootstrap.min.js') }}"></script>

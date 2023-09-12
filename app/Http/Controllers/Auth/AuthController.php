@@ -19,6 +19,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -43,6 +44,8 @@ class AuthController extends Controller
     {
 
         $this->authservice->signin($request);
+
+        
 
         if ($request->user()->role->firstWhere('name', 'admin')) {
             return redirect()->route('adminDashboard');
@@ -88,7 +91,7 @@ class AuthController extends Controller
 
     public function companyDashboard()
     {
-        return view('User.pages.dashboard');
+        return view('company.pages.dashboard');
     }
 
     public function forgotPassword()
@@ -96,7 +99,7 @@ class AuthController extends Controller
         return view('User.form.forgotPassword');
     }
 
-    public function resetPassword(ResetPassword $request):RedirectResponse{
+    public function resetPassword(ResetPassword $request){
         $this->authservice->resetPassword($request);
     }
 }

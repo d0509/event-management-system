@@ -6,8 +6,10 @@ use App\Http\Requests\Auth\Register;
 use App\Http\Requests\Auth\ResetPassword;
 use App\Models\RoleUser;
 use App\Models\User;
+use Illuminate\Support\Facades\Alert;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+
 
 class AuthService{
     
@@ -42,6 +44,8 @@ class AuthService{
         ]);
 
         auth()->login($user);
+
+        session()->flash('success', 'Login Successful. You have been logged in successfully.');
 
     }
 
