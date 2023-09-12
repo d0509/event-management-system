@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\AddEvent;
+use App\Models\Event;
+use App\Services\CategoryService;
 use App\Services\CityService;
 use App\Services\EventService;
 use Illuminate\Http\RedirectResponse;
@@ -13,17 +15,24 @@ class EventController extends Controller
 {
     protected $cityservice;
     protected $eventservice;
+    protected $categoryservice;
 
-    public function __construct(CityService $cityservice, EventService $eventservice)
+    public function __construct(CityService $cityservice, EventService $eventservice, CategoryService $categoryservice)
     {
         $this->cityservice = $cityservice;
         $this->eventservice = $eventservice;
+        $this->categoryservice = $categoryservice;
     }
 
 
     public function index()
     {
-        $this->eventservice->index();
+        $events = $this->eventservice->index();
+         
+        // dd($events);
+        return view('company.event.index',[
+            'events' => $events
+        ]);
     }
 
     /**
@@ -34,7 +43,8 @@ class EventController extends Controller
         $event = $this->cityservice->getAllCities();
 
         return view('company.pages.createEvent', [
-            'cities' => $this->cityservice->getAllCities()
+            'cities' => $this->cityservice->getAllCities(),
+            'categories' => $this->categoryservice->index()
         ]);
     }
 
@@ -60,24 +70,29 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Event $event)
     {
-        //
+        return view('company.pages.createEvent',[
+            'event' => $event,
+            'cities' => $this->cityservice->getAllCities(),
+            'categories' => $this->categoryservice->index(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AddEvent $request, Event $event)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event)
     {
-        //
+        $event->delete();
+        return redirect()->route('event.index');
     }
 }

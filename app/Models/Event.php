@@ -24,6 +24,12 @@ class Event extends Model
     //     return $this->hasMany(Media::class);
     // }
 
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    
+
     
     // use HasMedia;
 }

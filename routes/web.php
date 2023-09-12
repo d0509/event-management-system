@@ -54,6 +54,9 @@ Route::group(['middleware' => ['company']], function () {
     Route::get('events',[EventController::class,'index'])->name('event.index');
     Route::get('addEvent',[EventController::class,'create'])->name('event.create');
     Route::post('addEvent',[EventController::class,'store'])->name('event.store');
+    Route::delete('event/{event}',[EventController::class,'destroy'])->name('event.destroy');
+    Route::get('event/{event}/edit',[EventController::class,'edit'])->name('event.edit');
+    Route::patch('event/{event}/edit',[EventController::class,'update'])->name('event.update');
 
 });
 

@@ -22,6 +22,7 @@ class CompanyService
 
     public function storeByAdmin(Add $request)
     {
+        // dd($request->toArray());
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
@@ -90,7 +91,7 @@ class CompanyService
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
             'mobile_no' => $validated['mobile_no'],
-            'status' =>  'pending'
+            'status' =>  'Pending'
         ]);
 
         $lastUserId = $user->id;

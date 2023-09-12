@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities')->cascadeOnDelete();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->string('name');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
             $table->text('description');
             $table->bigInteger('available_seat');
             $table->string('venue');

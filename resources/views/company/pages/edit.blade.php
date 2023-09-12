@@ -167,19 +167,15 @@
                                                                 <option>Please select a Status</option>
                                                                 {{-- {{dd($cities)}} --}}
 
-                                                                <option  @if (isset($company)) value="pending"
-                                                                {{ $company->user->status == 'pending' ? 'selected' : '' }}
-                                                            @endif>
+                                                                <option value="pending"
+                                                                    @if (isset($company)) {{ $company->user->status == 'Pending ' ? 'selected' : '' }} @endif>
                                                                     Pending
                                                                 </option>
                                                                 <option value="approved"
-                                                                @if (isset($company))
-                                                                    {{$company->user->status == 'approved' ? 'selected' : ''}}
-                                                                @endif
-                                                                >Approved</option>
+                                                                    @if (isset($company)) {{ $company->user->status == 'approved' ? 'selected' : '' }} @endif>
+                                                                    Approved</option>
                                                             </select>
                                                             @error('status')
-                                                               
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
                                                         </div>
@@ -187,7 +183,11 @@
                                                         <div class="row d-flex justify-content-center">
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-user text-center rounded-pill">
-                                                                Update Company
+                                                                @if (request()->route()->getName() == 'company.create')
+                                                                    Add Company
+                                                                @elseif(request()->route()->getName() == 'editCompany')
+                                                                    Update Company
+                                                                @endif
                                                             </button>
                                                         </div>
 

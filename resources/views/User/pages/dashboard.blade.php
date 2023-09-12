@@ -10,19 +10,27 @@
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
-                        <li class="active"><a href="{{route('companyDashboard')}}">Home</a></li>
-                        <li><a href="speaker.html">Speakers</a>
-                            <ul class="dropdown">
+                        <li class="active"><a href="{{ route('companyDashboard') }}">Home</a></li>
+                        @if (request()->route()->getName() == 'companyDashboard' ||
+                                request()->route()->getName() == 'event.create' ||
+                                request()->route()->getName() == 'event.index' ||
+                                request()->route()->getName() == 'event.edit')
+                            <li><a href="{{ route('event.index') }}">Events</a>
+                        @endif
+                        {{-- <ul class="dropdown">
                                 <li><a href="#">Jayden</a></li>
                                 <li><a href="#">Sara</a></li>
                                 <li><a href="#">Emma</a></li>
                                 <li><a href="#">Harriet</a></li>
-                            </ul>
+                            </ul> --}}
                         </li>
-                        @if (request()->route()->getName() == 'companyDashboard' ||request()->route()->getName() == 'event.create')
+                        @if (request()->route()->getName() == 'companyDashboard' ||
+                                request()->route()->getName() == 'event.create' ||
+                                request()->route()->getName() == 'event.index' || 
+                                request()->route()->getName() == 'event.edit')
                             <li><a href="{{ route('event.create') }}">Add Event</a></li>
                         @endif
-                        
+
                         {{-- <li><a href="blog.html">Blog</a></li>
                         <li><a href="contact.html">Contacts</a></li> --}}
                         @auth
@@ -43,8 +51,10 @@
     </header>
     @if (request()->route()->getName() == 'companyDashboard')
         @yield('hero')
-    @elseif(request()->route()->getName() == 'event.create')
+    @elseif(request()->route()->getName() == 'event.create' || request()->route()->getName() == 'event.edit' )
         @yield('createEvent')
+    @elseif(request()->route()->getName() == 'event.index')
+        @yield('event.index')
     @endif
 @endsection
 {{-- header section --}}
