@@ -21,22 +21,35 @@ class AddEvent extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
-    {
+{
     //    dd($this->event->toArray());
-        return [
-            'city_id' => 'required',
-            'category_id' => 'required', 
-            'name' => 'required',
-            'description'=>'required',
-            'available_seat'=>'required|integer|min:1',
-            'venue'=>'required',
-            'start_time'=>'required|date_format:H:i',
-            'end_time'=>'required|date_format:H:i|after:time_start',
-            'ticket'=>'required',
-            'banner'=>'image|required_if:'.empty($this->event),
-            'event_date' => 'required',
-        ];
+    $rules = [
+        'city_id' => 'required',
+        'category_id' => 'required',
+        'name' => 'required',
+        'description' => 'required',
+        'available_seat' => 'required|integer|min:1',
+        'venue' => 'required',
+        'start_time' => 'required',
+        'end_time' => 'required|after:start_time',
+        'ticket' => 'required',
+        'event_date' => 'required',
+        // 'banner' => 'required',
+    ];
 
-        // Event::find(request());
+
+    if ($this->event) {
+        $rules['banner'] = 'nullable|image';
+        
+        $rules['is_approved'] = 'required';
+    } else{
+        // dd('inside ELSE');
+        // dd($rules);
+        $rules['banner'] = 'image|required';
+        // $rules['is_approved'] = 0;
     }
+
+    return $rules;
+}
+
 }

@@ -56,8 +56,8 @@ Route::group(['middleware' => ['company']], function () {
     Route::post('addEvent',[EventController::class,'store'])->name('event.store');
     Route::delete('event/{event}',[EventController::class,'destroy'])->name('event.destroy');
     Route::get('event/{event}/edit',[EventController::class,'edit'])->name('event.edit');
-    Route::patch('event/{event}/edit',[EventController::class,'update'])->name('event.update');
-
+    Route::put('event/{event}/edit',[EventController::class,'update'])->name('event.update');
+    
 });
 
 Route::get('company/dashboard',[AuthController::class,'companyDashboard'])->middleware('company')->name('companyDashboard');

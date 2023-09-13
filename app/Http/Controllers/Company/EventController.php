@@ -56,7 +56,7 @@ class EventController extends Controller
         // dd(3);
         $this->eventservice->store($request);
 
-        return redirect()->route('event.store');
+        return redirect()->route('event.index');
     }
 
     /**
@@ -84,7 +84,9 @@ class EventController extends Controller
      */
     public function update(AddEvent $request, Event $event)
     {
-        
+        // dd(3);
+        $this->eventservice->update($request,$event);
+        return redirect()->route('event.index');
     }
 
     /**

@@ -13,15 +13,13 @@
         @endif
         @csrf
         @if (request()->route()->getName() == 'event.edit')
-            @method('PATCH')
+            @method('PUT')
         @endif
         <!-- Name input -->
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example1">Event Name</label>
             <input type="text" name="name" id="name" class="form-control" placeholder="Enter event name"
-                @if (isset($event)) value="{{ old('name', $event->name) }}">
-                 @else
-                value="{{ old('name') }}"> @endif
+            value="{{ isset($event) ? old('name', $event->name) : old('name') }}" />
                 @error('name')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -30,12 +28,11 @@
             <div class="form-outline mb-4">
                 <label class="form-label" for="form7Example2">Description</label>
                 <textarea {{ old('description') }} name="description" id="description" class="form-control" placeholder="Description">
-                @if (isset($event))
-{{ old('name', $event->description) }}
-@else
-{{ old('description') }}
-@endif
-            
+                 @if(isset($event)) 
+                    {{ old('description', $event->description) }}
+                    @else
+                    {{ old('description') }} 
+                    @endif                                
             </textarea>
                 @error('description')
                     <span class="text-danger">{{ $message }}</span>
@@ -46,11 +43,8 @@
                 <label class="form-label" for="form7Example2">Available Seat</label>
                 {{-- {{ dd($event->toArray()) }} --}}
                 <input type="number" name="available_seat" id="available_seat" class="form-control"
-                    placeholder="Available Seat"
-                    @if (isset($event)) value="{{ old('available_seat', $event->available_seat) }}" >
-                    {{-- {{ dd($event->toArray()) }} --}}
-                 @else
-                    value="{{ old('available_seat') }}" > @endif
+                    placeholder="Available Seat" 
+                    value="{{ isset($event) ? old('available_seat', $event->available_seat) : old('available_seat') }}" />
                     @error('available_seat')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -60,9 +54,7 @@
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form7Example2">Event Address</label>
                     <input type="text" name="venue" id="venue" class="form-control" placeholder="Event Address"
-                        @if (isset($event)) value="{{ old('venue', $event->venue) }}"
-                 @else
-               value="{{ old('venue') }}" @endif>
+                    value="{{ isset($event) ? old('venue', $event->venue) : old('venue') }}" />
                     @error('venue')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -90,9 +82,9 @@
                     <select name="city_id" id="city_id" class="form-control form-select-lg">
                         <option>Please select a city</option>
                         @foreach ($cities as $city)
-                            <option
-                                @if (isset($event)) {{ $city->id == $event->city_id ? 'selected' : '' }} @endif
-                                class="">{{ $city->name }}</option>
+                            <option value={{ $city->id }}
+                                @if (isset($event)) {{ $city->id == $event->city_id ? 'selected' : '' }} @endif>
+                                {{ $city->name }}</option>
                         @endforeach
                     </select>
                     @error('city_id')
@@ -104,9 +96,7 @@
                     <label class="form-label" for="form7Example2">Starting Time of Event</label>
                     <input type="date" name="event_date" id="event_date" class="form-control"
                         placeholder="Starting Time of Event"
-                        @if (isset($event)) value="{{ old('event_date', $event->event_date) }}">
-                    @else
-                   value="{{ old('event_date') }}"> @endif
+                        value="{{ isset($event) ? old('event_date', $event->event_date) : old('event_date') }}" />
                         @error('event_date')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -117,9 +107,7 @@
                         <label class="form-label" for="form7Example2">Starting Time of Event</label>
                         <input type="time" name="start_time" id="start_time" class="form-control"
                             placeholder="Starting Time of Event"
-                            @if (isset($event)) value="{{ old('start_time', $event->start_time) }}">
-                    @else
-                   value="{{ old('start_time') }}"> @endif
+                            value="{{ isset($event) ? old('start_time', $event->start_time) : old('start_time') }}" />
                             @error('start_time')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -129,9 +117,7 @@
                             <label class="form-label" for="form7Example2">Ending Time of Event</label>
                             <input type="time" name="end_time" id="end_time" class="form-control"
                                 placeholder="Ending Time of Event"
-                                @if (isset($event)) value="{{ old('end_time', $event->end_time) }}">
-                    @else
-                   value="{{ old('end_time') }}"> @endif
+                                value="{{ isset($event) ? old('end_time', $event->end_time) : old('end_time') }}"> 
                                 @error('end_time')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -140,35 +126,63 @@
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="form7Example2">Ticket Amount</label>
                                 <input type="number" step="any" name="ticket" id="ticket" class="form-control"
-                                    placeholder="Ticket Amount" value="{{isset($event) ? old('ticket', $event->ticket) :  old('ticket')}}">
-                                    
-                                    @error('ticket')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-                                    </div>
+                                    placeholder="Ticket Amount"
+                                    value="{{ isset($event) ? old('ticket', $event->ticket) : old('ticket') }}">
 
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form7Example2">Event Banner</label>
-                                    <input type="file" accept="image/png, image/jpeg, image/jpg" width="48"
-                                        height="48" name="banner" id="banner" class="form-control" />
-                                    @error('banner')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-
-
-                                <button type="submit" class="btn btn-primary mb-5">Add Event</button>
-
-                                </form>
-
-                                @if (request()->route()->getName() == 'event.edit')
-                                    @foreach ($event->media as $item)
-                                        <label class="form-label" for="form7Example2">Event Banner</label>
-                                        <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
-                                            class="card-img-top mb-5" alt="Hollywood Sign on The Hill" />
-                                    @endforeach
-                                @endif
+                                @error('ticket')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
-                        @endsection
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="form7Example2">Event Banner</label>
+                                <input type="file" accept="image/png, image/jpeg, image/jpg" width="48"
+                                    height="48" name="banner" id="banner" class="form-control" />
+                                @error('banner')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            {{-- status --}}
+                            {{-- {{dd($event->toArray())}} --}}
+                            @if (request()->route()->getName() == 'event.edit')
+                            <div class="form-group">
+                                <label class="form-label" for="form7Example2">Event Status</label>
+                                <select class="form-control form-select-lg" aria-label="Default select example"
+                                    name="is_approved" id="is_approved">
+                                    <option value="">Please select a Status</option>
+                                    {{-- {{dd($cities)}} --}}
+
+                                    <option value="0"
+                                        @if (isset($event)) {{ $event->is_approved == '0 ' ? 'selected' : '' }} @endif>
+                                        Pending
+                                    </option>
+                                    <option value="1"
+                                        @if (isset($event)) {{ $event->is_approved == '1' ? 'selected' : '' }} @endif>
+                                        Approved</option>
+                                </select>
+                                @error('is_approved')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            @endif
+                            
+                            @if (request()->route()->getName == 'event.create')
+                                
+                            <button type="submit" class="btn btn-primary mb-5">Add Event</button>
+                            @else
+                            <button type="submit" class="btn btn-primary mb-5">Update Event</button>
+                            @endif
+
+                            </form>
+
+                            @if (request()->route()->getName() == "event.edit")
+                                @foreach ($event->media as $item)
+                                    <label class="form-label" for="form7Example2">Event Banner</label>
+                                    <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
+                                        class="card-img-top mb-5" alt="Hollywood Sign on The Hill" />
+                                @endforeach
+                            @endif
+                        </div>
+
+                    @endsection

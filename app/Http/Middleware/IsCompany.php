@@ -20,7 +20,7 @@ class IsCompany
         if (Auth::user()->role->firstWhere('name', 'company')) {
             return $next($request);
         } else {
-            dd('user is not a company');
+            // dd('user is not a company');
             return redirect()->route('homepage');
         }
     }

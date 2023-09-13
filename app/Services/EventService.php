@@ -74,4 +74,40 @@ class EventService
 
         return true;
     }
+
+    public function update(AddEvent $request, Event $event)
+    {
+        // dd( $request);
+        $validated = $request->validated();
+
+        $event->update([
+            'name' => $validated['name'],
+            'city_id' => $validated['city_id'],
+            'category_id' => $validated['category_id'],
+            'description' => $validated['description'],
+            'available_seat' => $validated['available_seat'],
+            'venue' => $validated['venue'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
+            'ticket' => $validated['ticket'],
+            'event_date' => $validated['event_date'],
+            'is_approved' => $validated['is_approved'],
+        ]);
+
+
+
+
+        if ($request->hasFile('banner')) {
+            $bannerMedia = $event->getMedia('banner')->first();
+
+            if ($bannerMedia) {
+                // Replace the 'banner' media with the new file
+                MediaUploader::fromSource($request->file('banner'))
+                    ->replace($bannerMedia);
+
+                // Optionally, you can also update the media's attributes if needed
+                $event->syncMedia($bannerMedia, 'banner');
+            }
+        }
+    }
 }
