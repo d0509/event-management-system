@@ -17,7 +17,20 @@ class Event extends Model
     use SoftDeletes;
     use MediableMediable;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'city_id',
+        'company_id',
+        'name',
+        'category_id',
+        'description',
+        'available_seat',
+        'venue',
+        'event_date',
+        'start_time',
+        'end_time',
+        'ticket',
+        'is_approved'
+    ];
 
     // public function media()
     // {

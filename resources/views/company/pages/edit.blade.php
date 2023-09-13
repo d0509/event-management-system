@@ -117,10 +117,10 @@
 
                                                         <div class="form-group">
 
-                                                            <select class="form-control rounded-pill form-select-lg"
+                                                            <select style="color: black"  class="form-control rounded-pill form-select-lg"
                                                                 aria-label="Default select example" name="city_id"
                                                                 id="city_id">
-                                                                <option>Please select a city</option>
+                                                                
                                                                 {{-- {{dd($cities)}} --}}
                                                                 @foreach ($cities as $city)
                                                                     {{-- {{dd($city)}} --}}
@@ -164,7 +164,7 @@
                                                             <select class="form-control rounded-pill form-select-lg"
                                                                 aria-label="Default select example" name="status"
                                                                 id="status">
-                                                                <option>Please select a Status</option>
+                                                                
                                                                 {{-- {{dd($cities)}} --}}
 
                                                                 <option value="pending"

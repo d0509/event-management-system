@@ -97,7 +97,7 @@
 
                                         <select class="form-control rounded-pill form-select-lg"
                                             aria-label="Default select example" name="city_id" id="city_id">
-                                            <option >Please select a city</option>
+                                            
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"> {{ $city->name }}
                                                 </option>

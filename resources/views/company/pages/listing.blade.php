@@ -11,7 +11,7 @@
 
 
         <!-- DataTales Example -->
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4"  >
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             </div>
@@ -68,7 +68,7 @@
                         <p>Are you sure you want to delete?</p>
                     </div>
                     <div class="modal-footer">
-                        <a type="button" class="btn btn-secondary" id="close-modal">No</a>
+                        <a type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">No</a>
                         <form action="{{ route('destroyCompany', ['company' => $company]) }}" method="post">
                             @csrf
                             @method('DELETE')

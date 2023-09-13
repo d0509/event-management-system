@@ -30,7 +30,7 @@
                     <label for="country" class="col-sm-2 col-form-label">Country</label>
                     <div class="col-sm-10">
                         <select class="form-select" name="country" id="country">
-                            <option selected>Please select a country</option>
+                            
                             @foreach ($countries as $country)
                                 <option value="{{ $country['id'] }}"> {{ $country['name'] }} </option>
                             @endforeach
