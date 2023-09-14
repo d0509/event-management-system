@@ -19,16 +19,16 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('admin.form.login');
+        return view('admin.auth.login');
     }
 
-    public function signin(Login $request){
+    public function signIn(Login $request){
         $this->authservice->signin($request);
 
         if ($request->user()->role->firstWhere('name', 'admin')) {
             return redirect()->route('adminDashboard');
-        } else {
-            return redirect()->route('homepage');
+        } else if($request->user()->role->firstWhere('name', 'company')) {
+            return redirect()->route('companyDashboard');
         }
     }
 

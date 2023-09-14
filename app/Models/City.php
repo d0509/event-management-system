@@ -11,7 +11,13 @@ class City extends Model
     use SoftDeletes;
     use HasFactory;
 
+
+
     public function user(){
         return $this->hasMany(User::class);
+    }
+
+    public function event(){
+        return $this->hasMany(Event::class);
     }
 }

@@ -26,7 +26,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view('User.form.register', [
+        return view('User.auth.register', [
             'cities' => $this->cityservice->getAllCities()
         ]);
     }

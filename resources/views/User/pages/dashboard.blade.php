@@ -44,6 +44,7 @@
             <div id="mobile-menu-wrap"></div>
         </div>
     </header>
+    @yield('events')
     @if (request()->route()->getName() == 'companyDashboard')
         @yield('hero')
     @elseif(request()->route()->getName() == 'event.create' || request()->route()->getName() == 'event.edit' )

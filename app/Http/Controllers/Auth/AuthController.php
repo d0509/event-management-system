@@ -37,24 +37,20 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('admin.form.login');
+        return view('User.auth.login');
     }
 
     public function signin(Login $request): RedirectResponse
     {
 
-        $this->authservice->signin($request);        
+        $this->authservice->signIn($request);   
 
-        if ($request->user()->role->firstWhere('name', 'company')) {
-            return redirect()->route('CompanyDashboard');
-        } else {
-            return redirect()->route('homepage');
-        }
+        return redirect()->route('homepage');
     }
 
     public function register()
     {
-        return view('User.form.register', [
+        return view('User.auth.register', [
             'cities' => $this->cityservice->getAllCities()
         ]);
     }
@@ -73,7 +69,7 @@ class AuthController extends Controller
 
     public function companyRegisterForm()
     {
-        return view('User.form.register', [
+        return view('User.auth.register', [
             'cities' => $this->cityservice->getAllCities()
         ]);
     }
@@ -95,7 +91,8 @@ class AuthController extends Controller
         return view('User.form.forgotPassword');
     }
 
-    public function resetPassword(ResetPassword $request){
+    public function resetPassword(ResetPassword $request)
+    {
         $this->authservice->resetPassword($request);
     }
 }

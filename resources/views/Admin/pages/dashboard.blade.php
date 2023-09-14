@@ -21,6 +21,7 @@
                 </a>
 
                 <!-- Divider -->
+                {{-- {{dd(auth()->user()->role)}} --}}
                 @foreach (auth()->user()->role as $role)
                     @if ($role['name'] === 'company')
                         <li class="nav-item active">
@@ -320,13 +321,17 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{{route('profile')}}">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Settings
+                                    </a>
+                                    <a class="dropdown-item" href="{{route('password.edit')}}">
+                                        <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Change Password
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -345,9 +350,17 @@
 
                     </nav>
                     <!-- End of Topbar -->
-
+                    @if (request()->route()->getName() == 'password.edit')
+                        @yield('password.edit')
+                    @endif
                     @if (request()->route()->getName() == 'event.index')
                         @yield('event.index')
+                    @endif
+                    @if (request()->route()->getName() == 'profile')
+                        @yield('profile')
+                    @endif
+                    @if (request()->route()->getName() == 'profile.edit')
+                        @yield('profile.edit')
                     @endif
                     @if (request()->route()->getName() == 'admin.event.index')
                         @yield('admin.event.index')

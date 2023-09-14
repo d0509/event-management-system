@@ -45,7 +45,7 @@ class AuthService{
 
         auth()->login($user);
 
-        session()->flash('success', 'Login Successful. You have been logged in successfully.');
+        session()->flash('success', ' You have been logged in successfully.');
 
     }
 
