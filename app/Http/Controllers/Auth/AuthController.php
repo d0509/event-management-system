@@ -43,14 +43,10 @@ class AuthController extends Controller
     public function signin(Login $request): RedirectResponse
     {
 
-        $this->authservice->signin($request);
+        $this->authservice->signin($request);        
 
-        
-
-        if ($request->user()->role->firstWhere('name', 'admin')) {
-            return redirect()->route('adminDashboard');
-        } else if ($request->user()->role->firstWhere('name', 'company')) {
-            return redirect()->route('companyDashboard');
+        if ($request->user()->role->firstWhere('name', 'company')) {
+            return redirect()->route('CompanyDashboard');
         } else {
             return redirect()->route('homepage');
         }

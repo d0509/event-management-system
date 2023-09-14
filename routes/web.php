@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Auth\AuthController;
@@ -23,9 +24,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
-    Route::get('register', [AuthController::class, 'register'])->name('register');
-
     Route::post('login', [AuthController::class, 'signin'])->name('signin');
+    Route::get('admin/login',[AdminAuthController::class,'login'])->name('admin.login');
+    Route::post('admin/login',[AdminAuthController::class,'signin'])->name('admin.signin');
+    
+    Route::get('register', [AuthController::class, 'register'])->name('register');
     Route::post('register',[AuthController::class, 'signup'])->name('signup');
 
     Route::get('forgot-password',[AuthController::class,'forgotPassword'])->name('forgot-password');
