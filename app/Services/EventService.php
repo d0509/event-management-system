@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Admin\Event\Status;
 use App\Http\Requests\Company\AddEvent;
 // use Plank\Mediable\MediaUploader;
 use Plank\Mediable\Media;
@@ -21,8 +22,8 @@ class EventService
         //     'events' =>  Event::latest()->get(),
         //     // 'media' => Media::where('directory', '=', 'banner')->get(),
         // ];
-        return $event = Event::latest()->get();
-        $media = $event->getMedia('banner');
+        return Event::latest()->get();
+        // $media = $event->getMedia('banner');
         // dd($media->toArray());
         //   dd($events->toArray());
     }
@@ -109,5 +110,13 @@ class EventService
                 $event->syncMedia($bannerMedia, 'banner');
             }
         }
+    }
+
+    public function chnagestatus(Status $request,Event $event){
+        $validated = $request->validated();
+
+        $event->update([
+            'is_approved' => $validated['is_approved'],
+        ]);
     }
 }

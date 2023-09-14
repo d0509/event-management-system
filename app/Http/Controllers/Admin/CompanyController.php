@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
 {
-    use SoftDeletes;
+   
     protected $companyservice;
     protected $cityservice;
     /**

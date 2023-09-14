@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Admin\Event\Status;
 use App\Http\Requests\Auth\CompanyRegister;
 use App\Http\Requests\Company\Add;
 use App\Http\Requests\Company\EditCompany;
 use App\Models\Company;
+use App\Models\Event;
 use App\Models\RoleUser;
 use App\Models\User;
 use App\Notifications\CompanyRegistered;
@@ -110,4 +112,6 @@ class CompanyService
 
         auth()->login($user);
     }
+
+    
 }

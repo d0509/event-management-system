@@ -1,6 +1,6 @@
-@extends('User.pages.dashboard')
+@extends('admin.pages.dashboard')
 @section('title', 'Add Event')
-@section('createEvent')
+@section('event.create')
     <div class="container">
         {{-- {{ dd($event->toArray()) }} --}}
         <h1 class="text-center fw-bold  ">Add Event</h1>
@@ -9,7 +9,7 @@
             <form action="{{ route('event.store') }}" method="post" enctype="multipart/form-data" class="mt-5 mb-5">
             @elseif(request()->route()->getName() == 'event.edit')
                 <form action="{{ route('event.update', ['event' => $event]) }}" method="post" enctype="multipart/form-data"
-                    class="mt-5 mb-5">
+                    class="mt-5 mb-5 ">
         @endif
         @csrf
         @if (request()->route()->getName() == 'event.edit')
@@ -18,7 +18,7 @@
         <!-- Name input -->
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example1">Event Name</label>
-            <input type="text" name="name" id="name" class="form-control" placeholder="Enter event name"
+            <input type="text" name="name" id="name" class="form-control " placeholder="Enter event name"
             value="{{ isset($event) ? old('name', $event->name) : old('name') }}" />
                 @error('name')
                 <span class="text-danger">{{ $message }}</span>
@@ -27,7 +27,7 @@
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="form7Example2">Description</label>
-                <textarea {{ old('description') }} name="description" id="description" class="form-control" placeholder="Description">
+                <textarea {{ old('description') }} name="description" id="description" class="form-control " placeholder="Description">
                  @if(isset($event)) 
                     {{ old('description', $event->description) }}
                     @else

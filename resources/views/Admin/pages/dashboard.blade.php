@@ -10,69 +10,68 @@
 
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center"
-                    href="{{ route('adminDashboard') }}">
+                    @if (request()->route()->getName() == 'adminDashboard') href="{{ route('adminDashboard') }}">
+                    @elseif(request()->route()->getName() == 'companyDashboard')
+                    href="{{ route('companyDashboard') }}"> @endif
                     <div class="sidebar-brand-icon rotate-n-15">
-                        <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-laugh-wink"> </i>
+                    <div class="sidebar-brand-text mx-3">SB Admin
+                        <sup>2</sup>
                     </div>
-                    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
                 </a>
 
                 <!-- Divider -->
-                <hr class="sidebar-divider my-0">
+                @foreach (auth()->user()->role as $role)
+                    @if ($role['name'] === 'company')
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ route('companyDashboard') }}">
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
 
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('adminDashboard') }}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Interface
-                </div>
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo"
-                        aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Events</span>
-                    </a>
-                    {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Components:</h6>
-                            <a class="collapse-item" href="buttons.html">Buttons</a>
-                            <a class="collapse-item" href="cards.html">Cards</a>
+                        <div class="sidebar-heading">
+                            Interface
                         </div>
-                    </div> --}}
-                </li>
 
-                <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="{{ route('companyListing') }}">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Company</span>
-                    </a>
-                    {{-- <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color.html">Colors</a>
-                            <a class="collapse-item" href="utilities-border.html">Borders</a>
-                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                            <a class="collapse-item" href="utilities-other.html">Other</a>
-                        </div>
-                    </div> --}}
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="{{ route('event.create') }}" aria-expanded="true"
+                                aria-controls="collapseTwo">
+                                <i class="fas fa-fw fa-cog"></i>
+                                <span>Add Event</span>
+                            </a>
 
-                <!-- Divider -->
-                <hr class="sidebar-divider">
+                        </li>
 
-                <!-- Heading -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="{{ route('event.index') }}">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>Events</span>
+                            </a>
+
+                        </li>
+                    @endif
+                @endforeach
+                {{-- @if (Auth::user()->role == 'admin') --}}
+                @foreach (auth()->user()->role as $role)
+                    @if ($role['name'] == 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="{{ route('admin.event.index') }}" aria-expanded="true"
+                                aria-controls="collapseTwo">
+                                <i class="fas fa-fw fa-cog"></i>
+                                <span>Events</span>
+                            </a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="{{ route('companyListing') }}">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>Company</span>
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+
                 <div class="sidebar-heading">
                     Addons
                 </div>
@@ -113,7 +112,6 @@
                 </li>
 
                 <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
 
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
@@ -348,23 +346,39 @@
                     </nav>
                     <!-- End of Topbar -->
 
+                    @if (request()->route()->getName() == 'event.index')
+                        @yield('event.index')
+                    @endif
+                    @if (request()->route()->getName() == 'admin.event.index')
+                        @yield('admin.event.index')
+                    @endif
+                    @if (request()->route()->getName() == 'admin.event.edit')
+                        @yield('admin.event.edit')
+                    @endif
+                    @if (request()->route()->getName() == 'event.edit' ||request()->route()->getName() == 'event.create' )
+                        @yield('event.create')
+                    @endif
+                    @if (request()->route()->getName() == 'adminDashboard')
+                        @yield('event')
+                    @endif
 
+                    @if (request()->route()->getName() == 'companyListing')
+                        @yield('content')
+                    @endif
+
+                    @if (request()->route()->getName() == 'company.create' || 'editCompany')
+                        @yield('edit')
+                    @endif
+
+                    @if (request()->route()->getName() == 'forgot-password')
+                        @yield('forgotPassword')
+                    @endif
 
 
                 </div>
-                @if (request()->route()->getName() == "companyListing")
-                    @yield('content')
-                @endif
 
-                @if (request()->route()->getName() == 'company.create' || 'editCompany')
-                    @yield('edit')
-                @endif
 
-                @if (request()->route()->getName() == 'forgot-password' )
-                    @yield('forgotPassword')
-                @endif
-
-                {{-- @if (request()->route()->getName() == "editCompany")
+                {{-- @if (request()->route()->getName() == 'editCompany')
                     @yield('edit')
                 @endif --}}
                 <!-- End of Main Content -->
@@ -410,4 +424,6 @@
             </div>
         </div>
     </div>
+
+
 @endsection

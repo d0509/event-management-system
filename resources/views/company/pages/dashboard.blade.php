@@ -1,4 +1,4 @@
-@extends('User.pages.dashboard')
+@extends('admin.pages.dashboard')
 @section('title', 'HomePage')
 @section('hero')
 

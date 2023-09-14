@@ -1,12 +1,13 @@
-@extends('User.pages.dashboard')
+@extends('admin.pages.dashboard')
 @section('title', 'Events')
 @section('event.index')
+{{-- {{dd($events->toArray())}} --}}
     {{-- {{dd($events->toArray())}} --}}
     <div class="container">
         <div class="row row-cols-3 g-3">
             {{-- {{dd($events->getAllMediaByTag())}} --}}
             @foreach ($events as $event)
-                {{-- {{dd($media->filename)}} --}}
+                {{-- {{dd($event->toArray())}} --}}
                 {{-- @foreach ($event->media as $item)
                     {{ dd($item['filename']) }}
                 @endforeach --}}
@@ -18,7 +19,7 @@
                         @endforeach
 
                         <div class="card-body">
-                            <h5 class="card-title">{{ ucwords($event->name) }}</h5>
+                            <h5 class="card-title">{{ $event->name }}</h5>
                             <p class="card-text">
                                 {{ ucwords($event->description) }}
                             </p>
@@ -55,6 +56,6 @@
             @endforeach
 
         </div>
-       
     </div>
-@endsection
+    @endsection
+    {{-- {{dd($events[0]->media->toArray())}} --}}

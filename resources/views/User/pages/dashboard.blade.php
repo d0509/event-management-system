@@ -10,19 +10,14 @@
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
-                        <li class="active"><a href="{{ route('companyDashboard') }}">Home</a></li>
+                        <li ><a href="{{ route('companyDashboard') }}">Home</a></li>
                         @if (request()->route()->getName() == 'companyDashboard' ||
                                 request()->route()->getName() == 'event.create' ||
                                 request()->route()->getName() == 'event.index' ||
                                 request()->route()->getName() == 'event.edit')
                             <li><a href="{{ route('event.index') }}">Events</a>
                         @endif
-                        {{-- <ul class="dropdown">
-                                <li><a href="#">Jayden</a></li>
-                                <li><a href="#">Sara</a></li>
-                                <li><a href="#">Emma</a></li>
-                                <li><a href="#">Harriet</a></li>
-                            </ul> --}}
+                        
                         </li>
                         @if (request()->route()->getName() == 'companyDashboard' ||
                                 request()->route()->getName() == 'event.create' ||

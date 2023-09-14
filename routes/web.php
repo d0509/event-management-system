@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
@@ -40,18 +41,25 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 
-Route::group(['prefix' => 'admin','middleware' => ['admin']], function() {
-    Route::get('/dashboard',[AuthController::class,'adminDashboard'])->name('adminDashboard');
-    Route::get('/company',[CompanyController::class,'index'])->name('companyListing');
-    Route::get('/company/{company}/edit',[CompanyController::class,'edit'])->name('editCompany');
-    Route::patch('/company/{company}/edit',[CompanyController::class,'update'])->name('updateCompany');
-    Route::delete('/company/{company}',[CompanyController::class,'destroy'])->name('destroyCompany');
-    Route::get('/add-company',[CompanyController::class,'create'])->name('company.create');
-    Route::post('/add-company',[CompanyController::class,'store'])->name('company.store');
+Route::group(['middleware' => ['admin']], function() {
+    Route::prefix('admin')->group(function(){
+        Route::get('/dashboard',[AuthController::class,'adminDashboard'])->name('adminDashboard');
+        Route::get('/company',[CompanyController::class,'index'])->name('companyListing');
+        Route::get('/company/{company}/edit',[CompanyController::class,'edit'])->name('editCompany');
+        Route::patch('/company/{company}/edit',[CompanyController::class,'update'])->name('updateCompany');
+        Route::delete('/company/{company}',[CompanyController::class,'destroy'])->name('destroyCompany');
+        Route::get('/add-company',[CompanyController::class,'create'])->name('company.create');
+        Route::post('/add-company',[CompanyController::class,'store'])->name('company.store');
+        Route::get('events',[AdminEventController::class,'index'])->name('admin.event.index');
+        Route::get('event/{event}',[AdminEventController::class,'edit'])->name('admin.event.edit');
+        Route::patch('event/{event}',[AdminEventController::class,'update'])->name('admin.event.update');
+    });
+
+   
 });
 
 Route::group(['middleware' => ['company']], function () {
-    Route::get('events',[EventController::class,'index'])->name('event.index');
+    Route::get('company/events',[EventController::class,'index'])->name('event.index');
     Route::get('addEvent',[EventController::class,'create'])->name('event.create');
     Route::post('addEvent',[EventController::class,'store'])->name('event.store');
     Route::delete('event/{event}',[EventController::class,'destroy'])->name('event.destroy');
