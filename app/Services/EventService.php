@@ -33,6 +33,7 @@ class EventService
     {
         // dd($request);
         $validated = $request->validated();
+        // dd($validated);
         // dd(Auth::user()->company->id);
         // dd('im in add event store');
         $event = Event::create([
@@ -46,6 +47,7 @@ class EventService
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
             'ticket' => $validated['ticket'],
+            'location' => $validated['location'],
             'is_approved' => 0,
             'event_date' => $validated['event_date'],
             'company_id' => Auth::user()->company->id,
@@ -88,6 +90,7 @@ class EventService
             'description' => $validated['description'],
             'available_seat' => $validated['available_seat'],
             'venue' => $validated['venue'],
+            'location' => $validated['location'],
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
             'ticket' => $validated['ticket'],

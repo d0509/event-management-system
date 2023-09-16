@@ -44,13 +44,19 @@
             <div id="mobile-menu-wrap"></div>
         </div>
     </header>
+    @if (request()->route()->getName() == 'homepage')        
     @yield('events')
-    @if (request()->route()->getName() == 'companyDashboard')
+    @endif
+    {{-- @if (request()->route()->getName() == 'companyDashboard')
         @yield('hero')
     @elseif(request()->route()->getName() == 'event.create' || request()->route()->getName() == 'event.edit' )
         @yield('createEvent')
     @elseif(request()->route()->getName() == 'event.index')
         @yield('event.index')
+    @endif --}}
+
+    @if (request()->route()->getName() == 'user.event.show')
+        @yield('showEvent')
     @endif
 @endsection
 {{-- header section --}}

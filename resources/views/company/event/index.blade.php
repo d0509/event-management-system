@@ -1,6 +1,7 @@
 @extends('admin.pages.dashboard')
 @section('title', 'Events')
 @section('event.index')
+
 {{-- {{dd($events->toArray())}} --}}
     {{-- {{dd($events->toArray())}} --}}
     <div class="container">

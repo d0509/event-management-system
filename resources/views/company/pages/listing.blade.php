@@ -5,13 +5,13 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Company Details</h1>
-            <a href="{{route('company.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            <a href="{{ route('company.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fa-solid fa-user-plus"></i> Add Company</a>
         </div>
 
 
         <!-- DataTales Example -->
-        <div class="card shadow mb-4"  >
+        <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             </div>
@@ -31,24 +31,28 @@
 
                         <tbody>
                             {{-- {{dd($companies->toArray())}} --}}
-                            @foreach ($companies as $company)
-                                <tr>
-                                    <td>{{ $company->name }}</td>
-                                    <td>{{ $company->user->name }}</td>
-                                    <td>{{ $company->description }}</td>
-                                    <td>{{ $company->address }}</td>
+                            @if ($companies)
+                                @foreach ($companies as $company)
+                                    <tr>
+                                        <td>{{ $company->name }}</td>
+                                        <td>{{ $company->user->name }}</td>
+                                        <td>{{ $company->description }}</td>
+                                        <td>{{ $company->address }}</td>
+                                        <td>{{ $company->user->status }}</td>
+                                        <td>
+                                            {{-- update --}}
+                                            <a class="btn btn-success"
+                                                href="{{ route('editCompany', ['company' => $company]) }}">Update</a>
+                                            {{-- delete --}}
+                                            <button type="button" class="btn btn-danger" data-target="#deleteModal"
+                                                data-toggle="modal">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <h1> No Companies Available</h1>
+                            @endif
 
-                                    <td>{{ $company->user->status }}</td>
-                                    <td>
-                                        {{-- update --}}
-                                        <a class="btn btn-success"
-                                            href="{{ route('editCompany', ['company' => $company]) }}">Update</a>
-                                        {{-- delete --}}
-                                        <button type="button" class="btn btn-danger" data-target="#deleteModal"
-                                            data-toggle="modal">Delete</button>
-                                    </td>
-                                </tr>
-                            @endforeach
 
                         </tbody>
                     </table>

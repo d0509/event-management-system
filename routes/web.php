@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\EventController;
+use App\Http\Controllers\User\EventController as UserEventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +34,12 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('register', [AuthController::class, 'register'])->name('register');
     Route::post('register', [AuthController::class, 'signup'])->name('signup');
 
-    Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
-    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
+    // Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
+    // Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
+    // Route::get('reset-password/{token},[AuthController::class')
 
+    Route::get('/', [HomeController::class, 'index'])->name('homepage');
+    Route::get('event/{event}',[UserEventController::class,'show'])->name('user.event.show');
     Route::get('company-register', [AuthCompanyController::class, 'create'])->name('guest.company.create');
     Route::post('company-register', [AuthCompanyController::class, 'store'])->name('guest.company.store');
 });
@@ -66,7 +70,6 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::get('/', [HomeController::class, 'index'])->name('homepage');
 
 Route::group(['middleware' => ['admin']], function () {
     Route::prefix('admin')->group(function () {

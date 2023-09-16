@@ -36,7 +36,7 @@
                                             <div class="form-group">
                                                 <input type="email" name="email" class="form-control form-control-user"
                                                     id="exampleInputEmail" aria-describedby="emailHelp"
-                                                    placeholder="Enter Email Address..."  value="admin@gmail.com" >
+                                                    placeholder="Enter Email Address..."  value="admin@mailinator.com" >
                                                 @error('email')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror

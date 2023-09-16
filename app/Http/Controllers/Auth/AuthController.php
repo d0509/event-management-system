@@ -88,7 +88,7 @@ class AuthController extends Controller
 
     public function forgotPassword()
     {
-        return view('User.form.forgotPassword');
+        return view('User.auth.forgotPassword');
     }
 
     public function resetPassword(ResetPassword $request)

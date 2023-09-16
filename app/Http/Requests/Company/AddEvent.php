@@ -22,18 +22,22 @@ class AddEvent extends FormRequest
      */
     public function rules(): array
 {
+    // dd(1);
     //    dd($this->event->toArray());
     $rules = [
         'city_id' => 'required',
         'category_id' => 'required',
         'name' => 'required',
         'description' => 'required',
-        'available_seat' => 'required|integer|min:1',
+        'available_seat' => 'required|integer|min:10',
         'venue' => 'required',
         'start_time' => 'required',
         'end_time' => 'required|after:start_time',
         'ticket' => 'required',
-        'event_date' => 'required',
+        'event_date' => 'required| after:now',
+        'location' => 'required',
+        // 'lattitude' => 'required',
+        // 'longitude' => 'required',
         // 'banner' => 'required',
     ];
 
@@ -43,12 +47,13 @@ class AddEvent extends FormRequest
         
         $rules['is_approved'] = 'required';
     } else{
-        // dd('inside ELSE');
-        // dd($rules);
+    //     // dd('inside ELSE');
+    //     // dd($rules);
         $rules['banner'] = 'image|required';
         // $rules['is_approved'] = 0;
     }
 
+    // dd(3);
     return $rules;
 }
 
