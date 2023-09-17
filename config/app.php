@@ -169,6 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Plank\Mediable\MediableServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -92,6 +92,8 @@ class AuthService
         // } else {
         //     session()->flash('danger','We are facing some issues sending you mail');
         // }
-        $user->notify(new NotificationsResetPassword($user['email'], $token));
+       $mail =  $user->notify(new NotificationsResetPassword($user['email'], $token));
+
+       dd($mail);
     }
 }

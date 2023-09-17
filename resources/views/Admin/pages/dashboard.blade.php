@@ -374,7 +374,9 @@
                     @if (request()->route()->getName() == 'adminDashboard')
                         @yield('event')
                     @endif
-
+                    @if (request()->route()->getName() == 'reset.password.get')
+                        @yield('forgetPasswordLink')
+                    @endif
                     @if (request()->route()->getName() == 'companyListing')
                         @yield('content')
                     @endif

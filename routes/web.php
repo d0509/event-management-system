@@ -34,9 +34,9 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('register', [AuthController::class, 'register'])->name('register');
     Route::post('register', [AuthController::class, 'signup'])->name('signup');
 
-    // Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
-    // Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
-    // Route::get('reset-password/{token},[AuthController::class')
+    Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.create');
+    Route::post('forgot-password', [AuthController::class, 'resetPassword'])->name('forgot-password.store');
+    Route::get('reset-password/{token}',[AuthController::class,'ResetPasswordForm'])->name('reset.password.get');
 
     Route::get('/', [HomeController::class, 'index'])->name('homepage');
     Route::get('event/{event}',[UserEventController::class,'show'])->name('user.event.show');

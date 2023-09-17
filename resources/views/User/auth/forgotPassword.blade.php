@@ -20,7 +20,7 @@
                                             <p class="mb-4"> Just enter your email address below
                                                 and we'll send you a link to reset your password!</p>
                                         </div>
-                                        <form class="user" action="{{route('resetPassword')}}" method="POST">
+                                        <form class="user" action="{{route('forgot-password.store')}}" method="POST">
                                             @csrf
                                             <div class="form-group">
                                                 <input type="email" class="form-control form-control-user"

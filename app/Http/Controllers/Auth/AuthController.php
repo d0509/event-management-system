@@ -95,4 +95,8 @@ class AuthController extends Controller
     {
         $this->authservice->resetPassword($request);
     }
+
+    public function ResetPasswordForm($token){
+        return view('User.auth.forgetPasswordLink', ['token' => $token]);
+    }
 }
