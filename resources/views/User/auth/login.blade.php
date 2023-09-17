@@ -25,11 +25,12 @@
                                             @if (session('success'))
                                                 <div class="text-success text-center">{{ session('success') }}</div>
                                             @endif
-                                            <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">{{__('login.welcome')}}</h1>
                                         </div>
                                         <form action="{{ route('signin') }}" class="user" method="POST">
                                             @csrf
                                             <div class="form-group">
+                                                <label class="form-label" for="form7Example2">{{__('login.email')}}</label>
                                                 <input type="email" name="email" class="form-control form-control-user"
                                                     id="exampleInputEmail" aria-describedby="emailHelp"
                                                     placeholder="Enter Email Address..." >
@@ -39,6 +40,7 @@
 
                                             </div>
                                             <div class="form-group">
+                                                <label class="form-label" for="form7Example2">{{__('login.password')}}</label>
                                                 <input type="password" name="password"
                                                     class="form-control form-control-user" id="exampleInputPassword"
                                                     placeholder="Password">
@@ -49,23 +51,22 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox small">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label" for="customCheck">Remember
-                                                        Me</label>
+                                                    <label class="custom-control-label" for="customCheck">{{__('login.remember')}}</label>
                                                 </div>
                                             </div>
                                             <button type="submit" name="submit"
                                                 class="btn btn-primary btn-user btn-block">
-                                                Login
+                                                {{__('login.login')}}
                                             </button>
 
 
                                         </form>
                                         <hr>
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('forgot-password.create') }}">Forgot Password?</a>
+                                            <a class="small" href="{{ route('forgot-password.create') }}">{{__('login.forgot')}}</a>
                                         </div>
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('register') }}">Create an Account as User!</a>
+                                            <a class="small" href="{{ route('register') }}">{{__('login.user_create')}}</a>
                                         </div>
                                         
                                     </div>
