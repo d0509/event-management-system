@@ -7,7 +7,19 @@
             <div class="col">
                 <div class="card">
                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                        <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp" class="img-fluid" />
+                        {{-- {{ dd(Auth::user()->media->toArray()) }} --}}
+                        @if (Auth::user()->media('profile'))
+
+                            
+                            @foreach (Auth::user()->media as $item)                                
+                            <img src="{{ asset('storage/profile/' .$item['filename'] . '.' . $item['extension']) }}"
+                                class="img-fluid" alt="">
+                            @endforeach
+                           
+                        @else
+                            <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp" class="img-fluid" />
+                        @endif
+                        
                         <a href="#!">
                             <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                         </a>
@@ -17,7 +29,7 @@
                             <p class="text-dark"> Name</p>
                             <p class="text-dark">{{ ucwords(Auth::user()->name) }} </p>
                         </div>
-        
+
                         <div class="d-flex justify-content-between">
                             <p class="text-dark"> Email</p>
                             <p class="text-dark">{{ Auth::user()->email }} </p>
@@ -32,12 +44,13 @@
                         </div>
                         </p>
                         {{-- <a href="{{route('profile.edit')}}" class="btn btn-primary">Edit Profile</a> --}}
-                        <a href="{{route('profile.edit',['profile'=> Auth::user()])}}" class="btn btn-primary">Edit Profile</a>
+                        <a href="{{ route('profile.edit', ['profile' => Auth::user()]) }}" class="btn btn-primary">Edit
+                            Profile</a>
                     </div>
                 </div>
             </div>
             {{-- {{dd(Auth::user()->toArray())}} --}}
-            
+
         </div>
     </div>
 

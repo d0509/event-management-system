@@ -10,21 +10,21 @@
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
-                        <li ><a href="{{ route('companyDashboard') }}">Home</a></li>
-                        @if (request()->route()->getName() == 'companyDashboard' ||
+                        <li ><a href="{{ route('homepage') }}">{{__('dashboard.home')}}</a></li>
+                        {{-- @if (request()->route()->getName() == 'companyDashboard' ||
                                 request()->route()->getName() == 'event.create' ||
                                 request()->route()->getName() == 'event.index' ||
                                 request()->route()->getName() == 'event.edit')
                             <li><a href="{{ route('event.index') }}">Events</a>
-                        @endif
+                        @endif --}}
                         
                         </li>
-                        @if (request()->route()->getName() == 'companyDashboard' ||
+                        {{-- @if (request()->route()->getName() == 'companyDashboard' ||
                                 request()->route()->getName() == 'event.create' ||
                                 request()->route()->getName() == 'event.index' || 
                                 request()->route()->getName() == 'event.edit')
                             <li><a href="{{ route('event.create') }}">Add Event</a></li>
-                        @endif
+                        @endif --}}
 
                         {{-- <li><a href="blog.html">Blog</a></li>
                         <li><a href="contact.html">Contacts</a></li> --}}

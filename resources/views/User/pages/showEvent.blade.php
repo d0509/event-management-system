@@ -10,21 +10,18 @@
                         alt="Event fvv" />
                 @endforeach
 
-                <h3 class="mt-5">Details</h3>
+                <h3 class="mt-5">{{__("showEvent.details")}}</h3>
 
                 <h4 class="fw-bold mt-2">{{ ucwords($event->name) }}</h4>
 
                 <p class="mt-5">{{ $event->description }}</p>
 
-                <p class="text-dark font-weight-bold">**NOTE**</p>
-                <p class="fs-3 ml-2">Kindly be informed that to participate in the event, a ticket purchase is required.
-                    Please note that clicking on the RSVP button alone will not confirm your attendance.</p>
+                <p class="text-dark font-weight-bold">** {{__('showEvent.note')}} **</p>
+                <p class="fs-3 ml-2">{{__('showEvent.note_msg')}}</p>
             </div>
             <div class="col-4">
                 <div class="card">
                     <div class="card-body">
-
-                        < class="card-text">
                         <div class="row">
                             <p class="col-1 text-dark"><i class="fas fa-chair"></i></p>
                             <p class="col-10 text-dark">{{ $event->available_seat }}</p>
@@ -41,8 +38,8 @@
                             <p class="col-1 text-dark"><i class="fa-regular fa-clock"></i> </p>
                             <p class="col-10 text-dark">{{ $event->start_time }} - {{ $event->end_time }} </p>
                         </div>
-                        
-                        <button type="button" class="btn btn-primary">Book A Ticket</button>
+
+                        <button type="button" class="btn btn-primary">{{__('showEvent.book_ticket')}}</button>
                     </div>
                 </div>
                 <div class="google-map">

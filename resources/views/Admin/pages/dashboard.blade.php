@@ -22,58 +22,67 @@
 
                 <!-- Divider -->
                 {{-- {{dd(auth()->user()->role)}} --}}
-                @foreach (auth()->user()->role as $role)
-                    @if ($role['name'] === 'company')
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('companyDashboard') }}">
-                                <i class="fas fa-fw fa-tachometer-alt"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
+                @auth
+                    @foreach (auth()->user()->role as $role)
+                        @if ($role['name'] === 'company')
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ route('companyDashboard') }}">
+                                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                                    <span>{{ __('dashboard.dashboard') }}</span>
+                                </a>
+                            </li>
 
-                        <div class="sidebar-heading">
-                            Interface
-                        </div>
+                            <div class="sidebar-heading">
+                                Interface
+                            </div>
 
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="{{ route('event.create') }}" aria-expanded="true"
-                                aria-controls="collapseTwo">
-                                <i class="fas fa-fw fa-cog"></i>
-                                <span>Add Event</span>
-                            </a>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed" href="{{ route('event.create') }}" aria-expanded="true"
+                                    aria-controls="collapseTwo">
+                                    <i class="fas fa-fw fa-cog"></i>
+                                    <span>{{ __('dashboard.add_event') }}</span>
+                                </a>
 
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="{{ route('event.index') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
-                                <span>Events</span>
-                            </a>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed" href="{{ route('event.index') }}">
+                                    <i class="fas fa-fw fa-wrench"></i>
+                                    <span>{{ __('dashboard.events') }}</span>
+                                </a>
 
-                        </li>
-                    @endif
-                @endforeach
-                {{-- @if (Auth::user()->role == 'admin') --}}
-                @foreach (auth()->user()->role as $role)
-                    @if ($role['name'] == 'admin')
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="{{ route('admin.event.index') }}" aria-expanded="true"
-                                aria-controls="collapseTwo">
-                                <i class="fas fa-fw fa-cog"></i>
-                                <span>Events</span>
-                            </a>
+                            </li>
+                        @endif
+                    @endforeach
+                    {{-- @if (Auth::user()->role == 'admin') --}}
+                    @foreach (auth()->user()->role as $role)
+                        @if ($role['name'] == 'admin')
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ route('adminDashboard') }}">
+                                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                                    <span>{{ __('dashboard.dashboard') }}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed" href="{{ route('admin.event.index') }}" aria-expanded="true"
+                                    aria-controls="collapseTwo">
+                                    <i class="fas fa-fw fa-cog"></i>
+                                    <span>{{ __('dashboard.events') }}</span>
+                                </a>
 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" href="{{ route('companyListing') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
-                                <span>Company</span>
-                            </a>
-                        </li>
-                    @endif
-                @endforeach
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed" href="{{ route('companyListing') }}">
+                                    <i class="fas fa-fw fa-wrench"></i>
+                                    <span>{{ __('dashboard.company') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endauth
 
-                <div class="sidebar-heading">
+
+                {{-- <div class="sidebar-heading">
                     Addons
                 </div>
 
@@ -110,23 +119,23 @@
                     <a class="nav-link" href="tables.html">
                         <i class="fas fa-fw fa-table"></i>
                         <span>Tables</span></a>
-                </li>
+                </li> --}}
 
                 <!-- Divider -->
 
                 <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
+                {{-- <div class="text-center d-none d-md-inline">
                     <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
+                </div> --}}
 
                 <!-- Sidebar Message -->
-                <div class="sidebar-card d-none d-lg-flex">
+                {{-- <div class="sidebar-card d-none d-lg-flex">
                     <img class="sidebar-card-illustration mb-2" src="https://i.pravatar.cc/150?img=12" alt="...">
                     <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features,
                         components, and more!</p>
                     <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to
                         Pro!</a>
-                </div>
+                </div> --}}
 
             </ul>
             <!-- End of Sidebar -->
@@ -311,40 +320,46 @@
                             <div class="topbar-divider d-none d-sm-block"></div>
 
                             <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span
-                                        class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-                                    <img class="img-profile rounded-circle" src="https://i.pravatar.cc/150?img=12">
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                    aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="{{route('profile')}}">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
+                            @auth
+                                <li class="nav-item dropdown no-arrow">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span
+                                            class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
+                                        @foreach (Auth::user()->media as $item)
+                                            <img class="img-profile rounded-circle"
+                                                src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}">
+                                        @endforeach
                                     </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="{{route('password.edit')}}">
-                                        <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Change Password
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" data-toggle="modal"
-                                        data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                </div>
-                            </li>
+                                    <!-- Dropdown - User Information -->
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                        aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="{{ route('profile') }}">
+                                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            {{ __('dashboard.profile') }}
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            {{ __('dashboard.settings') }}
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('password.edit') }}">
+                                            <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            {{ __('dashboard.change_password') }}
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            {{ __('dashboard.activity_log') }}
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ route('logout') }}" data-toggle="modal"
+                                            data-target="#logoutModal">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            {{ __('dashboard.logout') }}
+                                        </a>
+                                    </div>
+                                </li>   
+                            @endauth
+
 
                         </ul>
 
@@ -368,7 +383,8 @@
                     @if (request()->route()->getName() == 'admin.event.edit')
                         @yield('admin.event.edit')
                     @endif
-                    @if (request()->route()->getName() == 'event.edit' ||request()->route()->getName() == 'event.create' )
+                    @if (request()->route()->getName() == 'event.edit' ||
+                            request()->route()->getName() == 'event.create')
                         @yield('event.create')
                     @endif
                     @if (request()->route()->getName() == 'adminDashboard')

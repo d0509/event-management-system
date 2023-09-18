@@ -18,14 +18,19 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
+        // dd(Auth::check());
 
+        if(Auth::check() == 'false'){
+
+        }
         foreach ($guards as $guard) {
             if (Auth::guard()->check()) {
                 if (Auth::user()->role->firstWhere('name', 'admin')) {
                     return redirect()->route('adminDashboard');
+                    // dd(3);
                 } else if (Auth::user()->role->firstWhere('name', 'company')) {
                     return redirect()->route('companyDashboard');
-                }
+                } 
             }
         }
 

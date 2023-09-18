@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Notifications\CompanyRegistered;
 // use App\Notifications\CompanyUpdated;
 use Illuminate\Support\Facades\Hash;
+use Plank\Mediable\Facades\MediaUploader;
 
 class CompanyService
 {
@@ -38,6 +39,14 @@ class CompanyService
         ]);
 
         $lastUserId = $user->id;
+
+        $media = MediaUploader::fromSource($request->profile)
+            ->toDisk('public')
+            ->toDirectory('profile')
+            ->upload();
+
+        $user->attachMedia($media, 'profile');
+        $user->save();
 
         $company = Company::create([
             'user_id' => $lastUserId,
@@ -95,6 +104,14 @@ class CompanyService
             'mobile_no' => $validated['mobile_no'],
             'status' =>  'Pending'
         ]);
+
+        $media = MediaUploader::fromSource($request->profile)
+            ->toDisk('public')
+            ->toDirectory('profile')
+            ->upload();
+
+        $user->attachMedia($media, 'profile');
+        $user->save();
 
         $lastUserId = $user->id;
 

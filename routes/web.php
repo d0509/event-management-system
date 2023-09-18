@@ -37,6 +37,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.create');
     Route::post('forgot-password', [AuthController::class, 'resetPassword'])->name('forgot-password.store');
     Route::get('reset-password/{token}',[AuthController::class,'ResetPasswordForm'])->name('reset.password.get');
+    Route::post('reset-password',[AuthController::class,'submitReset'])->name('reset.password.post');
 
     Route::get('/', [HomeController::class, 'index'])->name('homepage');
     Route::get('event/{event}',[UserEventController::class,'show'])->name('user.event.show');
@@ -68,12 +69,6 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-});
-
-
-Route::group(['middleware' => ['admin']], function () {
-    Route::prefix('admin')->group(function () {
-    });
 });
 
 Route::group(['middleware' => ['company']], function () {

@@ -3,7 +3,7 @@
 @section('profile.edit')
     <div class="container">
         <h1 class="mt-5 mb-5 text-center">Update Profile </h1>
-        <form method="POST" action="{{ route('profile.update', ['profile' => Auth::user()]) }}">
+        <form method="POST" action="{{ route('profile.update', ['profile' => Auth::user()]) }}"  enctype="multipart/form-data" >
             @csrf
             @method('PATCH')
             <!-- Email input -->
@@ -51,11 +51,28 @@
                 @enderror
             </div>
 
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example2">Profile picture</label>
+                <input type="file" name="profile" id="profile" class="form-control"
+                value="{{ isset($user) ? old('profile', $user->profile) : old('profile') }}" />
+                    @error('profile')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+            </div>
+
             <button type="submit" class="btn btn-primary btn-block mb-4">Update Profile</button>
 
             <!-- Register buttons -->
 
         </form>
+
+        @if(isset(Auth::user()->media ))
+            {{-- {{dd(Auth::user()->media->toArray())}} --}}
+            @foreach (Auth::user()->media as $item)                
+            Profile Picture: <img  src="{{ asset('storage/profile/' .$item['filename'] . '.' . $item['extension']) }}" alt="" width="250" >
+            @endforeach
+        @endif
     </div>
+
 
 @endsection

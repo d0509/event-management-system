@@ -21,13 +21,15 @@ class Register extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name'=>'required',
-            'email'=>'required|email|unique:users,email',
-            'password'=>'required|confirmed',
-            'password_confirmation'=>'required',
-            'city_id'=>'required',
-            'mobile_no'=>'required|numeric|digits:10|unique:users,mobile_no'
-        ];
+        // dd($this->profile);
+            return [
+                'name'=>'required',
+                'email'=>'required|email|unique:users,email',
+                'password'=>'required|confirmed',
+                'password_confirmation'=>'required',
+                'city_id'=>'required',
+                'mobile_no'=>'required|numeric|digits:10|unique:users,mobile_no',
+                'profile' => 'required|image|mimes:jpeg,jpg,png',
+            ];
     }
 }

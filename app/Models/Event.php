@@ -30,8 +30,7 @@ class Event extends Model
         'end_time',
         'ticket',
         'is_approved',
-        'lattitude',
-        'longitude'
+        'location'
     ];
 
     // public function media()

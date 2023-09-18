@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\Register;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CompanyRegister;
 use App\Http\Requests\Auth\ResetPassword;
+use App\Http\Requests\Auth\ResetPasswordPost;
 use App\Models\City;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Company;
@@ -98,5 +99,11 @@ class AuthController extends Controller
 
     public function ResetPasswordForm($token){
         return view('User.auth.forgetPasswordLink', ['token' => $token]);
+    }
+
+    public function submitReset(ResetPasswordPost $request){
+        // dd(3);
+        $this->authservice->submitReset($request);
+        return redirect()->route('login');
     }
 }

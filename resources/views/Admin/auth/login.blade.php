@@ -25,7 +25,7 @@
                                             @if (session('success'))
                                                 <div class="text-success text-center">{{ session('success') }}</div>
                                             @endif
-                                            <h1 class="h4 text-gray-900 mb-4">{{__('login.welcome')}}</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">{{__('auth.welcome')}}</h1>
                                         </div>
                                         @if (request()->route()->getName() == 'admin.login')
                                         <form action="{{ route('admin.signin') }}" class="user" method="POST">
@@ -34,7 +34,7 @@
                                         @endif
                                             @csrf
                                             <div class="form-group">
-                                                <label class="form-label" for="form7Example2">{{__('login.email')}}</label>
+                                                <label class="form-label" for="form7Example2">{{__('auth.email')}}</label>
                                                 <input type="email" name="email" class="form-control form-control-user"
                                                     id="exampleInputEmail" aria-describedby="emailHelp"
                                                     placeholder="Enter Email Address..."  value="admin@mailinator.com" >
@@ -44,7 +44,7 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="form7Example2">{{__('login.password')}}</label>
+                                                <label class="form-label" for="form7Example2">{{__('auth.password')}}</label>
                                                 <input type="password" name="password"
                                                     class="form-control form-control-user" id="exampleInputPassword"
                                                     placeholder="Password" value='123@Admin' >
@@ -55,22 +55,22 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox small">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label" for="customCheck">{{__('login.remember')}}</label>
+                                                    <label class="custom-control-label" for="customCheck">{{__('auth.remember')}}</label>
                                                 </div>
                                             </div>
                                             <button type="submit" name="submit"
                                                 class="btn btn-primary btn-user btn-block">
-                                                {{__('login.login')}}
+                                                {{__('auth.login')}}
                                             </button>
 
 
                                         </form>
                                         <hr>
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('forgot-password.create') }}">{{__('login.forgot')}}</a>
+                                            <a class="small" href="{{ route('forgot-password.create') }}">{{__('auth.forgot')}}</a>
                                         </div>
                                         <div class="text-center">
-                                            <a class="small" href="{{ route('guest.company.create') }}">{{__('login.company_create')}}</a>
+                                            <a class="small" href="{{ route('guest.company.create') }}">{{__('auth.company_create')}}</a>
                                         </div>
                                     </div>
 
