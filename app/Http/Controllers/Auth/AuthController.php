@@ -38,22 +38,29 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('User.auth.login');
+       
+
+            return view('User.auth.login');
+       
     }
 
     public function signin(Login $request): RedirectResponse
     {
 
-        $this->authservice->signIn($request);   
+        $this->authservice->signIn($request);
 
         return redirect()->route('homepage');
     }
 
     public function register()
     {
-        return view('User.auth.register', [
-            'cities' => $this->cityservice->getAllCities()
-        ]);
+        if (!Auth::user()) {
+            return view('User.auth.register', [
+                'cities' => $this->cityservice->getAllCities()
+            ]);
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function signup(Register $request)
@@ -89,7 +96,11 @@ class AuthController extends Controller
 
     public function forgotPassword()
     {
-        return view('User.auth.forgotPassword');
+        if (!Auth::user()) {
+            return view('User.auth.forgotPassword');
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function resetPassword(ResetPassword $request)
@@ -97,11 +108,17 @@ class AuthController extends Controller
         $this->authservice->resetPassword($request);
     }
 
-    public function ResetPasswordForm($token){
-        return view('User.auth.forgetPasswordLink', ['token' => $token]);
+    public function ResetPasswordForm($token)
+    {
+        if (!Auth::user()) {
+            return view('User.auth.forgetPasswordLink', ['token' => $token]);
+        } else {
+            return redirect()->back();
+        }
     }
 
-    public function submitReset(ResetPasswordPost $request){
+    public function submitReset(ResetPasswordPost $request)
+    {
         // dd(3);
         $this->authservice->submitReset($request);
         return redirect()->route('login');

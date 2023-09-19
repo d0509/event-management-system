@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::get('change-password',[PasswordController::class,'edit'])->name('password.edit');
     Route::patch('change-password',[PasswordController::class,'update'])->name('password.update');
 
+    Route::get('/book-ticket/{event}',[])->name();
+
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::get('/dashboard', [AuthController::class, 'adminDashboard'])->name('adminDashboard');
         Route::get('/company', [CompanyController::class, 'index'])->name('companyListing');

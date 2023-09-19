@@ -11,6 +11,7 @@ use App\Services\CityService;
 use Illuminate\Http\Request;
 use App\Services\CompanyService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
@@ -26,13 +27,19 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view('User.auth.register', [
-            'cities' => $this->cityservice->getAllCities()
-        ]);
+        if(!Auth::user()){
+            return view('User.auth.register', [
+                'cities' => $this->cityservice->getAllCities()
+            ]);
+        } else {
+            return redirect()->back();
+        }
+       
     }
 
     public function store(CompanyRegister $request): RedirectResponse
     {
+        
         $this->companyservice->registeredByCompany($request);
         return redirect()->route('guest.company.create');
     }
