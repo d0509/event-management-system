@@ -26,10 +26,24 @@ class AuthService
     public function signin(Login $request)
     {
         $validated = $request->safe()->only(['password', 'email']);
-        if (!auth()->attempt($validated)) {
-            throw ValidationException::withMessages([
-                'email' => 'Your provided credentials could not be verified.'
-            ]);
+
+
+        // dd($request->toArray());
+
+        $user = User::where('email', $request->email)->first();
+
+
+        // dd($user->toArray());
+
+
+        if ($user->status == 'approved') {
+            if (!auth()->attempt($validated)) {
+                throw ValidationException::withMessages([
+                    'email' => 'Your provided credentials could not be verified.'
+                ]);
+            }
+        } else {
+            session()->flash('danger', 'You are not approved by the Admin. To login please contact admin');
         }
     }
 
@@ -45,7 +59,7 @@ class AuthService
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
             'mobile_no' => $validated['mobile_no'],
-            'status' =>  'pending'
+            'status' =>  'approved'
         ]);
 
         $lastUserId = $user->id;
@@ -106,27 +120,20 @@ class AuthService
     {
         // dd($request->toArray());
 
-        $user = DB::table('password_reset_tokens')
-            ->where('token', '=', $request->token)
-            ->get();
+        // $token = $request['token'];
+        // dd($token);
+
+        $user = PasswordResetToken::where('token', '=', $request->token)->first();
+       
+        $user_detail = User::where('email', $user['email'])->first();
+        // dd($user_detail->toArray() );
+        $password = Hash::make($request->password);
+        // dd($password);
+
+        $user_update = User::where('email','=', $user->email)->update(['password' => $password]);
 
 
-            $password = Hash::make($request->password);
-            // dd($password);
-
-        foreach ($user as $u) {
-            // dd($u->email);
-
-            $user_update = DB::table('users')
-                ->where('email', $u->email)
-                ->update(['password' => $password]);
-
-            // dd($user_update);
-
-            
-        }
-
-        if($user_update == '1'){
+        if ($user_update == '1') {
             session()->flash('success', 'Password changed successfully');
         } else {
             session()->flash('danger', 'There are some issues in changing password');

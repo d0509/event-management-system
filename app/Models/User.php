@@ -67,4 +67,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasOne(Company::class);
     }
+
+    public function passwordResetToken()
+    {
+        return $this->hasOne(PasswordResetToken::class);
+    }
 }

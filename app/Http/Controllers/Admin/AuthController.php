@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -25,11 +26,16 @@ class AuthController extends Controller
     public function signIn(Login $request){
         $this->authservice->signin($request);
 
-        if ($request->user()->role->firstWhere('name', 'admin')) {
-            return redirect()->route('adminDashboard');
-        } else if($request->user()->role->firstWhere('name', 'company')) {
-            return redirect()->route('companyDashboard');
+        if(Auth::user()){
+            if ($request->user()->role->firstWhere('name', 'admin')) {
+                return redirect()->route('adminDashboard');
+            } else if($request->user()->role->firstWhere('name', 'company')) {
+                return redirect()->route('companyDashboard');
+            }
+        } else {
+            return redirect()->route('admin.login');
         }
+        
     }
 
 

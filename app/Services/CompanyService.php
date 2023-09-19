@@ -102,7 +102,7 @@ class CompanyService
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
             'mobile_no' => $validated['mobile_no'],
-            'status' =>  'Pending'
+            'status' =>  'pending'
         ]);
 
         $media = MediaUploader::fromSource($request->profile)
@@ -127,7 +127,7 @@ class CompanyService
             'role_id' => '2'
         ]);
 
-        auth()->login($user);
+        session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
     }
 
     

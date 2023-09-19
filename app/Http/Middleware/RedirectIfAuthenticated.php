@@ -19,10 +19,6 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
         // dd(Auth::check());
-
-        if(Auth::check() == 'false'){
-
-        }
         foreach ($guards as $guard) {
             if (Auth::guard()->check()) {
                 if (Auth::user()->role->firstWhere('name', 'admin')) {

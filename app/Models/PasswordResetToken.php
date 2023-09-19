@@ -10,8 +10,8 @@ class PasswordResetToken extends Model
     use HasFactory;
 
     protected $table = 'password_reset_tokens'; // Set the table name if it's different
-    protected $primaryKey = 'email';
-    
+    // protected $primaryKey = 'email';
+
     protected $fillable = [
         'email',
         'token',
@@ -22,4 +22,9 @@ class PasswordResetToken extends Model
     protected $casts = [
         'created_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
