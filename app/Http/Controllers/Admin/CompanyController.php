@@ -93,6 +93,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        // dd($company->toArray());
         $company->delete();
         return redirect()->route('companyListing');
     }

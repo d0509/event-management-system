@@ -74,6 +74,7 @@
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">No</a>
                         <form action="{{ route('destroyCompany', ['company' => $company]) }}" method="post">
+                            
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Yes</button>
