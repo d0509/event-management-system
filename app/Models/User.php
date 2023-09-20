@@ -14,9 +14,8 @@ use Plank\Mediable\Mediable;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
-    use Mediable;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,Mediable;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +24,9 @@ class User extends Authenticatable implements CanResetPassword
     protected $fillable = [
         'name',
         'email',
+        'mobile_no',
+        'city_id',
+        'status',
         'password',
     ];
 
@@ -71,5 +73,9 @@ class User extends Authenticatable implements CanResetPassword
     public function passwordResetToken()
     {
         return $this->hasOne(PasswordResetToken::class);
+    }
+
+    public function booking(){
+        return $this->belongsToMany(Booking::class);
     }
 }

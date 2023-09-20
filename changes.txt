@@ -1,0 +1,13 @@
+config file ma site.php
+
+seeder also includes variables from site.php
+
+
+image in the users table named avatar
+
+use resource routes instead of resource methods in the web.php file.
+
+active inactive outside the form and use single action controller for the same
+
+changes for request file in naming convention
+

@@ -28,16 +28,13 @@ class EventController extends Controller
     public function index()
     {
         $events = $this->eventservice->index();
-         
+
         // dd($events);
-        return view('company.event.index',[
+        return view('company.event.index', [
             'events' => $events
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $event = $this->cityservice->getAllCities();
@@ -48,51 +45,33 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(AddEvent $request)
     {
-        // dd(5);
         $this->eventservice->store($request);
 
         return redirect()->route('event.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Event $event)
     {
-        return view('company.pages.createEvent',[
+        return view('company.pages.createEvent', [
             'event' => $event,
             'cities' => $this->cityservice->getAllCities(),
             'categories' => $this->categoryservice->index(),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(AddEvent $request, Event $event)
     {
-        // dd($event);
-        // dd(3);
-        $this->eventservice->update($request,$event);
+        $this->eventservice->update($request, $event);
         return redirect()->route('event.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Event $event)
     {
         $event->delete();

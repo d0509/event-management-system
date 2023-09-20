@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class City extends Model
 {
-    use SoftDeletes;
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
-
+    protected $fillable =[
+        'name',
+    ];
 
     public function user(){
         return $this->hasMany(User::class);

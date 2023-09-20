@@ -12,10 +12,9 @@ class AuthController extends Controller
 {
     protected $authservice;
 
-    Public function __construct(AuthService $authservice)
+    public function __construct(AuthService $authservice)
     {
         $this->authservice = $authservice;
-        
     }
 
     public function login()
@@ -23,20 +22,18 @@ class AuthController extends Controller
         return view('admin.auth.login');
     }
 
-    public function signIn(Login $request){
+    public function signIn(Login $request)
+    {
         $this->authservice->signin($request);
 
-        if(Auth::user()){
+        if (Auth::user()) {
             if ($request->user()->role->firstWhere('name', 'admin')) {
                 return redirect()->route('adminDashboard');
-            } else if($request->user()->role->firstWhere('name', 'company')) {
+            } else if ($request->user()->role->firstWhere('name', 'company')) {
                 return redirect()->route('companyDashboard');
             }
         } else {
             return redirect()->route('admin.login');
         }
-        
     }
-
-
 }

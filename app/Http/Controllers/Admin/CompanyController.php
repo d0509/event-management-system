@@ -56,7 +56,7 @@ class CompanyController extends Controller
     public function store(Add $request): RedirectResponse
 {
     $this->companyservice->storeByAdmin($request);
-    return redirect()->route('companyListing');
+    return redirect()->route('admin.company.index');
 }
 
     /**
@@ -72,7 +72,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        // dd('editCompany');
+        // dd('admin.company.edit');
         return view('company.pages.edit', [
             'company' => $company,
             'cities' => $this->cityservice->getAllCities(),
@@ -85,7 +85,7 @@ class CompanyController extends Controller
     public function update(EditCompany $request, Company $company)
     {
         $this->companyservice->updateByAdmin($request,$company);
-        return redirect()->route('companyListing');
+        return redirect()->route('admin.company.index');
     }
 
     /**
@@ -93,8 +93,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        // dd($company->toArray());
         $company->delete();
-        return redirect()->route('companyListing');
+        return redirect()->route('admin.company.index');
     }
 }

@@ -38,17 +38,12 @@ class AuthController extends Controller
 
     public function login()
     {
-       
-
-            return view('User.auth.login');
-       
+         return view('User.auth.login');       
     }
 
     public function signin(Login $request): RedirectResponse
     {
-
         $this->authservice->signIn($request);
-
         return redirect()->route('homepage');
     }
 
@@ -119,7 +114,6 @@ class AuthController extends Controller
 
     public function submitReset(ResetPasswordPost $request)
     {
-        // dd(3);
         $this->authservice->submitReset($request);
         return redirect()->route('login');
     }

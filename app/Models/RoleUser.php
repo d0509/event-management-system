@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RoleUser extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory,SoftDeletes;
+    
     protected $table = "role_user";
+
+    protected $fillable =[
+        'user_id',
+        'role_id'
+    ];
 
     public function user()
     {

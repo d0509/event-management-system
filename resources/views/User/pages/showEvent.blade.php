@@ -10,14 +10,14 @@
                         alt="Event fvv" />
                 @endforeach
 
-                <h3 class="mt-5">{{__("showEvent.details")}}</h3>
+                <h3 class="mt-5">{{ __('showEvent.details') }}</h3>
 
                 <h4 class="fw-bold mt-2">{{ ucwords($event->name) }}</h4>
 
                 <p class="mt-5">{{ $event->description }}</p>
 
-                <p class="text-dark font-weight-bold">** {{__('showEvent.note')}} **</p>
-                <p class="fs-3 ml-2">{{__('showEvent.note_msg')}}</p>
+                <p class="text-dark font-weight-bold">** {{ __('showEvent.note') }} **</p>
+                <p class="fs-3 ml-2">{{ __('showEvent.note_msg') }}</p>
             </div>
             <div class="col-4">
                 <div class="card">
@@ -39,7 +39,19 @@
                             <p class="col-10 text-dark">{{ $event->start_time }} - {{ $event->end_time }} </p>
                         </div>
 
-                        <button type="button" class="btn btn-primary">{{__('showEvent.book_ticket')}}</button>
+                        {{-- <a href="{{ route('book_ticket', ['event' => $event]) }}"
+                            class="btn btn-primary">{{ __('showEvent.book_ticket') }}</a> --}}
+                        <form action="{{ route('book_ticket', ['event' => $event]) }}" method="post">
+                            @csrf
+                            <div>
+                                <label class="form-label" for="form7Example2">Quantity:</label>
+                                <input type="number" value="1" name="quantity" id="quantity" class="form-control" />
+                                @error('quantity')
+                                    <span class="text-danger" >{{$message}}</span>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2"  >{{ __('showEvent.book_ticket') }}</button>
+                        </form>
                     </div>
                 </div>
                 <div class="google-map">

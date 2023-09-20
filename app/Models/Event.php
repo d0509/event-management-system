@@ -13,10 +13,8 @@ use Plank\Mediable\Mediable as MediableMediable;
 
 class Event extends Model 
 {
-    use HasFactory;
-    use SoftDeletes;
-    use MediableMediable;
-
+    use HasFactory,SoftDeletes,MediableMediable;
+    
     protected $fillable = [
         'city_id',
         'company_id',
@@ -33,11 +31,6 @@ class Event extends Model
         'location'
     ];
 
-    // public function media()
-    // {
-    //     return $this->hasMany(Media::class);
-    // }
-
     public function category(){
         return $this->belongsTo(Category::class);
     }
@@ -48,6 +41,10 @@ class Event extends Model
 
     public function company(){
         return $this->belongsTo(Company::class);
+    }
+
+    public function booking(){
+        return $this->belongsToMany(Booking::class);    
     }
 
     

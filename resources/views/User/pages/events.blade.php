@@ -17,13 +17,13 @@
                         <div class="card-body">
                             <u><a href="{{route('user.event.show',['event' => $event])}}" class="card-title display-5 text-dark">{{ ucwords($event->name) }}</a></u>
                             <p class="card-text">
-                            <div class="d-flex justify-content-between">
-                                <p class="text-dark"><i class="fa-solid fa-city"></i></p>
-                                <p class="text-dark">{{ $event->city->name }}</p>   
+                            <div class="row">
+                                <p class="col-1 text-dark"><i class="fa-solid fa-city"></i></p>
+                                <p class="col-10 text-dark">{{ $event->city->name }}</p>   
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-dark"><i class="fas fa-industry"></i></p>
-                                <p class="text-dark">{{ $event->company->name }}</p>
+                            <div class="row">
+                                <p class="col-1 text-dark"><i class="fas fa-industry"></i></p>
+                                <p class="col-10 text-dark">{{ $event->company->name }}</p>
                             </div>
                             {{-- <div class="d-flex justify-content-between">
                             <p class="text-dark">Category</p>
@@ -35,21 +35,21 @@
                         </div> --}}
 
                             {{-- company relation not working --}}
-                            <div class="d-flex justify-content-between">
-                                <p class="text-dark"><i class="fas fa-chair"></i></p>
-                                <p class="text-dark">{{ $event->available_seat }}</p>
+                            <div class="row">
+                                <p class="col-1 text-dark"><i class="fas fa-chair"></i></p>
+                                <p class="col-10 text-dark">{{ $event->available_seat }}</p>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-dark"><i class="fa-solid fa-location-dot"></i></p>
-                                <p class="text-dark">{{ $event->venue }}</p>
+                            <div class="row">
+                                <p class="col-1 text-dark"><i class="fa-solid fa-location-dot"></i></p>
+                                <p class="col-10 text-dark">{{ $event->venue }}</p>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-dark"><i class="fa-solid fa-calendar-days"></i></p>
-                                <p class="text-dark">{{ $event->event_date }}</p>
+                            <div class="row">
+                                <p class="col-1 text-dark"><i class="fa-solid fa-calendar-days"></i></p>
+                                <p class="col-10 text-dark">{{ $event->event_date }}</p>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-dark"><i class="fa-regular fa-clock"></i> </p>
-                                <p class="text-dark">{{ $event->start_time }} - {{ $event->end_time }} </p>
+                            <div class="row">
+                                <p class="col-1 text-dark"><i class="fa-regular fa-clock"></i> </p>
+                                <p class="col-10 text-dark">{{ $event->start_time }} - {{ $event->end_time }} </p>
                             </div>
 
                             {{-- <a href="" class="btn btn-primary text-center">Buy Ticket</a> --}}

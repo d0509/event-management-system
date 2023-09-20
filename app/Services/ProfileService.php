@@ -17,6 +17,7 @@ class ProfileService
     public function update(Update $request)
     {
         // dd(3);   
+        // dd($request->files);
         // dd($validated);
         $user = auth()->user();
         $user->update([
@@ -27,15 +28,31 @@ class ProfileService
         ]);
 
         if ($request->hasFile('profile')) {
-            $profileMedia = $user->getMedia('profile')->first();
 
-            if ($profileMedia) {
-                // Replace the 'banner' media with the new file
-                MediaUploader::fromSource($request->file('profile'))
-                    ->replace($profileMedia);
+            
+            // dd(empty($user->media[0]));
+            if (!empty($user->media[0])) {
+                // dd($user->media);
+                // dd('user already have profile picture and i want to update it');
+                $profileMedia = $user->getMedia('profile')->first();
+                // dd($request->files);
+                if ($profileMedia) {
+                    // Replace the 'banner' media with the new file
+                    MediaUploader::fromSource($request->file('profile'))
+                        ->replace($profileMedia);
 
-                // Optionally, you can also update the media's attributes if needed
-                $user->syncMedia($profileMedia, 'profile');
+                    // Optionally, you can also update the media's attributes if needed
+                    $user->syncMedia($profileMedia, 'profile');
+                }
+            } else {
+                // dd(' i want to set my profile as this photo. it was blank earlier');
+                $media = MediaUploader::fromSource($request->profile)
+                    ->toDisk('public')
+                    ->toDirectory('profile')
+                    ->upload();
+
+                $user->attachMedia($media, 'profile');
+               
             }
         }
     }

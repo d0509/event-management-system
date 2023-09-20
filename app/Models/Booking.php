@@ -6,13 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Booking extends Model
 {
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'user_id',
+        'event_id',
+        'booking_number',
+        'is_attended',
+
+        'quantity',
+        'total',
+        'is_free_event'
     ];
+
+    public function user(){
+        return $this->hasMany(User::class);
+    }
 
     public function event(){
         return $this->hasMany(Event::class);

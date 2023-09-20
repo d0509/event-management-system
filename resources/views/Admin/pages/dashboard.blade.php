@@ -76,7 +76,7 @@
 
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link collapsed" href="{{ route('companyListing') }}">
+                                <a class="nav-link collapsed" href="{{ route('admin.company.index') }}">
                                     <i class="fas fa-fw fa-wrench"></i>
                                     <span>{{ __('dashboard.company') }}</span>
                                 </a>
@@ -397,11 +397,11 @@
                     @if (request()->route()->getName() == 'reset.password.get')
                         @yield('forgetPasswordLink')
                     @endif
-                    @if (request()->route()->getName() == 'companyListing')
+                    @if (request()->route()->getName() == 'admin.company.index')
                         @yield('content')
                     @endif
 
-                    @if (request()->route()->getName() == 'company.create' || 'editCompany')
+                    @if (request()->route()->getName() == 'admin.company.create' || 'admin.company.edit')
                         @yield('edit')
                     @endif
 
@@ -413,7 +413,7 @@
                 </div>
 
 
-                {{-- @if (request()->route()->getName() == 'editCompany')
+                {{-- @if (request()->route()->getName() == 'admin.company.edit')
                     @yield('edit')
                 @endif --}}
                 <!-- End of Main Content -->

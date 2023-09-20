@@ -36,19 +36,13 @@ class AddEvent extends FormRequest
         'ticket' => 'required',
         'event_date' => 'required| after:now',
         'location' => 'required',
-        // 'lattitude' => 'required',
-        // 'longitude' => 'required',
-        // 'banner' => 'required',
     ];
 
 
     if ($this->event) {
-        $rules['banner'] = 'nullable|image';
-        
+        $rules['banner'] = 'nullable|image';        
         $rules['is_approved'] = 'required';
     } else{
-    //     // dd('inside ELSE');
-    //     // dd($rules);
         $rules['banner'] = 'image|required';
         // $rules['is_approved'] = 0;
     }

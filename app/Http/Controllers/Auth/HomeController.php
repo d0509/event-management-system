@@ -17,9 +17,6 @@ class HomeController extends Controller
 
     public function index(){
         $events = $this->eventservice->index();
-        foreach($events as $event){
-            // dd($event->city);
-        }
         return view('User.pages.events',[
             'events' => $events
         ]);

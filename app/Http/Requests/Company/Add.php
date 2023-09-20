@@ -22,7 +22,6 @@ class Add extends FormRequest
     public function rules(): array
     {
         return [
-           
                 'name'=>'required',
                 'email'=>'required|email|unique:users,email',
                 'company_name' => 'required|min:3|max:50',

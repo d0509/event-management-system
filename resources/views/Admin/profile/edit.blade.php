@@ -53,7 +53,7 @@
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example2">Profile picture</label>
-                <input type="file" name="profile" id="profile" class="form-control"
+                <input type="file" accept="image/png, image/jpeg, image/jpg" name="profile" id="profile" class="form-control"
                 value="{{ isset($user) ? old('profile', $user->profile) : old('profile') }}" />
                     @error('profile')
                 <div class="text-danger">{{ $message }}</div>

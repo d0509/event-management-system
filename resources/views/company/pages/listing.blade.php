@@ -5,7 +5,7 @@
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Company Details</h1>
-            <a href="{{ route('company.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            <a href="{{ route('admin.company.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fa-solid fa-user-plus"></i> Add Company</a>
         </div>
 
@@ -42,7 +42,7 @@
                                         <td>
                                             {{-- update --}}
                                             <a class="btn btn-success"
-                                                href="{{ route('editCompany', ['company' => $company]) }}">Update</a>
+                                                href="{{ route('admin.company.edit', ['company' => $company]) }}">Update</a>
                                             {{-- delete --}}
                                             <button type="button" class="btn btn-danger" data-target="#deleteModal"
                                                 data-toggle="modal">Delete</button>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">No</a>
-                        <form action="{{ route('destroyCompany', ['company' => $company]) }}" method="post">
+                        <form action="{{ route('admin.company.destroy', ['company' => $company]) }}" method="post">
                             
                             @csrf
                             @method('DELETE')

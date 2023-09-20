@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\EventController;
+use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\EventController as UserEventController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,21 +55,20 @@ Route::middleware('auth')->group(function () {
     Route::get('change-password',[PasswordController::class,'edit'])->name('password.edit');
     Route::patch('change-password',[PasswordController::class,'update'])->name('password.update');
 
-    Route::get('/book-ticket/{event}',[])->name();
+    Route::post('book-ticket/{event}',[BookingController::class,'store'])->name('book_ticket');
 
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-        Route::get('/dashboard', [AuthController::class, 'adminDashboard'])->name('adminDashboard');
-        Route::get('/company', [CompanyController::class, 'index'])->name('companyListing');
-        Route::get('/company/{company}/edit', [CompanyController::class, 'edit'])->name('editCompany');
-        Route::patch('/company/{company}/edit', [CompanyController::class, 'update'])->name('updateCompany');
-        Route::delete('/company/{company}', [CompanyController::class, 'destroy'])->name('destroyCompany');
-        Route::get('/add-company', [CompanyController::class, 'create'])->name('company.create');
-        Route::post('/add-company', [CompanyController::class, 'store'])->name('company.store');
+        Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('adminDashboard');
+        Route::get('company', [CompanyController::class, 'index'])->name('admin.company.index');
+        Route::get('company/{company}/edit', [CompanyController::class, 'edit'])->name('admin.company.edit');
+        Route::patch('company/{company}/edit', [CompanyController::class, 'update'])->name('admin.company.update');
+        Route::delete('company/{company}', [CompanyController::class, 'destroy'])->name('admin.company.destroy');
+        Route::get('company/create', [CompanyController::class, 'create'])->name('admin.company.create');
+        Route::post('company/create', [CompanyController::class, 'store'])->name('admin.company.store');
         Route::get('events', [AdminEventController::class, 'index'])->name('admin.event.index');
         Route::get('event/{event}', [AdminEventController::class, 'edit'])->name('admin.event.edit');
         Route::patch('event/{event}', [AdminEventController::class, 'update'])->name('admin.event.update');
     });
-
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });

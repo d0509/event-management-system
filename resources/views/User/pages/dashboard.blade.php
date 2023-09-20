@@ -57,6 +57,9 @@
 
     @if (request()->route()->getName() == 'user.event.show')
         @yield('showEvent')
+
+    @elseif(request()->route()->getName() == 'book_ticket')
+    @yield('book_ticket')
     @endif
 @endsection
 {{-- header section --}}
