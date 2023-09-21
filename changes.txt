@@ -11,3 +11,6 @@ active inactive outside the form and use single action controller for the same
 
 changes for request file in naming convention
 
+change-password in profile is remaining
+
+status of company in admin panel

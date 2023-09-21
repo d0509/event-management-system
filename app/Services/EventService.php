@@ -8,6 +8,7 @@ use App\Http\Requests\Company\AddEvent;
 use Plank\Mediable\Media;
 use Plank\Mediable\Mediable;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Plank\Mediable\Facades\MediaUploader;
 
@@ -31,13 +32,9 @@ class EventService
 
     public function store(AddEvent $request)
     {
-        // dd($request);
-        $validated = $request->validated();
-        // dd($validated);
-        // dd(Auth::user()->company->id);
-        // dd('im in add event store');
+        
+        $validated = $request->validated();        
         $event = Event::create([
-
             'name' => $validated['name'],
             'city_id' => $validated['city_id'],
             'category_id' => $validated['category_id'],

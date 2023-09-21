@@ -50,8 +50,8 @@
     <script src="{{ asset('user_assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('user_assets/js/main.js') }}"></script>
 
-    {{-- <script src="js/jquery-3.3.1.min.js"></script> --}}
-    {{-- <script src="js/bootstrap.min.js"></script>
+    {{-- <script src="js/jquery-3.3.1.min.js"></script> 
+     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/jquery.countdown.min.js"></script>
     <script src="js/jquery.slicknav.js"></script>

@@ -1,87 +1,155 @@
 @extends('admin.pages.dashboard')
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content')
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Company Details</h1>
-            <a href="{{ route('admin.company.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                    class="fa-solid fa-user-plus"></i> Add Company</a>
-        </div>
-
-
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <body>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Company Details</h1>
+                <a href="{{ route('admin.company.create') }}"
+                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa-solid fa-user-plus"></i>
+                    Add Company</a>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Company Name</th>
-                                <th>Username</th>
-                                <th>Description</th>
-                                <th>Address</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {{-- {{dd($companies->toArray())}} --}}
-                            @if ($companies)
-                                @foreach ($companies as $company)
-                                    <tr>
-                                        <td>{{ $company->name }}</td>
-                                        <td>{{ $company->user->name }}</td>
-                                        <td>{{ $company->description }}</td>
-                                        <td>{{ $company->address }}</td>
-                                        <td>{{ $company->user->status }}</td>
-                                        <td>
-                                            {{-- update --}}
-                                            <a class="btn btn-success"
-                                                href="{{ route('admin.company.edit', ['company' => $company]) }}">Update</a>
-                                            {{-- delete --}}
-                                            <button type="button" class="btn btn-danger" data-target="#deleteModal"
-                                                data-toggle="modal">Delete</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <h1> No Companies Available</h1>
-                            @endif
 
 
-                        </tbody>
-                    </table>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Company Name</th>
+                                    <th>Username</th>
+                                    <th>Description</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{-- {{dd($companies->toArray())}} --}}
+                                @if ($companies)
+                                    @foreach ($companies as $company)
+                                        {{-- {{dd($loop->index )}} --}}
+                                        <tr id="company{{$company->id}}">
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $company->name }}</td>
+                                            <td>{{ $company->user->name }}</td>
+                                            <td>{{ $company->description }}</td>
+                                            <td>{{ $company->address }}</td>
+                                            {{-- <td>{{ $company->user->status }}</td> --}}
+                                            <td>
+                                                <!-- Default switch -->
+                                                <!-- Default checked -->
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" 
+                                               {{ $company->user->status == 'approved' ? 'checked' : '' }}
+                                                        
+                                                    
+                                                    >
+                                                    <label class="custom-control-label" for="customSwitch1"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{-- update --}}
+                                                <a class="btn btn-success"
+                                                    href="{{ route('admin.company.edit', ['company' => $company]) }}">Update</a>
+                                                {{-- delete --}}
+                                                <button type="button" class="btn btn-danger"
+                                                    data-companyId="{{ $company->id }}" data-target="#deleteModal"
+                                                    data-toggle="modal" id="deleteCompany">Delete</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <h1> No Companies Available</h1>
+                                @endif
+
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="modal fade" id="deleteModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Verify Deletion</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <div class="modal fade" id="deleteModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Verify Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">No</a>
+                            <a href="button" class="btn btn-danger finalDelete" data-dismiss="modal">Yes</a>
+
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">No</a>
-                        <form action="{{ route('admin.company.destroy', ['company' => $company]) }}" method="post">
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+
+                    $(document).on('click', '#deleteCompany', function(e) {
+                        e.preventDefault();
+                        // let myThis = this;
+                        // alert($(this));
+                        var id = $(this).attr("data-companyId");
+                        // alert(id);
+                        var url = "{{ route('admin.company.destroy', ':id') }}";
+                        url = url.replace(':id', id);
+                        // alert(url);
+                        var token = "{{ csrf_token() }}";
+
+                        $(document).on('click', '.finalDelete', function() {
                             
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Yes</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+                           
+                            // console.log(who);
+                            $.ajax({
+                                url: url,
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+
+                                type: 'DELETE',
+                                dataType: "JSON",
+                                data: {
+                                    id: id,
+                                    "_token": "{{ csrf_token() }}",
+                                    // "id": id,
+                                    // "_method": 'DELETE',
+                                    // "_token": token,
+                                },
+                                success: function() {
+                                    console.log('deleted successfully');
+                                    $("#company" + id).hide();
+                                    // toastr.success("Company deleted successfully!");
+                                }
+                            });
+                         
+                         
+                        });
+                        // session()->flash('danger', 'There are some issues in deleting event');
+
+                    });
+                });
+            </script>
+        </body>
+        <!-- Page Heading -->
+
     </div>
 @endsection

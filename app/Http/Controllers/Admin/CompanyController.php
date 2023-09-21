@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
 {
-   
+
     protected $companyservice;
     protected $cityservice;
     /**
@@ -54,10 +54,10 @@ class CompanyController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Add $request): RedirectResponse
-{
-    $this->companyservice->storeByAdmin($request);
-    return redirect()->route('admin.company.index');
-}
+    {
+        $this->companyservice->storeByAdmin($request);
+        return redirect()->route('admin.company.index');
+    }
 
     /**
      * Display the specified resource.
@@ -84,7 +84,7 @@ class CompanyController extends Controller
      */
     public function update(EditCompany $request, Company $company)
     {
-        $this->companyservice->updateByAdmin($request,$company);
+        $this->companyservice->updateByAdmin($request, $company);
         return redirect()->route('admin.company.index');
     }
 
@@ -93,7 +93,14 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $company->delete();
-        return redirect()->route('admin.company.index');
+
+        $delete = $company->delete();
+        if ($delete == true) {
+            return response()->json(['success' => true]);
+            // session()->flash('success', 'Event deleted successfully');
+        } else {
+            return response()->json('error');
+        }
+        // return redirect()->route('admin.company.index');
     }
 }

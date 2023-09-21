@@ -74,7 +74,12 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
-        $event->delete();
-        return redirect()->route('event.index');
+        $delete = $event->delete();
+        if ($delete == true) {
+            return response()->json(['success' => true]);
+            // session()->flash('success', 'Event deleted successfully');
+        } else {
+            return response()->json('error');
+        }
     }
 }
