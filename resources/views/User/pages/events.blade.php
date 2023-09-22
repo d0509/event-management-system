@@ -12,7 +12,7 @@
 
                         @foreach ($event->media as $item)
                             <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
-                                class="card-img-top" alt="Hollywood Sign on The Hill" />
+                                class="card-img-top" alt="Hollywood Sign on The Hill" height="233px" />
                         @endforeach
                         <div class="card-body">
                             <u><a href="{{route('user.event.show',['event' => $event])}}" class="card-title display-5 text-dark">{{ ucwords($event->name) }}</a></u>

@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123@Admin'),
             'mobile_no' => 1234567890,
             'city_id' => 1,
-            'status'=>'approved'
+            'status'=>config('site.status.approved')
         ]);
     }
 }

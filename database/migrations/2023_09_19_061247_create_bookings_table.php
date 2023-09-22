@@ -20,8 +20,6 @@ return new class extends Migration
             // $table->unsignedBigInteger('coupon_code_id')->nullable();
             $table->string('booking_number');
             $table->boolean('is_attended')->default('0');
-            // $table->double('sub_total',8,2);
-            // $table->double('discount',8,2);
             $table->double('total',8,2);
             $table->boolean('is_free_event')->default(0);
             $table->integer('quantity')->default(1);

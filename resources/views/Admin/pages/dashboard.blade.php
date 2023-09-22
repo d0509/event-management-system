@@ -41,7 +41,7 @@
                             </div>
 
                             <li class="nav-item">
-                                <a class="nav-link collapsed" href="{{ route('event.create') }}" aria-expanded="true"
+                                <a class="nav-link collapsed" href="{{ route('company.event.create') }}" aria-expanded="true"
                                     aria-controls="collapseTwo">
                                     <i class="fas fa-fw fa-cog"></i>
                                     <span>{{ __('dashboard.add_event') }}</span>
@@ -50,7 +50,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link collapsed" href="{{ route('event.index') }}">
+                                <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
                                     <i class="fas fa-fw fa-wrench"></i>
                                     <span>{{ __('dashboard.events') }}</span>
                                 </a>
@@ -372,8 +372,8 @@
                     @if (request()->route()->getName() == 'password.edit')
                         @yield('password.edit')
                     @endif
-                    @if (request()->route()->getName() == 'event.index')
-                        @yield('event.index')
+                    @if (request()->route()->getName() == 'company.event.index')
+                        @yield('company.event.index')
                     @endif
                     @if (request()->route()->getName() == 'profile')
                         @yield('profile')
@@ -387,9 +387,9 @@
                     @if (request()->route()->getName() == 'admin.event.edit')
                         @yield('admin.event.edit')
                     @endif
-                    @if (request()->route()->getName() == 'event.edit' ||
-                            request()->route()->getName() == 'event.create')
-                        @yield('event.create')
+                    @if (request()->route()->getName() == 'company.event.edit' ||
+                            request()->route()->getName() == 'company.event.create')
+                        @yield('company.event.create')
                     @endif
                     @if (request()->route()->getName() == 'adminDashboard')
                         @yield('event')

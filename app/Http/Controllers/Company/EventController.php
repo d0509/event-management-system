@@ -10,6 +10,7 @@ use App\Services\CityService;
 use App\Services\EventService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -27,7 +28,7 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = $this->eventservice->index();
+        $events = $this->eventservice->collection();
 
         // dd($events);
         return view('company.event.index', [
@@ -49,7 +50,7 @@ class EventController extends Controller
     {
         $this->eventservice->store($request);
 
-        return redirect()->route('event.index');
+        return redirect()->route('company.event.index');
     }
 
     public function show(string $id)
@@ -59,17 +60,22 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
-        return view('company.pages.createEvent', [
-            'event' => $event,
-            'cities' => $this->cityservice->getAllCities(),
-            'categories' => $this->categoryservice->index(),
-        ]);
+        if(Auth::user()->company->id == $event->company_id){
+            return view('company.pages.createEvent', [
+                'event' => $event,
+                'cities' => $this->cityservice->getAllCities(),
+                'categories' => $this->categoryservice->index(),
+            ]);
+        } else {
+            abort(404);
+        }
     }
 
     public function update(AddEvent $request, Event $event)
     {
+        // dd(3);
         $this->eventservice->update($request, $event);
-        return redirect()->route('event.index');
+        return redirect()->route('company.event.index');
     }
 
     public function destroy(Event $event)

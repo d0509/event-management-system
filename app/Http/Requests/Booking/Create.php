@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Password;
+namespace App\Http\Requests\Booking;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Change extends FormRequest
+class Create extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,12 +21,9 @@ class Change extends FormRequest
      */
     public function rules(): array
     {
-        // dd(3);
+        // dd($this->request);
         return [
-            'password' => 'required',
-            'new_password' => 'required|confirmed',
-            'new_password_confirmation' => 'required',
+            'quantity' => 'required|min:1',            
         ];
-        // dd(3);
     }
 }

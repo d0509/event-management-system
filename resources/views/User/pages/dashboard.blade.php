@@ -12,18 +12,18 @@
                     <ul>
                         <li ><a href="{{ route('homepage') }}">{{__('dashboard.home')}}</a></li>
                         {{-- @if (request()->route()->getName() == 'companyDashboard' ||
-                                request()->route()->getName() == 'event.create' ||
-                                request()->route()->getName() == 'event.index' ||
-                                request()->route()->getName() == 'event.edit')
-                            <li><a href="{{ route('event.index') }}">Events</a>
+                                request()->route()->getName() == 'company.event.create' ||
+                                request()->route()->getName() == 'company.event.index' ||
+                                request()->route()->getName() == 'company.event.edit')
+                            <li><a href="{{ route('company.event.index') }}">Events</a>
                         @endif --}}
                         
                         </li>
                         {{-- @if (request()->route()->getName() == 'companyDashboard' ||
-                                request()->route()->getName() == 'event.create' ||
-                                request()->route()->getName() == 'event.index' || 
-                                request()->route()->getName() == 'event.edit')
-                            <li><a href="{{ route('event.create') }}">Add Event</a></li>
+                                request()->route()->getName() == 'company.event.create' ||
+                                request()->route()->getName() == 'company.event.index' || 
+                                request()->route()->getName() == 'company.event.edit')
+                            <li><a href="{{ route('company.event.create') }}">Add Event</a></li>
                         @endif --}}
 
                         {{-- <li><a href="blog.html">Blog</a></li>
@@ -49,10 +49,10 @@
     @endif
     {{-- @if (request()->route()->getName() == 'companyDashboard')
         @yield('hero')
-    @elseif(request()->route()->getName() == 'event.create' || request()->route()->getName() == 'event.edit' )
+    @elseif(request()->route()->getName() == 'company.event.create' || request()->route()->getName() == 'company.event.edit' )
         @yield('createEvent')
-    @elseif(request()->route()->getName() == 'event.index')
-        @yield('event.index')
+    @elseif(request()->route()->getName() == 'company.event.index')
+        @yield('company.event.index')
     @endif --}}
 
     @if (request()->route()->getName() == 'user.event.show')

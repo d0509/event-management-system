@@ -17,13 +17,13 @@ class RoleUser extends Model
         'role_id'
     ];
 
-    public function user()
-    {
-        return $this->hasMany(Role::class);
-    }
+    // public function user()
+    // {
+    //     return $this->hasMany(Role::class);
+    // }
 
-    public function role()
-    {
-        return $this->belongsToMany(User::class);
-    }
+    // public function role()
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
 }

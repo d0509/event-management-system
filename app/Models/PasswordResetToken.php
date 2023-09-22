@@ -12,6 +12,7 @@ class PasswordResetToken extends Model
     protected $table = 'password_reset_tokens'; // Set the table name if it's different
     // protected $primaryKey = 'email';
 
+
     protected $fillable = [
         'email',
         'token',

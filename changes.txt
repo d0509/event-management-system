@@ -14,3 +14,9 @@ changes for request file in naming convention
 change-password in profile is remaining
 
 status of company in admin panel
+
+
+
+///changes na karne bndh thyel chhe
+ - company update
+ 

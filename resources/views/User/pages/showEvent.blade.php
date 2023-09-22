@@ -1,6 +1,7 @@
 @extends('user.pages.dashboard')
 @section('title', $event->name)
 @section('showEvent')
+
     <div class="container">
         <div class="row">
             <div class="col-8">
@@ -41,16 +42,22 @@
 
                         {{-- <a href="{{ route('book_ticket', ['event' => $event]) }}"
                             class="btn btn-primary">{{ __('showEvent.book_ticket') }}</a> --}}
-                        <form action="{{ route('book_ticket', ['event' => $event]) }}" method="post">
+                        <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}" class="booking"
+                            method="post">
                             @csrf
                             <div>
-                                <label class="form-label" for="form7Example2">Quantity:</label>
-                                <input type="number" value="1" name="quantity" id="quantity" class="form-control" />
+                                <label class="form-label" for="form7Example2">{{ __('showEvent.quantity') }}</label>
+                                <input type="number" name="quantity" id="quantity" class="form-control" />
                                 @error('quantity')
-                                    <span class="text-danger" >{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary mt-2"  >{{ __('showEvent.book_ticket') }}</button>
+
+                            {{-- <button  class="btn btn-primary btn-block">{{__('showEvent.fill_form')}}</button> --}}
+                            <div class="modal-footer">
+                                <button id="bookTicket" class="btn btn-block btn-primary mt-2"
+                                    data-dismiss="modal">{{ __('showEvent.book_ticket') }}</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -62,5 +69,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection

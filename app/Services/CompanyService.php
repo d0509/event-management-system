@@ -60,7 +60,6 @@ class CompanyService
             'role_id' => '2'
         ]);
 
-        // dd($request->toArray());
 
         $user->notify(new CompanyRegistered($request));
         
@@ -71,7 +70,7 @@ class CompanyService
         $validated = $request->validated();
 
         $user = $company->user;
-        // dd($validated);
+        
         $updated_user = $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],

@@ -37,7 +37,7 @@ class ProfileService
                 $profileMedia = $user->getMedia('profile')->first();
                 // dd($request->files);
                 if ($profileMedia) {
-                    // Replace the 'banner' media with the new file
+                    
                     MediaUploader::fromSource($request->file('profile'))
                         ->replace($profileMedia);
 

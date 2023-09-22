@@ -3,50 +3,43 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Booking\Create;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Services\BookingService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+
+    protected $bookingservice;
+
+    public function __construct(BookingService $bookingservice)
+    {
+        $this->bookingservice = $bookingservice;
+    }
+
     public function index()
     {
         //
     }
 
-   public function create()
+    public function create()
     {
-        if(Auth::user()){
+        if (Auth::user()) {
             return view('User.pages.bookEvent');
         } else {
             session()->flash('danger', 'Please login to book !');
         }
     }
 
-    public function store(Event $event)
+    public function store(Event $event, Create $request)
     {
-        $mytime = Carbon::now()->format('ymd');
-        
-        $last_booking = Booking::latest()->first() ;$booking_number = $mytime . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
-
-        $booking = Booking::create([
-            'user_id' => Auth::user()->id, 
-            'event_id' => $event->id,
-            'booking_number' => $booking_number,
-            'total' => $event->ticket,
-        ]);
-
-        // dd($booking->toArray());
-        if($booking){
-            session()->flash('success','Your ticket is booked successfully');
-            return redirect()->route('homepage');
-        } else {
-            session()->flash('danger','There are some issues in booking tickts');
-        }
-
-    
+        $this->bookingservice->store($event, $request);
+        session()->flash('success', 'Your ticket is booked successfully');        
+        return redirect()->route('homepage');
     }
 
     public function show(string $id)
@@ -54,7 +47,7 @@ class BookingController extends Controller
         //
     }
 
-   public function edit(string $id)
+    public function edit(string $id)
     {
         //
     }

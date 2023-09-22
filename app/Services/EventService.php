@@ -16,24 +16,28 @@ use Plank\Mediable\Facades\MediaUploader;
 class EventService
 {
 
-    public function index()
+    public function collection()
     {
-        // return[
-
-        //     'events' =>  Event::latest()->get(),
-        //     // 'media' => Media::where('directory', '=', 'banner')->get(),
-        // ];
-        return Event::latest()->get();
-        // $media = $event->getMedia('banner');
-        // dd($media->toArray());
-        //   dd($events->toArray());
+        $user = Auth::user();
+        if (isset($user)) {
+            if (Auth::user()->role->firstWhere('name', config('site.roles.company'))) {
+                $events = Event::latest()->where('company_id', '=', Auth::user()->company->id)->get();
+                return $events;
+            } else {
+                $events = Event::latest()->get();
+                return $events;
+            }
+        } else {
+            $events = Event::latest()->get();
+            return $events;
+        }
     }
 
 
     public function store(AddEvent $request)
     {
-        
-        $validated = $request->validated();        
+
+        $validated = $request->validated();
         $event = Event::create([
             'name' => $validated['name'],
             'city_id' => $validated['city_id'],
@@ -78,6 +82,7 @@ class EventService
     public function update(AddEvent $request, Event $event)
     {
         // dd( $request);
+       
         $validated = $request->validated();
 
         $event->update([
@@ -92,12 +97,11 @@ class EventService
             'end_time' => $validated['end_time'],
             'ticket' => $validated['ticket'],
             'event_date' => $validated['event_date'],
-            'is_approved' => $validated['is_approved'],
+            
         ]);
 
 
-
-
+        
         if ($request->hasFile('banner')) {
             $bannerMedia = $event->getMedia('banner')->first();
 
@@ -110,9 +114,12 @@ class EventService
                 $event->syncMedia($bannerMedia, 'banner');
             }
         }
+        // dd('event updated by the company');
+        
     }
 
-    public function chnagestatus(Status $request,Event $event){
+    public function chnagestatus(Status $request, Event $event)
+    {
         $validated = $request->validated();
 
         $event->update([

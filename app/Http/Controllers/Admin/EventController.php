@@ -30,7 +30,7 @@ class EventController extends Controller
         return view(
             'admin.event.index',
             [
-                'events' => $this->eventservice->index()
+                'events' => $this->eventservice->collection()
             ]
         );
     }

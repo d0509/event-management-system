@@ -91,12 +91,13 @@ class AuthService
         $token = Str::random(64);
         // dd($token);
         $existingRecord = PasswordResetToken::where('email', $request->email)->first();
-
+        // dd($existingRecord->toArray());
         if ($existingRecord) {
             // Update the existing record with the new token and timestamp
             $existingRecord->update([
                 'token' => $token,
                 'created_at' => Carbon::now(),
+                // 'email' => $existingRecord['email']
             ]);
         } else {
             // Create a new record
@@ -124,13 +125,13 @@ class AuthService
         // dd($token);
 
         $user = PasswordResetToken::where('token', '=', $request->token)->first();
-       
+
         $user_detail = User::where('email', $user['email'])->first();
         // dd($user_detail->toArray() );
         $password = Hash::make($request->password);
         // dd($password);
 
-        $user_update = User::where('email','=', $user->email)->update(['password' => $password]);
+        $user_update = User::where('email', '=', $user->email)->update(['password' => $password]);
 
 
         if ($user_update == '1') {

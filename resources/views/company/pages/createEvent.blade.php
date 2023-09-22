@@ -1,19 +1,24 @@
 @extends('admin.pages.dashboard')
-@section('title', 'Add Event')
-@section('event.create')
+@if (request()->route()->getName() == 'company.event.create')
+    @section('title', 'Add Event')
+@else
+    @section('title', 'Update Event')
+@endif
+
+@section('company.event.create')
     <div class="container">
         {{-- {{ dd($event->toArray()) }} --}}
         <h1 class="text-center fw-bold  ">Add Event</h1>
         {{-- {{dd(67)}} --}}
-        @if (request()->route()->getName() == 'event.create')
-            <form action="{{ route('event.store') }}" method="post" enctype="multipart/form-data" class="mt-5 mb-5">
-            @elseif(request()->route()->getName() == 'event.edit')
-                <form action="{{ route('event.update', ['event' => $event]) }}" method="post" enctype="multipart/form-data"
+        @if (request()->route()->getName() == 'company.event.create')
+            <form action="{{ route('company.event.store') }}" method="post" enctype="multipart/form-data" class="mt-5 mb-5">
+            @elseif(request()->route()->getName() == 'company.event.edit')
+                <form action="{{ route('company.event.update', ['event' => $event]) }}" method="post" enctype="multipart/form-data"
                     class="mt-5 mb-5 ">
         @endif
         @csrf
-        @if (request()->route()->getName() == 'event.edit')
-            @method('PUT')
+        @if (request()->route()->getName() == 'company.event.edit')
+            @method('PATCH')
         @endif
         <!-- Name input -->
         <div class="form-outline mb-4">
@@ -28,12 +33,12 @@
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Description</label>
             <textarea {{ old('description') }} name="description" id="description" class="form-control " placeholder="Description">
-                 @if (isset($event))
+@if (isset($event))
 {{ old('description', $event->description) }}
 @else
 {{ old('description') }}
-@endif                                
-            </textarea>
+@endif
+</textarea>
             @error('description')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -62,7 +67,7 @@
 
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Location URL </label>
-            <input type="text"  name="location" id="location" class="form-control" placeholder="location "
+            <input type="text" name="location" id="location" class="form-control" placeholder="location "
                 value="{{ isset($event) ? old('location', $event->location) : old('location') }}" />
             @error('location')
                 <span class="text-danger">{{ $message }}</span>
@@ -153,7 +158,7 @@
 
         {{-- status --}}
         {{-- {{dd($event->toArray())}} --}}
-        @if (request()->route()->getName() == 'event.edit')
+        @if (request()->route()->getName() == 'admin.event.edit')
             <div class="form-group">
                 <label class="form-label" for="form7Example2">Event Status</label>
                 <select class="form-control form-select-lg" aria-label="Default select example" name="is_approved"
@@ -175,21 +180,25 @@
             </div>
         @endif
 
-        @if (request()->route()->getName() == 'event.create')
+        @if (request()->route()->getName() == 'company.event.edit')
+        @foreach ($event->media as $item)
+            <label class="form-label" for="form7Example2">Event Banner</label>
+            <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
+                class="card-img-top mb-5" alt="Hollywood Sign on The Hill" height="233px" />
+        @endforeach
+    @endif
+
+        @if (request()->route()->getName() == 'company.event.create')
             <button type="submit" class="btn btn-primary mb-5">Add Event</button>
         @else
             <button type="submit" class="btn btn-primary mb-5">Update Event</button>
         @endif
 
+       
+
         </form>
 
-        @if (request()->route()->getName() == 'event.edit')
-            @foreach ($event->media as $item)
-                <label class="form-label" for="form7Example2">Event Banner</label>
-                <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
-                    class="card-img-top mb-5" alt="Hollywood Sign on The Hill" />
-            @endforeach
-        @endif
+        
     </div>
 
 @endsection

@@ -16,7 +16,7 @@ class IsUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role->firstWhere('name', 'user')) {
+        if (Auth::user()->role->firstWhere('name', config('site.roles.user'))) {
             return $next($request);
         } else {
             return redirect()->route('homepage');

@@ -40,8 +40,8 @@
                                 @if ($companies)
                                     @foreach ($companies as $company)
                                         {{-- {{dd($loop->index )}} --}}
-                                        <tr id="company{{$company->id}}">
-                                            <td>{{ $loop->index + 1 }}</td>
+                                        <tr id="company{{ $company->id }}">
+                                            <td>{{ $company->id }}</td>
                                             <td>{{ $company->name }}</td>
                                             <td>{{ $company->user->name }}</td>
                                             <td>{{ $company->description }}</td>
@@ -50,21 +50,18 @@
                                             <td>
                                                 <!-- Default switch -->
                                                 <!-- Default checked -->
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" 
-                                               {{ $company->user->status == 'approved' ? 'checked' : '' }}
-                                                        
-                                                    
-                                                    >
-                                                    <label class="custom-control-label" for="customSwitch1"></label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" style="margin: 0 auto" role="switch" id="flexSwitchCheckChecked" {{($company->user->status == 'approved')? 'checked' : ''}} data-id="{{$company->id}}" value="{{$company->user->status}}" >
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked"></label>
                                                 </div>
+
                                             </td>
                                             <td>
                                                 {{-- update --}}
                                                 <a class="btn btn-success"
                                                     href="{{ route('admin.company.edit', ['company' => $company]) }}">Update</a>
                                                 {{-- delete --}}
-                                                <button type="button" class="btn btn-danger"
+                                                <button type="button" class="btn btn-danger" 
                                                     data-companyId="{{ $company->id }}" data-target="#deleteModal"
                                                     data-toggle="modal" id="deleteCompany">Delete</button>
                                             </td>
@@ -116,8 +113,6 @@
                         var token = "{{ csrf_token() }}";
 
                         $(document).on('click', '.finalDelete', function() {
-                            
-                           
                             // console.log(who);
                             $.ajax({
                                 url: url,
@@ -130,9 +125,7 @@
                                 data: {
                                     id: id,
                                     "_token": "{{ csrf_token() }}",
-                                    // "id": id,
-                                    // "_method": 'DELETE',
-                                    // "_token": token,
+
                                 },
                                 success: function() {
                                     console.log('deleted successfully');
@@ -140,10 +133,36 @@
                                     // toastr.success("Company deleted successfully!");
                                 }
                             });
-                         
-                         
+
+
                         });
                         // session()->flash('danger', 'There are some issues in deleting event');
+
+                    });
+
+
+                    $(document).on('change', '#flexSwitchCheckChecked', function(e) {
+                        e.preventDefault();
+                        var company = $(this).attr('data-id');
+                        var status = $(this).val();
+                        console.log(company);
+                        var url = "{{ route('admin.company.status') }}";
+                        $.ajax({
+                            url: url,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+
+                            data: {
+                                company_id: company,
+                                status: status,
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function() {
+
+                            }
+                        });
 
                     });
                 });

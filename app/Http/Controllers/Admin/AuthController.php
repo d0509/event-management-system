@@ -27,9 +27,9 @@ class AuthController extends Controller
         $this->authservice->signin($request);
 
         if (Auth::user()) {
-            if ($request->user()->role->firstWhere('name', 'admin')) {
+            if ($request->user()->role->firstWhere('name', config('site.roles.admin'))) {
                 return redirect()->route('adminDashboard');
-            } else if ($request->user()->role->firstWhere('name', 'company')) {
+            } else if ($request->user()->role->firstWhere('name', config('site.roles.company'))) {
                 return redirect()->route('companyDashboard');
             }
         } else {

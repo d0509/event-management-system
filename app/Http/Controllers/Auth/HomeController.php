@@ -16,7 +16,8 @@ class HomeController extends Controller
     }
 
     public function index(){
-        $events = $this->eventservice->index();
+        // dd('hello');
+        $events = $this->eventservice->collection();
         return view('User.pages.events',[
             'events' => $events
         ]);

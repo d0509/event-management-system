@@ -18,7 +18,7 @@ class IsAdmin
     {       
         // ddd(Auth::user()->role);
         
-        if (Auth::user()->role->firstWhere('name', 'admin')) {
+        if (Auth::user()->role->firstWhere('name',config('site.roles.admin'))) {
             return $next($request);
         } else {
             return redirect()->route('homepage');

@@ -3,7 +3,7 @@
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
-@section('event.index')
+@section('company.event.index')
 
     <body>
         <div class="container">
@@ -14,16 +14,16 @@
                         <div class="card" id="event{{ $event->id }}">
                             @foreach ($event->media as $item)
                                 <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
-                                    class="card-img-top" alt="Hollywood Sign on The Hill" />
+                                    class="card-img-top" alt="Hollywood Sign on The Hill" height="233px" />
                             @endforeach
 
                             <div class="card-body">
-                                {{ $event->id }}
+                                
                                 <h5 class="card-title">{{ $event->name }}</h5>
                                 <p class="card-text">
                                     {{ ucwords($event->description) }}
                                 </p>
-                                <a href="{{ route('event.edit', ['event' => $event]) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('company.event.edit', ['event' => $event]) }}" class="btn btn-primary">Edit</a>
 
                                 <button type="button" class="btn btn-danger deleteEvent" data-eventId="{{ $event->id }}"
                                     data-target="#deleteModal" data-toggle="modal">Delete</button>
@@ -63,7 +63,7 @@
 
                     var id = $(this).attr("data-eventId");
                     console.log(id);
-                    var url = "{{ route('event.destroy', ':id') }}";
+                    var url = "{{ route('company.event.destroy', ':id') }}";
                     url = url.replace(':id', id);
                     var token = "{{ csrf_token() }}";
                     $(document).on('click', ".deletefinal", function() {
@@ -85,7 +85,7 @@
                             success: function() {
                                 console.log('event deleted successfully');
                                 $("#event" + id).parent().addClass("d-none");
-                                // window.location.href = "{{ route('event.index') }}";
+                                // window.location.href = "{{ route('company.event.index') }}";
                             }
                         });
                     });

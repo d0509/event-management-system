@@ -51,7 +51,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="form7Example2">{{ __('auth.password') }}</label>
                                                 <input type="password" name="password" class="form-control form-control-user"
-                                                    id="exampleInputPassword" placeholder="Password" value='123@Admin'>
+                                                    id="exampleInputPassword" placeholder="Password" value='74108520'>
                                                 @error('password')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
