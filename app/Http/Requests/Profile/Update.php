@@ -26,7 +26,7 @@ class Update extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'mobile_no' => 'required|numeric|digits:10',
-            'city_id' => 'required'
+            'city_id' => 'required',    
         ];
        
     }

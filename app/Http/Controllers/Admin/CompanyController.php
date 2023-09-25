@@ -97,9 +97,10 @@ class CompanyController extends Controller
         $delete = $company->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);
-            // session()->flash('success', 'Event deleted successfully');
+            session()->flash('success', 'Event deleted successfully');
         } else {
             return response()->json('error');
+            session()->flash('danger','There are some issues deleting company');
         }
         // return redirect()->route('admin.company.index');
     }

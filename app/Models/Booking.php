@@ -15,7 +15,11 @@ class Booking extends Model
         'event_id',
         'booking_number',
         'is_attended',
-
+        'total',
+        'ticket_price',
+        'sub_total',
+        'discount',
+        'type',
         'quantity',
         'total',
         'is_free_event'

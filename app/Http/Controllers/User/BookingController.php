@@ -38,7 +38,7 @@ class BookingController extends Controller
     public function store(Event $event, Create $request)
     {
         $this->bookingservice->store($event, $request);
-        session()->flash('success', 'Your ticket is booked successfully');        
+            
         return redirect()->route('homepage');
     }
 

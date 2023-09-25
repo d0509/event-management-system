@@ -19,5 +19,7 @@ return[
     'password_confirmation' => 'Confirm Password',
     'register'=> 'Register Account',
     'already_account' => 'Already have an account?Login! ',
+    'update_profile' => 'Update Profile',
+    'profile_picture' => 'Profile Picture',
 ]
 ?>

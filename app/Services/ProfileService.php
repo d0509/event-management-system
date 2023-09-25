@@ -14,10 +14,10 @@ class ProfileService
     {
     }
 
-    public function update(Update $request)
+    public function update(Update $request, User $user)
     {
         // dd(3);   
-        // dd($request->files);
+        // dd($request);
         // dd($validated);
         $user = auth()->user();
         $user->update([
@@ -29,8 +29,9 @@ class ProfileService
 
         if ($request->hasFile('profile')) {
 
+            // dd('request has profile picture');
             
-            // dd(empty($user->media[0]));
+            
             if (!empty($user->media[0])) {
                 // dd($user->media);
                 // dd('user already have profile picture and i want to update it');
@@ -55,5 +56,7 @@ class ProfileService
                
             }
         }
+
+        session()->flash('success','Profile Updated successfully');
     }
 }
