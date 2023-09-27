@@ -3,21 +3,21 @@
 @section('title', 'User Booking History')
 @section('user.booking.history')
     <div class="container mt-5">
-        <table class="table table-striped" id="data-table">
+        <table class="table table-primary" id="data-table">
             <thead>
                 <tr>
                     <th>Sr. No</th>
                     <th>Event Name</th>
                     <th>Booking Number</th>
                     <th>Attended or not</th>
-                    <th>Free event?</th>
+                    <th>Event Type</th>
                     <th>No. of tickets booked</th>
                     <th>Price per ticket</th>
                     <th>Sub total</th>
                     <th>Discount</th>
                     <th>Total</th>
                     <th>Type of Booking</th>
-                    {{-- <th>Action</th> --}}
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
             }
         });
         $(document).ready(function() {
-            var table = $('.table').DataTable({
+            var table = $('#data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -40,8 +40,7 @@
                     url: "{{ route('user.booking.history') }}",
                     dataType: "JSON",
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
@@ -57,11 +56,17 @@
                     },
                     {
                         data: 'is_attended',
-                        name: 'is_attended'
+                        name: 'is_attended',
+                        render: function(data, type, full, meta) {
+                            return data ? "Attended" : "Not Attended";
+                        }
                     },
                     {
                         data: 'is_free_event',
-                        name: 'is_free_event'
+                        name: 'is_free_event',
+                        render: function(data, type, full, meta) {
+                            return data ? "Free" : "Paid";
+                        }
                     },
                     {
                         data: 'quantity',
@@ -87,12 +92,12 @@
                         data: 'type',
                         name: 'type'
                     },
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: true,
-                    //     searchable: true
-                    // },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: true,
+                        searchable: true
+                    },
                 ],
 
             });

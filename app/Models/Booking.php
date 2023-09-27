@@ -26,10 +26,10 @@ class Booking extends Model
     ];
 
     public function user(){
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function event(){
-        return $this->hasMany(Event::class);
+        return $this->belongsTo(Event::class);
     }
 }

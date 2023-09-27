@@ -39,36 +39,84 @@
                             <p class="col-1 text-dark"><i class="fa-regular fa-clock"></i> </p>
                             <p class="col-10 text-dark">{{ $event->start_time }} - {{ $event->end_time }} </p>
                         </div>
+                        @php
+                            $event_date = $event->event_date;
+                            $start_time = $event->start_time;
+                            $currentDateTime = \Carbon\Carbon::now();
+                        @endphp
+                        {{-- {{ dd(\Carbon\Carbon::parse($event_date)->format('Y-m-d')>= date('Y-m-d')) }} --}}
+                        {{-- @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') >= date('Y-m-d'))
+                            @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') == date('Y-m-d') && $start_time > $currentDateTime && $currentDateTime->diffInMinutes($start_time) > 180)
+                                <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}"
+                                    class="booking" method="post">
+                                    @csrf
+                                    <div>
+                                        <label class="form-label"
+                                            for="form7Example2">{{ __('showEvent.quantity') }}</label>
+                                        <input type="number" name="quantity" id="quantity" class="form-control" />
+                                        @error('quantity')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
-                        {{-- <a href="{{ route('book_ticket', ['event' => $event]) }}"
-                            class="btn btn-primary">{{ __('showEvent.book_ticket') }}</a> --}}
-                        <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}" class="booking"
-                            method="post">
-                            @csrf
-                            <div>
-                                <label class="form-label" for="form7Example2">{{ __('showEvent.quantity') }}</label>
-                                <input type="number" name="quantity" id="quantity" class="form-control" />
-                                @error('quantity')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                   
+                                    <div class="modal-footer">
+                                        <button id="bookTicket" class="btn btn-block btn-primary mt-2"
+                                            data-dismiss="modal">{{ __('showEvent.book_ticket') }}</button>
+                                    </div>
+                                </form>
+                            @elseif (
+                                $start_time > \Carbon\Carbon::parse(date('H:i:s')) &&
+                                    \Carbon\Carbon::parse(date('H:i:s'))->toTimeString()->diffInMinutes($start_time) < 180)
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>Sorry!</strong> You have to book ticket before 3 hours of starting the event.
+                                </div>
+                            @elseif(\Carbon\Carbon::parse(date('H:i:s'))->toTimeString()->diffInMinutes($start_time) > 180)
+                               
+                                <div class="alert alert-success" role="alert">
+                                    <strong>Congratulations!</strong> you can book the tickets.
+                                </div>
+                            @endif
+                        @else
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Sorry!</strong> but you cannot purchase tickets for the event because it occurred on
+                                {{ $event->event_date }}.
                             </div>
+                        @endif --}}
 
-                            {{-- <button  class="btn btn-primary btn-block">{{__('showEvent.fill_form')}}</button> --}}
-                            <div class="modal-footer">
-                                <button id="bookTicket" class="btn btn-block btn-primary mt-2"
-                                    data-dismiss="modal">{{ __('showEvent.book_ticket') }}</button>
-                            </div>
-                        </form>
+                        @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') >= date('Y-m-d') && $start_time > $currentDateTime)
+                            <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}" class="booking"
+                                method="post">
+                                @csrf
+                                <div>
+                                    <label class="form-label" for="form7Example2">{{ __('showEvent.quantity') }}</label>
+                                    <input type="number" name="quantity" id="quantity" class="form-control" />
+                                    @error('quantity')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button id="bookTicket" class="btn btn-block btn-primary mt-2"
+                                        data-dismiss="modal">{{ __('showEvent.book_ticket') }}</button>
+                                </div>
+                            </form>
+                      
+                        @endif
+
+                        {{-- {{$event->event_date}} --}}
+
+                        </>
                     </div>
-                </div>
-                <div class="google-map">
-                    {{-- {{dd($event->location)}} --}}
-                    <iframe class="mt-5" src="{{ $event->location }}" width="450" height="450" style="border:0;"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="google-map">
+                        {{-- {{dd($event->location)}} --}}
+                        <iframe class="mt-5" src="{{ $event->location }}" width="450" height="450" style="border:0;"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-@endsection
+    @endsection

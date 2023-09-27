@@ -17,16 +17,22 @@ class BookingService
     {
         if ($request->ajax()) {
             // dd('hi');
-            $data = Booking::select(['event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id());
+            $data = Booking::select(['event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user','event']);
             // dd($data);
 
             return Datatables::of($data)
                 ->addColumn('action', function ($row) {
-                    // dd($row);
-                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-                    return $actionBtn;
+                    // dd($row->event_id);
+                    $editUrl = route('user.event.show', ['event' => $row->event_id]);
+                    $btn = '<a href="' . $editUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a>';
+                    // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
+                    return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('event_id',function($row){
+                   return $row->event->name;
+                })
+
+                ->rawColumns(['action','event_id'])
                 ->setRowId('id')
                 ->addIndexColumn()
                 // ->toJson()
