@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\Profile\Update;
 use Plank\Mediable\Mediable;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Plank\Mediable\Facades\MediaUploader;
 
 class ProfileService
@@ -19,7 +20,7 @@ class ProfileService
         // dd(3);   
         // dd($request);
         // dd($validated);
-        $user = auth()->user();
+        $user = Auth::user();
         $user->update([
             'name' => $request->name,
             'email' => $request->email,

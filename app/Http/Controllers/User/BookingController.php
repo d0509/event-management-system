@@ -21,9 +21,13 @@ class BookingController extends Controller
         $this->bookingservice = $bookingservice;
     }
 
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    { 
+        if ($request->ajax()) {
+            $user_bookings =  $this->bookingservice->collection($request);
+            return $user_bookings;
+        }
+        return view('User.pages.history');
     }
 
     public function create()
@@ -38,7 +42,7 @@ class BookingController extends Controller
     public function store(Event $event, Create $request)
     {
         $this->bookingservice->store($event, $request);
-            
+
         return redirect()->route('homepage');
     }
 

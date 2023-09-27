@@ -1,15 +1,16 @@
-
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyStatusController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
+use App\Http\Controllers\Company\BookingController as CompanyBookingController;
 use App\Http\Controllers\Company\EventController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\EventController as UserEventController;
@@ -51,40 +52,31 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('profile/{profile}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('profile/{profile}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::resource('profile', ProfileController::class)->except('create', 'store', 'delete', 'show');
 
-    Route::get('user/{profile}/edit',[UserProfileController::class,'edit'])->name('user.profile.edit');
-    Route::patch('user/{profile}',[UserProfileController::class,'update'])->name('user.profile.update');
+
+    Route::prefix('user')->name('user.')->group(function(){
+        Route::resource('profile',UserProfileController::class)->only('edit','update');
+        
+        Route::resource('change-password',UserPasswordController::class)->only('edit','update');
+    });
     
-    Route::get('user/change-password',[UserPasswordController::class,'edit'])->name('user.password.edit');
-    Route::post('user/change-password',[UserPasswordController::class,'update'])->name('user.password.update');
-
-
-    Route::get('change-password', [PasswordController::class, 'edit'])->name('password.edit');
-    Route::post('change-password', [PasswordController::class, 'update'])->name('password.update');
-
+    Route::get('user/booking_history', [BookingController::class, 'index'])->name('user.booking.history');
     Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
 
-    Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-        Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('adminDashboard');
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('dashboard',[DashboardController::class, 'getData'])->name('dashboard');
+        
+        
+        Route::resource('change-password',PasswordController::class)->only('edit','update');
 
-        Route::resource('company',CompanyController::class,[
-            'names' =>[
-                'index' => 'admin.company.index',
-                'create' => 'admin.company.create',
-                'store' => 'admin.company.store',
-                'edit' => 'admin.company.edit',
-                'update' => 'admin.company.update',
-                'destroy' => 'admin.company.destroy',
-            ]
-        ])->except('show');   
+        Route::resource('company', CompanyController::class)->except('show');
 
-        Route::get('events', [AdminEventController::class, 'index'])->name('admin.event.index');
-        Route::get('event/{event}', [AdminEventController::class, 'edit'])->name('admin.event.edit');
-        Route::patch('event/{event}', [AdminEventController::class, 'update'])->name('admin.event.update');
-        Route::post('status', CompanyStatusController::class)->name('admin.company.status');
+        Route::resource('event',AdminEventController::class)->only('index','edit','update');
+
+        Route::post('status', CompanyStatusController::class)->name('company.status');
+        
     });
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
@@ -92,18 +84,11 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::group(['middleware' => 'company', 'prefix' => 'company'], function () {
-    Route::resource('event' ,EventController::class,
-        [
-            'names' => [
-                'index'=>'company.event.index',
-                'create' => 'company.event.create',
-                'edit' => 'company.event.edit',
-                'update' => 'company.event.update',
-                'destroy' => 'company.event.destroy',
-                'store' => 'company.event.store',
-            ]
-    ])->except('show');    
+Route::middleware('company')->prefix('company')->name('company.')->group(function () {
+
+    Route::resource('event',EventController::class)->except('show');
+
+    Route::get('booking',[CompanyBookingController::class,'index'])->name('booking.index');
+    Route::get('dashboard', [AuthController::class, 'companyDashboard'])->middleware('company')->name('dashboard');
 });
 
-Route::get('company/dashboard', [AuthController::class, 'companyDashboard'])->middleware('company')->name('companyDashboard');

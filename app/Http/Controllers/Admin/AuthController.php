@@ -24,13 +24,13 @@ class AuthController extends Controller
 
     public function signIn(Login $request)
     {
-        $this->authservice->signin($request);
+        $this->authservice->signIn($request);
 
         if (Auth::user()) {
             if ($request->user()->role->firstWhere('name', config('site.roles.admin'))) {
-                return redirect()->route('adminDashboard');
+                return redirect()->route('admin.dashboard');
             } else if ($request->user()->role->firstWhere('name', config('site.roles.company'))) {
-                return redirect()->route('companyDashboard');
+                return redirect()->route('company.dashboard');
             }
         } else {
             return redirect()->route('admin.login');

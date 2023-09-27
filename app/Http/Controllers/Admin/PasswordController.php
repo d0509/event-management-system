@@ -24,9 +24,9 @@ class PasswordController extends Controller
     public function update(Change $request){
         $this->passwordservice->update($request);
         if ($request->user()->role->firstWhere('name', 'admin')) {
-            return redirect()->route('adminDashboard');
+            return redirect()->route('admin.dashboard');
         } else if($request->user()->role->firstWhere('name', 'company')) {
-            return redirect()->route('companyDashboard');
+            return redirect()->route('company.dashboard');
         }
     }
 }

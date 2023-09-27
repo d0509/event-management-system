@@ -39,13 +39,14 @@ class CompanyService
         ]);
 
         $lastUserId = $user->id;
+        if ($request->hasFile('profile')) {
+            $media = MediaUploader::fromSource($request->profile)
+                ->toDisk('public')
+                ->toDirectory('profile')
+                ->upload();
 
-        $media = MediaUploader::fromSource($request->profile)
-            ->toDisk('public')
-            ->toDirectory('profile')
-            ->upload();
-
-        $user->attachMedia($media, 'profile');
+            $user->attachMedia($media, 'profile');
+        }
         $user->save();
 
         $company = Company::create([
@@ -59,10 +60,8 @@ class CompanyService
             'user_id' => $lastUserId,
             'role_id' => '2'
         ]);
-
-
         $user->notify(new CompanyRegistered($request));
-        
+        session()->flash('success','Company registered successfully by the admin');
     }
 
     public function updateByAdmin(EditCompany $request, Company $company)
@@ -70,7 +69,7 @@ class CompanyService
         $validated = $request->validated();
 
         $user = $company->user;
-        
+
         $updated_user = $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -91,7 +90,8 @@ class CompanyService
         // $user->notify(new CompanyUpdated($company, $user));
     }
 
-    public function registeredByCompany(CompanyRegister $request){
+    public function registeredByCompany(CompanyRegister $request)
+    {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
@@ -128,6 +128,4 @@ class CompanyService
 
         session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
     }
-
-    
 }

@@ -54,7 +54,7 @@ class ProfileController extends Controller
     {
         
         $this->profileservice->update($request,$user);
-        return redirect()->route('profile');
+        return redirect()->route('profile.index');
     }
 
     public function destroy(string $id)

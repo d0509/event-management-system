@@ -22,10 +22,10 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard()->check()) {
                 if (Auth::user()->role->firstWhere('name', 'admin')) {
-                    return redirect()->route('adminDashboard');
+                    return redirect()->route('admin.dashboard');
                     // dd(3);
                 } else if (Auth::user()->role->firstWhere('name', 'company')) {
-                    return redirect()->route('companyDashboard');
+                    return redirect()->route('company.dashboard');
                 } 
             }
         }

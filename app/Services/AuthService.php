@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Notifications\ResetPassword as NotificationsResetPassword;
 use Illuminate\Support\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -23,7 +24,7 @@ class AuthService
 {
 
 
-    public function signin(Login $request)
+    public function signIn(Login $request)
     {
         $validated = $request->safe()->only(['password', 'email']);
 
@@ -37,7 +38,7 @@ class AuthService
 
 
         if ($user->status == 'approved') {
-            if (!auth()->attempt($validated)) {
+            if (!Auth::attempt($validated)) {
                 throw ValidationException::withMessages([
                     'email' => 'Your provided credentials could not be verified.'
                 ]);
@@ -77,7 +78,7 @@ class AuthService
             'role_id' => '3'
         ]);
 
-        auth()->login($user);
+        Auth::login($user);
 
         session()->flash('success', ' You have been logged in successfully.');
     }

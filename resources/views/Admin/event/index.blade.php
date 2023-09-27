@@ -2,7 +2,11 @@
 @section('title', 'Events')
 @section('admin.event.index')
 
-    <div class="container">
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Events</h1>
+            
+        </div>
         <div class="row row-cols-3 g-3">
 
             @foreach ($events as $event)
@@ -10,7 +14,7 @@
                     <div class="card">
                         @foreach ($event->media as $item)
                             <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
-                                class="card-img-top" alt="Hollywood Sign on The Hill" />
+                                class="card-img-top" alt="Hollywood Sign on The Hill" height="233px" />
                         @endforeach
 
                         <div class="card-body">

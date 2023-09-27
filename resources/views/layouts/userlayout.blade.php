@@ -1,11 +1,6 @@
 <!DOCTYPE html>
-<html lang="zxx">
-
-
-<!-- Mirrored from themewagon.github.io/manup/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Aug 2023 13:58:19 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Manup Template">
@@ -26,6 +21,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
         integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    {{-- last added --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('user_assets/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('user_assets/css/font-awesome.min.css') }}" type="text/css">
@@ -34,6 +41,8 @@
     <link rel="stylesheet" href="{{ asset('user_assets/css/magnific-popup.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('user_assets/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('user_assets/css/style.css') }}" type="text/css">
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -42,6 +51,8 @@
     @include('sweetalert::alert')
     @yield('dashboard')
     <!-- Js Plugins -->
+    <script src="http://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" defer="defer"></script>
+
     <script src="{{ asset('user_assets/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('user_assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('user_assets/js/jquery.magnific-popup.min.js') }}"></script>
@@ -49,6 +60,7 @@
     <script src="{{ asset('user_assets/js/jquery.slicknav.js') }}"></script>
     <script src="{{ asset('user_assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('user_assets/js/main.js') }}"></script>
+   
 </body>
 
 

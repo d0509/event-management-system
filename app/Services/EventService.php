@@ -28,7 +28,7 @@ class EventService
                 return $events;
             }
         } else {
-            $events = Event::latest()->get();
+            $events = Event::latest()->where('is_approved','=',1)->get();
             return $events;
         }
     }

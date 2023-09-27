@@ -10,7 +10,10 @@ return[
     'change_password' => 'Change Password',
     'activity_log' => 'Activity Log',
     'logout' => 'Logout',
-    'home' => 'Home'
+    'home' => 'Home',
+    'user_profile' => 'User Profile',
+    'change_password' => 'Change Password',
+    'booking_history' => 'Booking History'
 ]
 
 ?>

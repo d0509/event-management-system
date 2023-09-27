@@ -10,25 +10,28 @@
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
-                        <li><a href="{{ route('homepage') }}">{{ __('dashboard.home') }}</a></li>
-
-
-
-
-
-
+                        {{-- <li><a href="{{ route('homepage') }}">{{ __('dashboard.home') }}</a></li>                        --}}
                         @auth
-                            <li><a href="{{ route('logout') }}">Logout</a></li>
-                        @endauth
-
-                        @auth
-                            <li> <a style="padding: 12px " class="primary-btn top-btn text-light"></i>
-                                    Welcome,{{ auth()->user()->name }}</a>
+                            <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                    @foreach (Auth::user()->media as $item)
+                                        <img class="img-profile rounded-circle" width="100px" style="border-radius: 50%"
+                                            src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}">
+                                    @endforeach
+                                </a>
 
                                 <ul class="dropdown">
-                                    <li><a href="{{ route('user.profile.edit', ['profile' => Auth::id()]) }}">User Profile</a>
+                                    <li><a
+                                            href="{{ route('user.profile.edit', ['profile' => Auth::id()]) }}">{{ __('dashboard.user_profile') }}</a>
                                     </li>
-                                    <li><a href="{{route('user.password.edit')}}">Change Password</a></li>
+                                    <li><a href="{{ route('user.change-password.edit',['change_password'=>Auth::id()]) }}">{{ __('dashboard.change_password') }}</a>
+                                    </li>
+                                    <li> <a href="{{ route('user.booking.history') }}"> {{ __('dashboard.booking_history') }}
+                                        </a> </li>
+                                       
+                                        <li><a  data-toggle="modal" data-target="#logoutModal">Logout</a></li>
+                                    
                                 </ul>
                             </li>
                         @endauth
@@ -39,6 +42,26 @@
                     </ul>
 
             </div>
+
+              <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
             <div id="mobile-menu-wrap"></div>
         </div>
         </nav>
@@ -60,8 +83,10 @@
         @yield('showEvent')
     @elseif(request()->route()->getName() == 'book_ticket')
         @yield('book_ticket')
-    @elseif(request()->route()->getName() == 'user.password.edit')
+    @elseif(request()->route()->getName() == 'user.change-password.edit')
         @yield('user.password.edit')
+    @elseif(request()->route()->getName() == 'user.booking.history')
+        @yield('user.booking.history')
     @endif
 @endsection
 {{-- header section --}}

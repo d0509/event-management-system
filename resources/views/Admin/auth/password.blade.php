@@ -4,8 +4,9 @@
     <div class="container">
         <h1 class="text-center">Change Password</h1>
 
-        <form action="{{route('password.update')}}" method="POST" class="mt-5">
+        <form action="{{route('admin.change-password.update',['change_password' => Auth::id()])}}" method="POST" class="mt-5">
             @csrf
+            @method('PATCH')
             <div class="form-group">
                 <label class="form-label" for="form7Example2">Current Password</label>
                 <input type="password" id="password" name="password" class="form-control form-control-user"
