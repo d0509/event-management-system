@@ -55,7 +55,7 @@ class EventController extends Controller
     {
         return view('admin.event.edit', [
             'event' => $event,
-            'cities' => $this->cityservice->getAllCities(),
+            'cities' => $this->cityservice->collection(),
             'categories' => $this->categoryservice->index(),
         ]);
     }

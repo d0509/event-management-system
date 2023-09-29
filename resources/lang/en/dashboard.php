@@ -13,7 +13,8 @@ return[
     'home' => 'Home',
     'user_profile' => 'User Profile',
     'change_password' => 'Change Password',
-    'booking_history' => 'Booking History'
+    'booking_history' => 'Booking History',
+    'bookings' => 'Bookings'
 ]
 
 ?>

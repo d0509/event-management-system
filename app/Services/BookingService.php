@@ -43,10 +43,18 @@ class BookingService
 
     public function Companycollection(Request $request)
     {
-        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type']);
+        // dd(Auth::user()->company->id); 
+        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->with(['company','event'])->where('company_id',Auth::user()->company->id);
         
         return Datatables::of($data)
+            ->addColumn('user_id',function($row){
+                return $row->user->name;
+            })
+            ->addColumn('event_id',function($row){
+                return $row->event->name; //event is name of the relation and name is the name of column in event table
+            })
             ->setRowId('id')
+            ->rawColumns(['user_id','event_id'])
             ->addIndexColumn()
             // ->toJson()
             ->make(true);
@@ -56,6 +64,7 @@ class BookingService
         
     public function store(Event $event, Create $request)
     {
+        // dd($event->company_id);
 
         $quantity = $request->quantity;
 
@@ -78,6 +87,7 @@ class BookingService
             Booking::create([
                 'user_id' => Auth::user()->id,
                 'event_id' => $event->id,
+                'company_id' =>$event->company_id,
                 'booking_number' => $booking_number,
                 'ticket_price' => $event->ticket,
                 'sub_total' => $event->ticket * $quantity,

@@ -9,8 +9,10 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
+        "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "opcodesio/log-viewer": "^3.1",
         "php-flasher/flasher-laravel": "^1.15",
         "plank/laravel-mediable": "^5.9",
         "realrashid/sweet-alert": "^7.1",
@@ -67,6 +69,7 @@
             "php-http/discovery": true
         }
     },
+    
     "minimum-stability": "stable",
     "prefer-stable": true,
     

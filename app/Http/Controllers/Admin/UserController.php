@@ -1,33 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Profile\Update;
 use App\Models\User;
-use App\Services\CityService;
-use App\Services\ProfileService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class ProfileController extends Controller
+class UserController extends Controller
 {
 
-    protected $cityservice;
-    protected $profileservice;
+    protected $userservice;
 
-    public function __construct(CityService $cityservice, ProfileService $profileservice )
+    public function __construct(UserService $userservice)
     {
-        $this->cityservice = $cityservice;
-        $this->profileservice = $profileservice;
+        $this->userservice = $userservice;
     }
-
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $users = $this->userservice->collection();
+            return $users;
+        }
+        return view('admin.pages.users');
     }
 
     /**
@@ -51,7 +49,12 @@ class ProfileController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::where('id',$id)->first();
+        // dd($user);
+        
+        return view('admin.pages.user-show',[
+            'user' => $user,            
+        ]);
     }
 
     /**
@@ -59,21 +62,15 @@ class ProfileController extends Controller
      */
     public function edit(string $id)
     {
-        $cities = $this->cityservice->collection();
-        return view('User.profile.edit',[
-            'cities' => $cities,
-            'user' => Auth::user()
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Update $request, User $user)
+    public function update(Request $request, string $id)
     {
-        $this->profileservice->update($request,$user);
-        return redirect()->route('homepage');
-
+        //
     }
 
     /**

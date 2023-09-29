@@ -16,7 +16,8 @@
                             request()->route()->getName() == 'company.event.store' ||
                             request()->route()->getName() == 'company.event.edit' ||
                             request()->route()->getName() == 'company.event.update' ||
-                            request()->route()->getName() == 'company.event.destroy')
+                            request()->route()->getName() == 'company.event.destroy' ||
+                            request()->route()->getName() == 'company.booking.index')
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
@@ -32,7 +33,8 @@
                             request()->route()->getName() == 'admin.company.destroy' ||
                             request()->route()->getName() == 'admin.event.index' ||
                             request()->route()->getName() == 'admin.event.edit' ||
-                            request()->route()->getName() == 'admin.event.update    ')
+                            request()->route()->getName() == 'admin.event.update'  ||
+                            request()->route()->getName() == 'admin.user.index')
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
@@ -74,8 +76,15 @@
                                 aria-controls="collapseUtilities">
                                 <i class="fas fa-fw fa-wrench"></i>
                                 <span>Events</span>
-                            </a>
-    
+                            </a>    
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{request()->route()->getName() == 'admin.user.index' ? 'active' : ''}} " href="{{ route('admin.user.index') }}" aria-expanded="true"
+                                aria-controls="collapseUtilities">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>Users</span>
+                            </a>    
                         </li>
                         @endif
                     @endforeach
@@ -105,7 +114,13 @@
                                 <i class="fas fa-fw fa-wrench"></i>
                                 <span>{{ __('dashboard.events') }}</span>
                             </a>
+                        </li>
 
+                        <li class="nav-item {{ (request()->route()->getName() == 'company.booking.index' ? 'active' : '')  }}">
+                            <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>{{ __('dashboard.bookings') }}</span>
+                            </a>
                         </li>
                     @endif
                 @endforeach
@@ -264,7 +279,7 @@
 
                         </nav>
 
-                        @if (request()->route()->getName() == 'admin.dashboard')
+                        @if (request()->route()->getName() == 'admin.dashboard' || request()->route()->getName() == 'company.dashboard') 
                             @yield('admin.dashboard')
                         @endif
                         @if (request()->route()->getName() == 'admin.change-password.edit')
@@ -310,6 +325,17 @@
                             @yield('company')
                         @endif
 
+                        @if (request()->route()->getName() == 'admin.user.index')
+                            @yield('admin.users.index')
+                        @endif
+
+                        @if (request()->route()->getName() == 'admin.user.index')
+                            @yield('admin.user.show')
+                        @endif
+
+                        @if (request()->route()->getName() == 'admin.user.show')
+                            @yield('admin.user.show-single')
+                        @endif
                     </div>
 
 

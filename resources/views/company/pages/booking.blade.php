@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th>Sr. No</th>
-                    <th>User</th>
+                    <th>User Name</th>
                     <th>Event Name</th>
                     <th>Booking Number</th>
                     <th>Attended or not</th>
@@ -63,11 +63,17 @@
                     },
                     {
                         data: 'is_attended',
-                        name: 'is_attended'
+                        name: 'is_attended',
+                        render: function(data, type, full, meta) {
+                            return data ? "Attended" : "Not Attended";
+                        }
                     },
                     {
                         data: 'is_free_event',
-                        name: 'is_free_event'
+                        name: 'is_free_event',
+                        render: function(data, type, full, meta) {
+                            return data ? "Free" : "Paid";
+                        }
                     },
                     {
                         data: 'quantity',

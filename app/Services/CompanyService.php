@@ -11,9 +11,11 @@ use App\Models\Event;
 use App\Models\RoleUser;
 use App\Models\User;
 use App\Notifications\CompanyRegistered;
-// use App\Notifications\CompanyUpdated;
+use Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Plank\Mediable\Facades\MediaUploader;
+use Throwable;
 
 class CompanyService
 {
@@ -60,8 +62,16 @@ class CompanyService
             'user_id' => $lastUserId,
             'role_id' => '2'
         ]);
-        $user->notify(new CompanyRegistered($request));
-        session()->flash('success','Company registered successfully by the admin');
+
+        try{
+            $user->notify(new CompanyRegistered($request));
+            // session()->flash('success','Company is notified about their registeration by the admin');
+        } catch (Exception $e) {
+            // dd($e->message);
+            // session()->flash('danger','Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
+            Log::info($e);
+        }
+        
     }
 
     public function updateByAdmin(EditCompany $request, Company $company)

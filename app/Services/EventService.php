@@ -21,15 +21,44 @@ class EventService
         $user = Auth::user();
         if (isset($user)) {
             if (Auth::user()->role->firstWhere('name', config('site.roles.company'))) {
-                $events = Event::latest()->where('company_id', '=', Auth::user()->company->id)->get();
+                $events = Event::latest()->where('company_id',Auth::user()->company->id)->get();
                 return $events;
+            } elseif(Auth::user()->role->firstWhere('name', config('site.roles.user'))) {
+                // dd(request('city'));
+                if(request('city') && request('search')){
+                    $events = Event::where('city_id', request('select'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                    return $events;
+                } elseif(request('search')) {
+                    $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                    return $events;
+                } elseif(request('city')) {
+                    // dd(request('city'));
+                    $events = Event::where('is_approved',1)->where('city_id', request('city'))->get();
+                    return $events;
+                } else {
+                    $events = Event::where('is_approved',1)->get();
+                    return $events;
+                }             
+
             } else {
                 $events = Event::latest()->get();
                 return $events;
             }
         } else {
-            $events = Event::latest()->where('is_approved','=',1)->get();
-            return $events;
+            if(request('city') && request('search')){
+                $events = Event::where('city_id', request('select'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                return $events;
+            } elseif(request('search')) {
+                $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                return $events;
+            } elseif(request('city')) {
+                // dd(request('city'));
+                $events = Event::where('is_approved',1)->where('city_id', request('city'))->get();
+                return $events;
+            } else {
+                $events = Event::where('is_approved',1)->get();
+                return $events;
+            }
         }
     }
 

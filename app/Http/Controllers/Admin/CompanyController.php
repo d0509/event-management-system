@@ -43,7 +43,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $cities = $this->cityservice->getAllCities();
+        $cities = $this->cityservice->collection();
 
         return view('company.pages.edit', [
             'cities' => $cities,
@@ -75,7 +75,7 @@ class CompanyController extends Controller
         // dd('admin.company.edit');
         return view('company.pages.edit', [
             'company' => $company,
-            'cities' => $this->cityservice->getAllCities(),
+            'cities' => $this->cityservice->collection(),
         ]);
     }
 

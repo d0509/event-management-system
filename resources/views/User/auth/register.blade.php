@@ -120,7 +120,7 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form7Example2">Profile Picture</label>
                                             <input type="file" accept="image/png, image/jpeg, image/jpg" name="profile"
-                                                id="profile" class="form-control" />
+                                                id="profile" class="form-control rounded-pill" />
                                             @error('profile')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -150,11 +150,14 @@
 
 
                                     </div>
-                                    <div class="row d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-primary btn-user text-center rounded-pill">
-                                            {{ __('auth.register') }}
-                                        </button>
+                                    <div class="container">
+                                        <div class="row d-flex justify-content-center">
+                                            <button type="submit" class=" btn btn-primary btn-block text-center rounded-pill">
+                                                {{ __('auth.register') }}
+                                            </button>
+                                        </div>
                                     </div>
+                                    
 
 
                                     </form>

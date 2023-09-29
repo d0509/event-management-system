@@ -24,4 +24,8 @@ class Company extends Model
     public function event(){
         return $this->hasMany(Event::class);
     }
+
+    public function booking(){
+        return $this->hasMany(Booking::class);
+    }
 }

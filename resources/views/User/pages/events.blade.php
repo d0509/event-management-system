@@ -2,24 +2,66 @@
 @section('title', 'Events')
 @section('events')
     <div class="container">
-        <div class="card-columns">
-            @if ($events)
-                @foreach ($events as $event)
-                    {{-- {{ dd($event->company->name) }} --}}
-                    {{-- {{dd($event->toArray())}} --}}
-                    {{-- {{ dd($event->media->toArray()) }} --}}
-                    <div class="card">
 
+        <div class="row d-flex">
+            <form action="{{ route('homepage') }}" method="get" class="mb-5 d-flex ">
+                <select class="form-control col-3 ml-2  mr-4 " type="text" id="form3" name="city">
+                    <option>  </option>
+                    @forelse ($cities as $city)
+                        <option value="{{ $city->id }}" {{ ( $city_id == $city->id ? 'selected' : '') }} > {{ $city->name }} </option>
+                    @empty
+                        <option>No cities to show!</option>
+                    @endforelse
+                </select>
+
+                
+                    <input type="search" class="form-control col-3" id="form1" name="search"
+                        value="{{ request('search') }}" placeholder="search" class="form-control" />
+
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                
+
+
+
+
+
+
+
+            </form>
+
+            {{-- <label class="form-label select-label col-4">Example label</label> --}}
+            {{-- <select class="select col-3 border border-primary mb-5 ">
+                <option>Please select a city</option>
+                @forelse ($cities as $city)
+                    <option value="{{ $city->id }}"> {{ $city->name }} </option>
+                @empty
+                    <option>No cities to show!</option>
+                @endforelse
+            </select> --}}
+
+        </div>
+
+
+
+        <div class="row row-cols-3 g-3">
+
+            @forelse ($events as $event)
+                <div class="col">
+                    <div class="card">
                         @foreach ($event->media as $item)
                             <img src="{{ asset('storage/banner/' . $item['filename'] . '.' . $item['extension']) }}"
                                 class="card-img-top" alt="Hollywood Sign on The Hill" height="233px" />
                         @endforeach
+
                         <div class="card-body">
-                            <u><a href="{{route('user.event.show',['event' => $event])}}" class="card-title display-5 text-dark">{{ ucwords($event->name) }}</a></u>
+                            <u><a href="{{ route('user.event.show', ['event' => $event]) }}"
+                                    class="card-title fs-3 text-dark">{{ ucwords($event->name) }}</a></u>
                             <p class="card-text">
                             <div class="row">
                                 <p class="col-1 text-dark"><i class="fa-solid fa-city"></i></p>
-                                <p class="col-10 text-dark">{{ $event->city->name }}</p>   
+                                <p class="col-10 text-dark">{{ $event->city->name }}</p>
                             </div>
                             <div class="row">
                                 <p class="col-1 text-dark"><i class="fas fa-industry"></i></p>
@@ -51,16 +93,16 @@
                                 <p class="col-1 text-dark"><i class="fa-regular fa-clock"></i> </p>
                                 <p class="col-10 text-dark">{{ $event->start_time }} - {{ $event->end_time }} </p>
                             </div>
-
-                            {{-- <a href="" class="btn btn-primary text-center">Buy Ticket</a> --}}
-                            </p>
                         </div>
-                    </div>
-                @endforeach
-            @else
-                <h1>Sorry, No events found at this moment!</h1>
-            @endif
 
+
+                    </div>
+
+                </div>
+            @empty
+                <p class="fs-3 text-center">No events to show!</p>
+            @endforelse
+            {{-- {{dd($events[0]->toArray())}} --}}
 
         </div>
     </div>

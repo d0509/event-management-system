@@ -29,7 +29,7 @@ class CompanyController extends Controller
     {
         if(!Auth::user()){
             return view('User.auth.register', [
-                'cities' => $this->cityservice->getAllCities()
+                'cities' => $this->cityservice->collection()
             ]);
         } else {
             return redirect()->back();

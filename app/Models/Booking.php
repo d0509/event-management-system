@@ -32,4 +32,8 @@ class Booking extends Model
     public function event(){
         return $this->belongsTo(Event::class);
     }
+
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
 }

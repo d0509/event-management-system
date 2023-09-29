@@ -41,7 +41,7 @@ class AuthController extends Controller
          return view('User.auth.login');       
     }
 
-    public function signin(Login $request): RedirectResponse
+    public function signIn(Login $request): RedirectResponse
     {
         $this->authservice->signIn($request);
         return redirect()->route('homepage');
@@ -51,7 +51,7 @@ class AuthController extends Controller
     {
         if (!Auth::user()) {
             return view('User.auth.register', [
-                'cities' => $this->cityservice->getAllCities()
+                'cities' => $this->cityservice->collection()
             ]);
         } else {
             return redirect()->back();
@@ -73,7 +73,7 @@ class AuthController extends Controller
     public function companyRegisterForm()
     {
         return view('User.auth.register', [
-            'cities' => $this->cityservice->getAllCities()
+            'cities' => $this->cityservice->collection()
         ]);
     }
 

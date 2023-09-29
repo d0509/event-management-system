@@ -47,8 +47,30 @@ class Event extends Model
         return $this->hasMany(Booking::class);    
     }
 
-    
+    public function scopeFilter($query, array $filters)
+    {
+        
+        $query->when(
+            $filters['search'] ??  false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('name', 'like', '%' . $search . '%')
+                   
+            )
+        );
+        $query->when(
+            $filters['city'] ?? false,
+            fn ($query, $city) =>
+            $query->whereHas(
+                'city',
+                fn ($query) =>
+                $query->where('', $city)
+            )
+        );
 
-    
-    // use HasMedia;
+       
+    }
+
+   
 }

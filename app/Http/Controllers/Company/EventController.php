@@ -38,10 +38,10 @@ class EventController extends Controller
 
     public function create()
     {
-        $event = $this->cityservice->getAllCities();
+        $event = $this->cityservice->collection();
 
         return view('company.pages.createEvent', [
-            'cities' => $this->cityservice->getAllCities(),
+            'cities' => $this->cityservice->collection(),
             'categories' => $this->categoryservice->index()
         ]);
     }
@@ -63,7 +63,7 @@ class EventController extends Controller
         if(Auth::user()->company->id == $event->company_id){
             return view('company.pages.createEvent', [
                 'event' => $event,
-                'cities' => $this->cityservice->getAllCities(),
+                'cities' => $this->cityservice->collection(),
                 'categories' => $this->categoryservice->index(),
             ]);
         } else {

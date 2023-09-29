@@ -29,7 +29,7 @@ class Register extends FormRequest
                 'password_confirmation'=>'required',
                 'city_id'=>'required',
                 'mobile_no'=>'required|numeric|digits:10|unique:users,mobile_no',
-            
+                'profile' => 'required'
             ];
     }
 }

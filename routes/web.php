@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserStatusController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
@@ -28,7 +30,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -66,8 +67,11 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
-        Route::get('dashboard',[DashboardController::class, 'getData'])->name('dashboard');
+        Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');    
         
+        Route::resource('user',UserController::class)->only('index','show');
+
+        Route::post('user/status',UserStatusController::class);
         
         Route::resource('change-password',PasswordController::class)->only('edit','update');
 
@@ -87,8 +91,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
 
     Route::resource('event',EventController::class)->except('show');
-
     Route::get('booking',[CompanyBookingController::class,'index'])->name('booking.index');
-    Route::get('dashboard', [AuthController::class, 'companyDashboard'])->middleware('company')->name('dashboard');
+    Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
 });
 

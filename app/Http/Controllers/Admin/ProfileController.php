@@ -43,7 +43,7 @@ class ProfileController extends Controller
 
     public function edit(string $id)
     {
-        $cities = $this->cityservice->getAllCities();
+        $cities = $this->cityservice->collection();
         return view('admin.profile.edit',[
             'cities' => $cities,
             'user' => Auth::user()

@@ -9,7 +9,7 @@
         </div>
         <div class="row row-cols-3 g-3">
 
-            @foreach ($events as $event)
+            @forelse ($events as $event)
                 <div class="col">
                     <div class="card">
                         @foreach ($event->media as $item)
@@ -33,7 +33,9 @@
                     </div>
 
                 </div>
-            @endforeach
+                @empty
+                <p class="fs-3 text-center" >No events to show!</p>
+            @endforelse
             {{-- {{dd($events[0]->toArray())}} --}}
 
         </div>

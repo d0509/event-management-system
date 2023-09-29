@@ -3,7 +3,7 @@
     <header class="header-section">
         <div class="container">
             <div class="logo">
-                <a href="index-2.html">
+                <a href="{{route('homepage')}}">
                     <img src="{{ asset('user_assets/img/logo.png') }}" alt="">
                 </a>
             </div>
@@ -16,7 +16,7 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                     @foreach (Auth::user()->media as $item)
-                                        <img class="img-profile rounded-circle" width="100px" style="border-radius: 50%"
+                                        <img class="img-profile rounded-circle" width="70px" style="border-radius: 50%" height="70px" 
                                             src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}">
                                     @endforeach
                                 </a>

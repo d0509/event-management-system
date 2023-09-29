@@ -64,13 +64,14 @@ class AuthService
         ]);
 
         $lastUserId = $user->id;
+        if ($request->hasFile('profile')) {
+            $media = MediaUploader::fromSource($request->profile)
+                ->toDisk('public')
+                ->toDirectory('profile')
+                ->upload();
 
-        $media = MediaUploader::fromSource($request->profile)
-            ->toDisk('public')
-            ->toDirectory('profile')
-            ->upload();
-
-        $user->attachMedia($media, 'profile');
+            $user->attachMedia($media, 'profile');
+        }
         $user->save();
 
         $user_role = RoleUser::create([
