@@ -17,9 +17,6 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -27,7 +24,7 @@
                             <tr>
                                 <th>Sr. No.</th>
                                 <th>Company Name</th>
-                                <th>Username</th>
+                                <th>Name</th>
                                 <th>Description</th>
                                 <th>Address</th>
                                 <th>Status</th>
@@ -103,7 +100,7 @@
 
         <script>
             $(document).ready(function() {
-                
+
                 $(document).on('click', '#deleteCompany', function(e) {
                     e.preventDefault();
                     // let myThis = this;

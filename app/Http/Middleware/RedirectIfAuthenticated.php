@@ -19,12 +19,13 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
         // dd(Auth::check());
+        // dd(Auth::user()->role->name);
         foreach ($guards as $guard) {
             if (Auth::guard()->check()) {
-                if (Auth::user()->role->firstWhere('name', 'admin')) {
+                if (Auth::user()->role->name == config('site.role_names.admin')) {
                     return redirect()->route('admin.dashboard');
-                    // dd(3);
-                } else if (Auth::user()->role->firstWhere('name', 'company')) {
+                   
+                } else if (Auth::user()->role->name == config('site.role_names.company')) {
                     return redirect()->route('company.dashboard');
                 } 
             }

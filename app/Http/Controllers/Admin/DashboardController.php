@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login;
 use App\Models\Company;
 use App\Models\Event;
-use App\Models\RoleUser;
 use App\Models\User;
 use App\Services\AuthService;
 use Carbon\Carbon;
@@ -24,9 +23,10 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        if (Auth::user()->role->firstWhere('name', config('site.roles.admin'))) {
-            $companyCount = RoleUser::where('role_id','=',2)->count();
-            $userCount = RoleUser::where('role_id','=',3)->count();
+        // if(Auth::user()->role_id ==  config('site.roles.admin'))
+        if (Auth::user()->role->name == config('site.role_names.admin')) {
+            $companyCount = User::where('role_id','=',2)->count();
+            $userCount = User::where('role_id','=',3)->count();
             $totalEvent =  Event::count();
 
             return view('admin.pages.contentdashboard',[

@@ -48,7 +48,12 @@ class BookingController extends Controller
 
     public function show(string $id)
     {
-        //
+        // dd($id);
+        $booking = $this->bookingservice->show($id);
+        // dd($booking->booking_number);
+        return view('User.pages.booking',[
+            'booking' => $booking,
+        ]);
     }
 
     public function edit(string $id)

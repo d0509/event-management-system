@@ -17,22 +17,22 @@ class BookingService
     {
         if ($request->ajax()) {
             // dd('hi');
-            $data = Booking::select(['event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user','event']);
+            $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
             // dd($data);
 
             return Datatables::of($data)
                 ->addColumn('action', function ($row) {
                     // dd($row->event_id);
-                    $editUrl = route('user.event.show', ['event' => $row->event_id]);
+                    $editUrl = route('user.booking.show', ['booking' => $row->id]);
                     $btn = '<a href="' . $editUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a>';
                     // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
                     return $btn;
                 })
-                ->addColumn('event_id',function($row){
-                   return $row->event->name;
+                ->addColumn('event_id', function ($row) {
+                    return $row->event->name;
                 })
 
-                ->rawColumns(['action','event_id'])
+                ->rawColumns(['action', 'event_id'])
                 ->setRowId('id')
                 ->addIndexColumn()
                 // ->toJson()
@@ -44,24 +44,29 @@ class BookingService
     public function Companycollection(Request $request)
     {
         // dd(Auth::user()->company->id); 
-        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->with(['company','event'])->where('company_id',Auth::user()->company->id);
-        
+        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])
+        ->with(['company', 'event'])
+        ->where('company_id', Auth::user()->company->id)
+        ->orderColumn('created_at', function ($query, $order) {
+            $query->orderBy('status', $order);
+        });
+
         return Datatables::of($data)
-            ->addColumn('user_id',function($row){
+            ->addColumn('user_id', function ($row) {
                 return $row->user->name;
             })
-            ->addColumn('event_id',function($row){
+            ->addColumn('event_id', function ($row) {
                 return $row->event->name; //event is name of the relation and name is the name of column in event table
             })
             ->setRowId('id')
-            ->rawColumns(['user_id','event_id'])
+            ->rawColumns(['user_id', 'event_id'])
             ->addIndexColumn()
             // ->toJson()
             ->make(true);
 
         return true;
     }
-        
+
     public function store(Event $event, Create $request)
     {
         // dd($event->company_id);
@@ -87,7 +92,7 @@ class BookingService
             Booking::create([
                 'user_id' => Auth::user()->id,
                 'event_id' => $event->id,
-                'company_id' =>$event->company_id,
+                'company_id' => $event->company_id,
                 'booking_number' => $booking_number,
                 'ticket_price' => $event->ticket,
                 'sub_total' => $event->ticket * $quantity,
@@ -99,5 +104,14 @@ class BookingService
 
             session()->flash('success', 'Your ticket is booked successfully');
         }
+    }
+
+    public function show(string $id)
+    {
+        // dd($id);
+        $booking = Booking::where('id', $id)->with('event')->first();
+        // dd($booking->toArray());
+        return $booking;
+        // dd($booking->toArray());
     }
 }

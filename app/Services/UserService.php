@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\RoleUser;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -10,7 +11,10 @@ class UserService
 
     public function collection()
     {
-        $data = User::select(['id','name', 'email', 'mobile_no', 'city_id', 'status']);
+         $data = User::select(['id','name', 'email', 'mobile_no', 'city_id', 'status'])->whereHas('role', function($q){
+            return $q->where('name', 'user');
+         });
+        // dd($data);
 
         return DataTables::of($data)
             ->addColumn('action', function ($row) {

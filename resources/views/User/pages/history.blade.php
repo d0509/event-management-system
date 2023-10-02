@@ -33,11 +33,12 @@
         });
         $(document).ready(function() {
             var table = $('#data-table').DataTable({
+               
                 processing: true,
                 serverSide: true,
                 ajax: {
                     'type': 'GET',
-                    url: "{{ route('user.booking.history') }}",
+                    url: "{{ route('user.booking.index') }}",
                     dataType: "JSON",
                 },
                 columns: [{
@@ -48,7 +49,8 @@
                     },
                     {
                         data: 'event_id',
-                        name: 'event_id'
+                        name: 'event_id',
+                        orderable: false,
                     },
                     {
                         data: 'booking_number',
@@ -59,7 +61,8 @@
                         name: 'is_attended',
                         render: function(data, type, full, meta) {
                             return data ? "Attended" : "Not Attended";
-                        }
+                        },
+                        orderable: false,
                     },
                     {
                         data: 'is_free_event',
@@ -70,7 +73,7 @@
                     },
                     {
                         data: 'quantity',
-                        name: 'quantity'
+                        name: 'quantity',
                     },
                     {
                         data: 'ticket_price',
@@ -90,13 +93,14 @@
                     },
                     {
                         data: 'type',
-                        name: 'type'
+                        name: 'type',
+                        orderable: false,
                     },
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                 ],
 

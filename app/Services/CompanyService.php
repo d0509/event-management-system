@@ -32,6 +32,7 @@ class CompanyService
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create([
+            'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
             'password' => $validated['password'],
             'email' => $validated['email'],
@@ -58,10 +59,7 @@ class CompanyService
             'name' => $validated['company_name']
         ]);
 
-        $user_role = RoleUser::create([
-            'user_id' => $lastUserId,
-            'role_id' => '2'
-        ]);
+        
 
         try{
             $user->notify(new CompanyRegistered($request));
@@ -81,6 +79,7 @@ class CompanyService
         $user = $company->user;
 
         $updated_user = $user->update([
+            'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
@@ -106,6 +105,7 @@ class CompanyService
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create([
+            'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
             'password' => $validated['password'],
             'email' => $validated['email'],
@@ -129,11 +129,6 @@ class CompanyService
             'address' => $validated['address'],
             'description' => $validated['description'],
             'name' => $validated['company_name']
-        ]);
-
-        $user_role = RoleUser::create([
-            'user_id' => $lastUserId,
-            'role_id' => '2'
         ]);
 
         session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');

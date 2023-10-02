@@ -49,11 +49,11 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::where('id',$id)->first();
+        $user = User::where('id', $id)->first();
         // dd($user);
-        
-        return view('admin.pages.user-show',[
-            'user' => $user,            
+
+        return view('admin.pages.user-show', [
+            'user' => $user,
         ]);
     }
 

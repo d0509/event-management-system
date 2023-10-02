@@ -9,6 +9,7 @@ use Plank\Mediable\Media;
 use Plank\Mediable\Mediable;
 use App\Models\Event;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Plank\Mediable\Facades\MediaUploader;
 
@@ -18,25 +19,27 @@ class EventService
 
     public function collection()
     {
+        // dd('hi');
         $user = Auth::user();
+        // dd($user);
         if (isset($user)) {
-            if (Auth::user()->role->firstWhere('name', config('site.roles.company'))) {
+            if (Auth::user()->role->name == config('site.role_names.company')) {
                 $events = Event::latest()->where('company_id',Auth::user()->company->id)->get();
                 return $events;
-            } elseif(Auth::user()->role->firstWhere('name', config('site.roles.user'))) {
+            } elseif(Auth::user()->role->name == config('site.role_names.user')) {
                 // dd(request('city'));
                 if(request('city') && request('search')){
-                    $events = Event::where('city_id', request('select'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                    $events = Event::latest()->where('city_id', request('select'))->where('name', 'like', '%' . request('search') . '%')->where('event_date','>=',Carbon::now())->where('is_approved',1)->get();
                     return $events;
                 } elseif(request('search')) {
-                    $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                    $events = Event::latest()->where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->where('event_date','>=',Carbon::now())->get();
                     return $events;
                 } elseif(request('city')) {
                     // dd(request('city'));
-                    $events = Event::where('is_approved',1)->where('city_id', request('city'))->get();
+                    $events = Event::latest()->where('is_approved',1)->where('event_date','>=',Carbon::now())->where('city_id', request('city'))->get();
                     return $events;
                 } else {
-                    $events = Event::where('is_approved',1)->get();
+                    $events = Event::latest()->where('is_approved',1)->where('event_date','>=',Carbon::now())->get();
                     return $events;
                 }             
 
@@ -45,18 +48,20 @@ class EventService
                 return $events;
             }
         } else {
+            // dd('im not logged in ');
             if(request('city') && request('search')){
-                $events = Event::where('city_id', request('select'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                $events = Event::latest()->where('city_id', request('select'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
                 return $events;
             } elseif(request('search')) {
-                $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved',1)->get();
+                $events = Event::latest()->where('name', 'like', '%' . request('search') . '%')->where('event_date','>=',Carbon::now())->where('is_approved',1)->get();
                 return $events;
             } elseif(request('city')) {
-                // dd(request('city'));
-                $events = Event::where('is_approved',1)->where('city_id', request('city'))->get();
+                $events = Event::latest()->where('is_approved',1)->where('city_id', request('city'))->where('event_date','>=',Carbon::now())->get();
                 return $events;
             } else {
-                $events = Event::where('is_approved',1)->get();
+                // dd('i dont have any condition to show event');
+                $events = Event::latest()->where('is_approved',1)->where('event_date','>=',Carbon::now())->get();
+                // dd(Event::where('is_approved',1)->get()->toArray());
                 return $events;
             }
         }

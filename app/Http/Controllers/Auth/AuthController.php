@@ -38,13 +38,15 @@ class AuthController extends Controller
 
     public function login()
     {
+        // dd(redirect()->back());
          return view('User.auth.login');       
     }
 
     public function signIn(Login $request): RedirectResponse
     {
         $this->authservice->signIn($request);
-        return redirect()->route('homepage');
+        // return redirect()->route('homepage');
+        return redirect()->intended(route('homepage'));
     }
 
     public function register()

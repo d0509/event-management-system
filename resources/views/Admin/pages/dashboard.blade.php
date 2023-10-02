@@ -54,8 +54,9 @@
                     <!-- Divider -->
 
                     <!-- Nav Item - Pages Collapse Menu -->
-                    @foreach (Auth::user()->role as $role)
-                        @if ($role['name'] == 'admin')
+                    {{-- {{dd(Auth::user()->role->name == config('site.role_names.admin'))}} --}}
+                   
+                        @if (Auth::user()->role->name == config('site.role_names.admin'))
                         <li class="nav-item {{ (request()->route()->getName() == 'admin.dashboard' ? 'active' : '')  }}">
                             <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -64,7 +65,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->route()->getName() == 'admin.company.index' ? 'active' : '')  }} " href="{{ route('admin.company.index') }}">
-                                <i class="fas fa-fw fa-cog"></i>
+                                <i class="fa-solid fa-building"></i>
                                 <span>Company</span>
                             </a>
     
@@ -74,7 +75,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{request()->route()->getName() == 'admin.event.index' ? 'active' : ''}} " href="{{ route('admin.event.index') }}" aria-expanded="true"
                                 aria-controls="collapseUtilities">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fa-solid fa-face-smile"></i>
                                 <span>Events</span>
                             </a>    
                         </li>
@@ -82,15 +83,15 @@
                         <li class="nav-item">
                             <a class="nav-link {{request()->route()->getName() == 'admin.user.index' ? 'active' : ''}} " href="{{ route('admin.user.index') }}" aria-expanded="true"
                                 aria-controls="collapseUtilities">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fa-solid fa-user"></i>
                                 <span>Users</span>
                             </a>    
                         </li>
                         @endif
-                    @endforeach
+                   
 
-                    @foreach (Auth::user()->role as $role)
-                    @if ($role['name'] === 'company')
+                    
+                    @if (Auth::user()->role->name == config('site.role_names.company'))
                         <li class="nav-item {{ (request()->route()->getName() == 'company.dashboard' ? 'active' : '')  }}">
                             <a class="nav-link" href="{{ route('company.dashboard') }}">
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -123,8 +124,7 @@
                             </a>
                         </li>
                     @endif
-                @endforeach
-                    
+                
 
                     <!-- Divider -->
                     <hr class="sidebar-divider">

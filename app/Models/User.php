@@ -57,7 +57,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function role()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function hasRole($role)
@@ -78,4 +78,6 @@ class User extends Authenticatable implements CanResetPassword
     public function booking(){
         return $this->belongsToMany(Booking::class);
     }
+
+    
 }

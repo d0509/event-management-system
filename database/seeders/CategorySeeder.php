@@ -8,17 +8,15 @@ use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         Category::insert([
-            ['name' => 'corporate'],
-            ['name' => 'social'],
-            ['name' => 'cultural'],
-            ['name' => 'musical'],
-            ['name' => 'technical']
+            ['name' => config('site.categories.corporate')],
+            ['name' => config('site.categories.social')],
+            ['name' => config('site.categories.cultural')],
+            ['name' => config('site.categories.musical')],
+            ['name' => config('site.categories.technical')]
         ]);
     }
 }

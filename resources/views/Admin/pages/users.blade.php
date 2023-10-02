@@ -10,7 +10,7 @@
             <thead class="bg-light">
                 <tr>
                     <th>Sr. No</th>
-                    <th> Name</th>
+                    <th>Name</th>
                     <th>Email</th>  
                     <th>Mobile No.</th>
                     <th>City</th>

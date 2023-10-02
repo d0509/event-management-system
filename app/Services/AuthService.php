@@ -26,25 +26,25 @@ class AuthService
 
     public function signIn(Login $request)
     {
+        // dd(redirect()->back());
         $validated = $request->safe()->only(['password', 'email']);
 
+        $user = User::where('email', $request->email)->exists();
 
-        // dd($request->toArray());
-
-        $user = User::where('email', $request->email)->first();
-
-
-        // dd($user->toArray());
-
-
-        if ($user->status == 'approved') {
-            if (!Auth::attempt($validated)) {
-                throw ValidationException::withMessages([
-                    'email' => 'Your provided credentials could not be verified.'
-                ]);
+        if ($user) {
+            $user = User::where('email', $request->email)->first();
+            // dd($user);
+            if ($user->status == 'approved') {
+                if (!Auth::attempt($validated)) {
+                    throw ValidationException::withMessages([
+                        'email' => 'Your provided credentials could not be verified.'
+                    ]);
+                }
+            } else {
+                session()->flash('danger', 'You are not approved by the Admin. To login please contact admin');
             }
         } else {
-            session()->flash('danger', 'You are not approved by the Admin. To login please contact admin');
+            session()->flash('danger','User with such credential does not exist!');
         }
     }
 
@@ -60,7 +60,8 @@ class AuthService
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
             'mobile_no' => $validated['mobile_no'],
-            'status' =>  'approved'
+            'status' =>  config('site.status.approved'),
+            'role_id' => config('site.roles.user')
         ]);
 
         $lastUserId = $user->id;
@@ -72,12 +73,7 @@ class AuthService
 
             $user->attachMedia($media, 'profile');
         }
-        $user->save();
-
-        $user_role = RoleUser::create([
-            'user_id' => $lastUserId,
-            'role_id' => '3'
-        ]);
+        $user->save();       
 
         Auth::login($user);
 
@@ -87,7 +83,6 @@ class AuthService
     public function resetPassword(ResetPassword $request)
     {
         $user = $request->validated();
-        // dd($user['email']);
         $user = User::where('email', $user['email'])->first();
 
         $token = Str::random(64);

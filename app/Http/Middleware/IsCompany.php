@@ -17,7 +17,7 @@ class IsCompany
     public function handle(Request $request, Closure $next): Response
     {
        
-        if (Auth::user()->role->firstWhere('name', config('site.roles.company'))) {
+        if (Auth::user()->role->name == config('site.role_names.company')) {
             return $next($request);
         } else {
             // dd('user is not a company');

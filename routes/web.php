@@ -62,8 +62,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('change-password',UserPasswordController::class)->only('edit','update');
     });
     
-    Route::get('user/booking_history', [BookingController::class, 'index'])->name('user.booking.history');
+    Route::get('user/booking_history', [BookingController::class, 'index'])->name('user.booking.index');
     Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
+    Route::get('booking/{booking}',[BookingController::class,'show'])->name('user.booking.show');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
