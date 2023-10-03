@@ -22,7 +22,8 @@ return [
         'cultural' => 'cultural',
         'musical' =>'musical',
         'technical' => 'technical',       
-    ]
+    ],
+    'date_format' => 'd/m/Y',
 ];
 
 

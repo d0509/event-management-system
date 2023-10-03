@@ -7,7 +7,7 @@
         <div class="card card-cascade narrower">
 
             <div class="view view-cascade overlay">
-                {{-- {{ dd($booking->toArray()) }} --}}
+                {{-- {{ dd($booking->event->event_date) }} --}}
                 {{-- {{dd($booking->event)}} --}}
                 <div class="mask rgba-white-slight"></div>
                 </a>
@@ -20,6 +20,10 @@
                 <div class="row">
                     <p class="col-2 text-dark">Event</p>
                     <p class="col-10 text-dark">{{ $booking->event->name}}</p>
+                </div>
+                <div class="row">
+                    <p class="col-2 text-dark">Event Date</p>
+                    <p class="col-10 text-dark">{{ Carbon\Carbon::parse($booking->event->event_date)->format(config('site.date_format')) }}</p>
                 </div>
                 <div class="row">
                     <p class="col-2 text-dark">Price / Ticket</p>

@@ -17,6 +17,8 @@ return [
     |
     */
 
+    // 'PDF' => Barryvdh\DomPDF\Facade::class,
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
@@ -172,6 +174,7 @@ return [
         // App\Providers\TelescopeServiceProvider::class,
         Plank\Mediable\MediableServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -189,6 +192,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'MediaUploader' => Plank\Mediable\MediaUploaderFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];

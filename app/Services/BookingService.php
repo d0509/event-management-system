@@ -23,8 +23,10 @@ class BookingService
             return Datatables::of($data)
                 ->addColumn('action', function ($row) {
                     // dd($row->event_id);
-                    $editUrl = route('user.booking.show', ['booking' => $row->id]);
-                    $btn = '<a href="' . $editUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a>';
+                    $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
+                    $downloadUrl = route('download-ticket',['booking' => $row->id]);
+                    $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
+                    // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
                     // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
                     return $btn;
                 })
@@ -43,15 +45,16 @@ class BookingService
 
     public function Companycollection(Request $request)
     {
-        // dd(Auth::user()->company->id); 
-        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])
-        ->with(['company', 'event'])
-        ->where('company_id', Auth::user()->company->id)
-        ->orderColumn('created_at', function ($query, $order) {
-            $query->orderBy('status', $order);
-        });
+        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type','created_at'])
+            ->with(['company', 'event'])
+            ->where('company_id', Auth::user()->company->id)
+            ->latest();
 
         return Datatables::of($data)
+            ->orderColumn('booking_number', function ($query) {
+                $query->orderBy('created_at', 'desc');
+                return $query;
+            })
             ->addColumn('user_id', function ($row) {
                 return $row->user->name;
             })
@@ -72,8 +75,7 @@ class BookingService
         // dd($event->company_id);
 
         $quantity = $request->quantity;
-
-
+        
         $mytime = Carbon::now()->format('ymd');
 
         $last_booking = Booking::latest()->first();
@@ -100,6 +102,7 @@ class BookingService
                 'discount' => 0,
                 'total' => $event->ticket * $quantity,
                 'type' => $quantity > 1 ? 'multiple' : 'single',
+                'is_free_event' => $event->is_free
             ]);
 
             session()->flash('success', 'Your ticket is booked successfully');
@@ -108,10 +111,9 @@ class BookingService
 
     public function show(string $id)
     {
-        // dd($id);
-        $booking = Booking::where('id', $id)->with('event')->first();
-        // dd($booking->toArray());
+        
+        $booking = Booking::where('id', $id)->first();        
         return $booking;
-        // dd($booking->toArray());
+        
     }
 }

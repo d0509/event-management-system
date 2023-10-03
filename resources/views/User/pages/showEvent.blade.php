@@ -33,7 +33,7 @@
                         </div>
                         <div class="row">
                             <p class="col-1 text-dark"><i class="fa-solid fa-calendar-days"></i></p>
-                            <p class="col-10 text-dark">{{ $event->event_date }}</p>
+                            <p class="col-10 text-dark">{{Carbon\Carbon::parse($event->event_date)->format(config('site.date_format'))  }}</p>
                         </div>
                         <div class="row">
                             <p class="col-1 text-dark"><i class="fa-regular fa-clock"></i> </p>

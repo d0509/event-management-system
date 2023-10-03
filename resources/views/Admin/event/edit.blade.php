@@ -50,7 +50,7 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="text-dark"> Date</p>
-                                <p class="text-dark">{{ $event->event_date }}</p>
+                                <p class="text-dark">{{ Carbon\Carbon::parse($event->event_date)->format(config('site.date_format'))  }}</p>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="text-dark">Start Time</p>

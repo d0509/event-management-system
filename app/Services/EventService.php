@@ -71,7 +71,10 @@ class EventService
     public function store(AddEvent $request)
     {
 
+        $free = $request->ticket; 
+        
         $validated = $request->validated();
+       
         $event = Event::create([
             'name' => $validated['name'],
             'city_id' => $validated['city_id'],
@@ -86,6 +89,7 @@ class EventService
             'is_approved' => 0,
             'event_date' => $validated['event_date'],
             'company_id' => Auth::user()->company->id,
+            'is_free' => $free == 0 ? 1 : 0,
         ]);
 
         $event->save();

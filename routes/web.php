@@ -17,6 +17,7 @@ use App\Http\Controllers\Company\EventController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\EventController as UserEventController;
 use App\Http\Controllers\User\PasswordController as UserPasswordController;
+use App\Http\Controllers\User\PDFController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('user/booking_history', [BookingController::class, 'index'])->name('user.booking.index');
     Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
     Route::get('booking/{booking}',[BookingController::class,'show'])->name('user.booking.show');
+    Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
