@@ -70,8 +70,7 @@ class BookingService
 
     public function store(Event $event, Create $request)
     {
-        // dd($event->company_id);
-
+       
         $quantity = $request->quantity;
 
         $mytime = Carbon::now()->format('ymd');
@@ -89,7 +88,7 @@ class BookingService
 
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
         } else {
-            Booking::create([
+           $data = Booking::create([
                 'user_id' => Auth::user()->id,
                 'event_id' => $event->id,
                 'company_id' => $event->company_id,
@@ -103,7 +102,10 @@ class BookingService
                 'is_free_event' => $event->is_free
             ]);
 
+            
+
             session()->flash('success', 'Your ticket is booked successfully');
+            return $data;
         }
     }
 

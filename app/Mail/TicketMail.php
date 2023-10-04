@@ -17,13 +17,13 @@ class TicketMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($data, $pdf, $pdf_name)
+    public function __construct($data, $pdf, $pdfName)
     {
         $this->subject = 'Your ticket has been booked successfully!';
         $this->with([
             'data' => $data,
             'pdf' => $pdf,
-            'pdf_name' => $pdf_name,
+            'pdf_name' => $pdfName,
         ]);
     }
 
@@ -50,7 +50,7 @@ class TicketMail extends Mailable
         //     with: [
         //         'data' => $this->data,
         //         'pdf' => $this->pdf,
-        //         'pdf_name' => $this->pdf_name
+        //         'pdfName' => $this->pdfName
         //     ]);
     }
 

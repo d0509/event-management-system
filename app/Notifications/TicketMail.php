@@ -11,16 +11,16 @@ use Carbon\Carbon;
 class TicketMail extends Notification
 {
     use Queueable;
-    protected $data, $pdf, $pdf_name;
+    protected $data, $pdf, $pdfName;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($data, $pdf, $pdf_name)
+    public function __construct($data, $pdf, $pdfName)
     {
         $this->data = $data;
         $this->pdf = $pdf;
-        $this->pdf_name = $pdf_name;
+        $this->pdfName = $pdfName;
     }
 
     /**
@@ -46,12 +46,12 @@ class TicketMail extends Notification
             ->line('I appreciate you booking your spot at the event. We are excited to share this event with you.We are grateful for your participation in our event.')
             ->line('Event Name: ' . $this->data->event->name)
             ->line('Event Date:' . Carbon::parse($this->data->event->event_date)->format(config('site.date_format')))
-            // ->attachData($this->pdf, $this->pdf_name, ['mime' => 'application/pdf',])
+            // ->attachData($this->pdf, $this->pdfName, ['mime' => 'application/pdf',])
             ->line('Name: ' . $this->data->user->name)
             ->line('Event venue: ' . $this->data->event->venue)
             // ->line('To see location: '. $this->data->event->location)
             // ->action('See Location',url($this->data->event->location))
-            ->action('See Ticket', url('storage/tickets/' . $this->pdf_name))
+            ->action('See Ticket', url('storage/tickets/' . $this->pdfName))
             // ->action('Notification Action', url({{}}))
             ->line('Thank you for using our website!');
     }

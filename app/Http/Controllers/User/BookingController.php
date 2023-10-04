@@ -25,7 +25,7 @@ class BookingController extends Controller
     }
 
     public function index(Request $request)
-    { 
+    {
         if ($request->ajax()) {
             $user_bookings =  $this->bookingservice->collection($request);
             return $user_bookings;
@@ -44,10 +44,11 @@ class BookingController extends Controller
 
     public function store(Event $event, Create $request)
     {
-        $this->bookingservice->store($event, $request);
-        $data = $this->bookingservice->show($event->id);
-        // dd($data);
-        $this->PDFservice->generatePDF($data);
+        $store_data = $this->bookingservice->store($event, $request);
+    //    dd($store_data->toArray());
+    if($store_data){
+        $this->PDFservice->generatePDF($store_data);
+    }
 
         return redirect()->route('homepage');
     }
@@ -57,7 +58,7 @@ class BookingController extends Controller
         // dd($id);
         $booking = $this->bookingservice->show($id);
         // dd($booking->booking_number);
-        return view('User.pages.booking',[
+        return view('User.pages.booking', [
             'booking' => $booking,
         ]);
     }

@@ -31,19 +31,12 @@ class PDFController extends Controller
 
      public function generatePDF(String $id)
      {
-          $file = Booking::where('id',$id)->first(['pdf_name']);
-          // dd($file['pdf_name']);
-          // if($file['pdf_name'] == null){
-              return redirect()->back()->with('message', 'Sorry! There are some issues downloading pdf');
-              
-          // } else {
-               $filename = $file['pdf_name'];
-               $pdf_location = public_path().'/storage/tickets/';
-              $headers = array('Content-Type: application/pdf',);
-              return Response::download($pdf_location.$filename,"$filename",$headers);
-          // }
+          $file = Booking::where('id', $id)->select('pdf_name')->first();
           
-
-         
+          $fileName = $file['pdf_name'];
+          
+          $pdf_location = public_path() . '/storage/tickets/';
+          $headers = array('Content-Type: application/pdf',);
+          return Response::download($pdf_location . $fileName, "$fileName", $headers);
      }
 }

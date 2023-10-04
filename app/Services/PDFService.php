@@ -14,11 +14,9 @@ class PDFService
 {
     public function generatePDF($data)
     {
-        // dd('im inside generate pdf');
-        // dd($data->toArray());
-        $user = $data->user;
-        // dd('user data');
         // dd($data->user->toArray());
+        $user = $data->user;
+        // dd($user->toArray());
         $data2 = [
             'owner_name' => $data->user->name,
             'date' =>  Carbon::parse($data->event->event_date)->format(config('site.date_format')),
@@ -33,25 +31,39 @@ class PDFService
             'host_company' => $data->company->name,
         ];
 
-        // dd($data2);
-        $pdf_name = 'booking_' . now()->timestamp . '.pdf';
-        $pdf = PDF::loadView('my-ticket', [$data2]);
-
-
-        $path = public_path().'storage/tickets/';
-        $pdf->save($path  . $pdf_name);
-        return url($path.$pdf_name);
         
-            
-            
-            Booking::where('booking_number', $data->booking_number)->update(['pdf_name' => $pdf_name]);
-            // dd
-            // try {
-            //     $user->notify(new TicketMail($data, $pdf, $pdf_name));
-            // } catch (Exception $e) {
-            //     Log::info($e);
-            // }
+        $pdfName = 'booking_' . now()->timestamp . '.pdf';
+        $pdf = PDF::loadView('my-ticket', $data2);
+        // dd($pdf->output());
+       
+
+        // $path = public_path() . '/storage/tickets/';
+        // // dd($path);
+        // $pdf->save($path  . $pdfName);
+        if ($pdf->save(public_path() . '/storage/tickets/'.$pdfName)) {
+            // dd("The PDF file has been saved successfully.");
+        } else {
+            // dd("The PDF file has not been saved successfully.");
         }
-        // return $pdf->download($pdf_name);
+
+        if (file_exists(public_path() . '/storage/tickets/'.$pdfName)) {
+        //    dd("The PDF file exists on disk.");
+        } else {
+            // dd("The PDF file does not exist on disk.");
+        }       
+        // dd( Booking::where('booking_number', $data->booking_number)->get());
+        $update = Booking::where('booking_number', $data->booking_number)->update(['pdf_name' => $pdfName]);
+        if($update == 1){
+            // dd('pdf name entered in the database successfully'); 
+        } else {
+            // dd('there are some issue updating the name of the pdf');
+        }
+        try {
+            $user->notify(new TicketMail($data, $pdf, $pdfName));
+        } catch (Exception $e) {
+            Log::info($e);
+        }
+        // return $pdf->download($pdfName);
+    }
     // }
 }
