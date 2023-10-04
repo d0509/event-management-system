@@ -79,5 +79,9 @@ class User extends Authenticatable implements CanResetPassword
         return $this->belongsToMany(Booking::class);
     }
 
+    public function contactus(){
+        return $this->hasMany(ContactUs::class);
+    }
+
     
 }
