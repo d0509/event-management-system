@@ -10,9 +10,9 @@
             <thead>
                 <tr>
                     <th>Sr. No</th>
+                    <th>Email</th>
                     <th>Name</th>
                     <th>Contact Number</th>
-                    <th>Email</th>
                     <th>Message</th>
                     <th>Action</th>
                 </tr>
@@ -44,13 +44,12 @@
                             searchable: false
                         },
                         {
-                            data: 'name',
-                            name: 'name',
-                            orderable: false,
-                        },
-                        {
                             data: 'email',
                             name: 'email'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name',
                         },
                         {
                             data: 'phone',
@@ -69,6 +68,10 @@
                         },
                     ],
 
+                });
+
+                $(document).on('click','.delete_contact',function(){
+                    alert('Delete button clicked');
                 });
 
             });

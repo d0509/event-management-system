@@ -23,7 +23,7 @@ class ContactUsController extends Controller
             $user_bookings =  $this->contactusservice->collection();
             return $user_bookings;
         }
-        
+
         return view('admin.pages.contact-us');
     }
 
@@ -72,6 +72,7 @@ class ContactUsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->contactusservice->destroy($id);
+        return redirect()->route('admin.contact-us.index');
     }
 }

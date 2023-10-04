@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Http\Requests\ContactUs\Store;
@@ -8,28 +9,28 @@ use App\Notifications\ContactUsNotification;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class ContactUsService{
+class ContactUsService
+{
 
-    public function collection(){
+    public function collection()
+    {
 
-        $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message','created_at'])->with(['user']);
+        $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message', 'created_at'])->with(['user']);
         // dd($data);
 
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
-                
-                $ShowUrl = route('admin.contact-us.show', ['contact_u' => $row->id]);
-                $downloadUrl = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
-                $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="' . $downloadUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
+
+                $ShowUrl = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
+                // $downloadUrl = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
+                $btn = '<a class="delete_contact" href="' . $ShowUrl . '" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
                 // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
                 // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
                 return $btn;
             })
-            ->addColumn('event_id', function ($row) {
-                return $row->event->name;
-            })
 
-            ->rawColumns(['action', 'event_id'])
+
+            ->rawColumns(['action'])
             ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
@@ -37,8 +38,9 @@ class ContactUsService{
         return true;
     }
 
-    public function store(Store $request){
-        
+    public function store(Store $request)
+    {
+
         $validated = $request->validated();
         $contact_us = ContactUs::create([
             'name' => $validated['name'],
@@ -53,8 +55,17 @@ class ContactUsService{
 
         $user->notify(new ContactUsNotification($contact_us));
 
-        if($contact_us->exists()){
-            session()->flash('success','Your request is sent to admin successfully');
+        if ($contact_us->exists()) {
+            session()->flash('success', 'Your request is sent to admin successfully');
+        }
+    }
+
+    public function destroy(String $id)
+    {
+        $delete = ContactUs::where('id', $id)->delete();
+       
+        if ($delete) {
+            return response()->json(['success' => true]);
         }
     }
 }
