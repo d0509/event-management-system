@@ -13,39 +13,37 @@ use Yajra\DataTables\Facades\DataTables;
 class BookingService
 {
 
-    public function collection(Request $request)
-    {
-        if ($request->ajax()) {
-            // dd('hi');
-            $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
-            // dd($data);
+    public function collection(){
 
-            return Datatables::of($data)
-                ->addColumn('action', function ($row) {
-                    // dd($row->event_id);
-                    $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
-                    $downloadUrl = route('download-ticket',['booking' => $row->id]);
-                    $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
-                    // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
-                    // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
-                    return $btn;
-                })
-                ->addColumn('event_id', function ($row) {
-                    return $row->event->name;
-                })
+        $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
+        // dd($data);
 
-                ->rawColumns(['action', 'event_id'])
-                ->setRowId('id')
-                ->addIndexColumn()
-                // ->toJson()
-                ->make(true);
-        }
+        return Datatables::of($data)
+            ->addColumn('action', function ($row) {
+                // dd($row->event_id);
+                $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
+                $downloadUrl = route('download-ticket', ['booking' => $row->id]);
+                $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="' . $downloadUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
+                // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
+                // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
+                return $btn;
+            })
+            ->addColumn('event_id', function ($row) {
+                return $row->event->name;
+            })
+
+            ->rawColumns(['action', 'event_id'])
+            ->setRowId('id')
+            ->addIndexColumn()
+            // ->toJson()
+            ->make(true);
+
         return true;
     }
 
     public function Companycollection(Request $request)
     {
-        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type','created_at'])
+        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type', 'created_at'])
             ->with(['company', 'event'])
             ->where('company_id', Auth::user()->company->id)
             ->latest();
@@ -75,7 +73,7 @@ class BookingService
         // dd($event->company_id);
 
         $quantity = $request->quantity;
-        
+
         $mytime = Carbon::now()->format('ymd');
 
         $last_booking = Booking::latest()->first();
@@ -111,9 +109,7 @@ class BookingService
 
     public function show(string $id)
     {
-        
-        $booking = Booking::where('id', $id)->first();        
+        $booking = Booking::where('id', $id)->first();
         return $booking;
-        
     }
 }

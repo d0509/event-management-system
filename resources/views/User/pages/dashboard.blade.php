@@ -12,6 +12,7 @@
                     <ul>
                         {{-- <li><a href="{{ route('homepage') }}">{{ __('dashboard.home') }}</a></li>                        --}}
                         @auth
+                            <li><a href="{{ route('user.contact-us.index') }}">{{ __('dashboard.contact_us') }}</a></li>
                             <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
@@ -91,6 +92,9 @@
         @yield('user.booking.history')
     @elseif(request()->route()->getName() == 'user.booking.show')
         @yield('user.booking.show')
+    @elseif(request()->route()->getName() == 'user.contact-us.index')
+    {{-- {{dd('hi')}} --}}
+        @yield('user.contact_us.create')
     @endif
 @endsection
-{{-- header section --}}
+

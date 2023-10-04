@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CompanyStatusController;
+use App\Http\Controllers\Admin\ContactUsController as AdminContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\PasswordController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\BookingController as CompanyBookingController;
 use App\Http\Controllers\Company\EventController;
 use App\Http\Controllers\User\BookingController;
+use App\Http\Controllers\User\ContactUsController;
 use App\Http\Controllers\User\EventController as UserEventController;
 use App\Http\Controllers\User\PasswordController as UserPasswordController;
 use App\Http\Controllers\User\PDFController;
@@ -36,7 +38,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('login', [AuthController::class, 'signIn'])->name('signin');
     Route::get('admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
-    Route::post('admin/login', [AdminAuthController::class, 'signIn'])->name('admin.signin');
+    Route::post('admin/login', [AdminAuthController::class, 'signIn'])->name('admin.signIn');
 
     Route::get('register', [AuthController::class, 'register'])->name('register');
     Route::post('register', [AuthController::class, 'signup'])->name('signup');
@@ -55,9 +57,9 @@ Route::group(['middleware' => ['guest']], function () {
 Route::middleware('auth')->group(function () {
 
     Route::resource('profile', ProfileController::class)->except('create', 'store', 'delete', 'show');
-
-
+    
     Route::prefix('user')->name('user.')->group(function(){
+        Route::resource('contact-us',ContactUsController::class)->only('index','store');
         Route::resource('profile',UserProfileController::class)->only('edit','update');
         
         Route::resource('change-password',UserPasswordController::class)->only('edit','update');
@@ -73,6 +75,8 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');    
         
         Route::resource('user',UserController::class)->only('index','show');
+
+        Route::resource('contact-us',AdminContactUsController::class);
 
         Route::post('user/status',UserStatusController::class);
         

@@ -33,7 +33,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('auth.welcome') }}</h1>
                                             </div>
                                             @if (request()->route()->getName() == 'admin.login')
-                                                <form action="{{ route('admin.signin') }}" class="user" method="POST">
+                                                <form action="{{ route('signin') }}" class="user" method="POST">
                                                 @elseif(request()->route()->getName() == 'login')
                                                     <form action="{{ route('signin') }}" class="user" method="POST">
                                             @endif

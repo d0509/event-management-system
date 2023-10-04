@@ -14,7 +14,9 @@ return[
     'user_profile' => 'User Profile',
     'change_password' => 'Change Password',
     'booking_history' => 'Booking History',
-    'bookings' => 'Bookings'
+    'bookings' => 'Bookings',
+    'contact_us' => 'Contact Us',
+    'inquiries' => 'Inquiries'
 ]
 
 ?>

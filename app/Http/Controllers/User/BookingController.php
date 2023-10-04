@@ -7,6 +7,7 @@ use App\Http\Requests\Booking\Create;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Services\BookingService;
+use App\Services\PDFService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,10 +16,12 @@ class BookingController extends Controller
 {
 
     protected $bookingservice;
+    protected $PDFservice;
 
-    public function __construct(BookingService $bookingservice)
+    public function __construct(BookingService $bookingservice, PDFService $PDFservice)
     {
         $this->bookingservice = $bookingservice;
+        $this->PDFservice = $PDFservice;
     }
 
     public function index(Request $request)
@@ -42,6 +45,9 @@ class BookingController extends Controller
     public function store(Event $event, Create $request)
     {
         $this->bookingservice->store($event, $request);
+        $data = $this->bookingservice->show($event->id);
+        // dd($data);
+        $this->PDFservice->generatePDF($data);
 
         return redirect()->route('homepage');
     }

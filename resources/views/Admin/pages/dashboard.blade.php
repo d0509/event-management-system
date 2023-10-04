@@ -33,7 +33,7 @@
                             request()->route()->getName() == 'admin.company.destroy' ||
                             request()->route()->getName() == 'admin.event.index' ||
                             request()->route()->getName() == 'admin.event.edit' ||
-                            request()->route()->getName() == 'admin.event.update'  ||
+                            request()->route()->getName() == 'admin.event.update' ||
                             request()->route()->getName() == 'admin.user.index')
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                             <div class="sidebar-brand-icon rotate-n-15">
@@ -55,53 +55,66 @@
 
                     <!-- Nav Item - Pages Collapse Menu -->
                     {{-- {{dd(Auth::user()->role->name == config('site.role_names.admin'))}} --}}
-                   
-                        @if (Auth::user()->role->name == config('site.role_names.admin'))
-                        <li class="nav-item {{ (request()->route()->getName() == 'admin.dashboard' ? 'active' : '')  }}">
+
+                    @if (Auth::user()->role->name == config('site.role_names.admin'))
+                        <li class="nav-item {{ request()->route()->getName() == 'admin.dashboard'? 'active': '' }}">
                             <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>{{ __('dashboard.dashboard') }}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->route()->getName() == 'admin.company.index' ? 'active' : '')  }} " href="{{ route('admin.company.index') }}">
+                            <a class="nav-link {{ request()->route()->getName() == 'admin.company.index'? 'active': '' }} "
+                                href="{{ route('admin.company.index') }}">
                                 <i class="fa-solid fa-building"></i>
                                 <span>Company</span>
                             </a>
-    
+
                         </li>
-    
+
                         <!-- Nav Item - Utilities Collapse Menu -->
                         <li class="nav-item">
-                            <a class="nav-link {{request()->route()->getName() == 'admin.event.index' ? 'active' : ''}} " href="{{ route('admin.event.index') }}" aria-expanded="true"
+                            <a class="nav-link {{ request()->route()->getName() == 'admin.event.index'? 'active': '' }} "
+                                href="{{ route('admin.event.index') }}" aria-expanded="true"
                                 aria-controls="collapseUtilities">
                                 <i class="fa-solid fa-face-smile"></i>
                                 <span>Events</span>
-                            </a>    
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{request()->route()->getName() == 'admin.user.index' ? 'active' : ''}} " href="{{ route('admin.user.index') }}" aria-expanded="true"
+                            <a class="nav-link {{ request()->route()->getName() == 'admin.user.index'? 'active': '' }} "
+                                href="{{ route('admin.user.index') }}" aria-expanded="true"
                                 aria-controls="collapseUtilities">
                                 <i class="fa-solid fa-user"></i>
                                 <span>Users</span>
-                            </a>    
+                            </a>
                         </li>
-                        @endif
-                   
 
-                    
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->route()->getName() == 'admin.contact-us.index'? 'active': '' }} "
+                                href="{{ route('admin.contact-us.index') }}" aria-expanded="true"
+                                aria-controls="collapseUtilities">
+                                <i class="fa-solid fa-question"></i>
+                                <span>{{__('dashboard.inquiries')}}</span>
+                            </a>
+                        </li>
+                    @endif
+
+
+
                     @if (Auth::user()->role->name == config('site.role_names.company'))
-                        <li class="nav-item {{ (request()->route()->getName() == 'company.dashboard' ? 'active' : '')  }}">
+                        <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
                             <a class="nav-link" href="{{ route('company.dashboard') }}">
                                 <i class="fas fa-fw fa-tachometer-alt"></i>
                                 <span>{{ __('dashboard.dashboard') }}</span>
                             </a>
                         </li>
 
-                        
 
-                        <li class="nav-item {{ (request()->route()->getName() == 'company.event.create' ? 'active' : '')  }}">
+
+                        <li
+                            class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.create') }}" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-fw fa-cog"></i>
@@ -110,21 +123,23 @@
 
                         </li>
 
-                        <li class="nav-item {{ (request()->route()->getName() == 'company.event.index' ? 'active' : '')  }}">
+                        <li
+                            class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
                                 <i class="fas fa-fw fa-wrench"></i>
                                 <span>{{ __('dashboard.events') }}</span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (request()->route()->getName() == 'company.booking.index' ? 'active' : '')  }}">
+                        <li
+                            class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
                                 <i class="fas fa-fw fa-wrench"></i>
                                 <span>{{ __('dashboard.bookings') }}</span>
                             </a>
                         </li>
                     @endif
-                
+
 
                     <!-- Divider -->
                     <hr class="sidebar-divider">
@@ -237,7 +252,8 @@
 
                                 <li class="nav-item dropdown no-arrow">
                                     <a class="nav-link dropdown-toggle notworking" href="#" id="userDropdown"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <span
                                             class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                         @foreach (Auth::user()->media as $item)
@@ -279,7 +295,8 @@
 
                         </nav>
 
-                        @if (request()->route()->getName() == 'admin.dashboard' || request()->route()->getName() == 'company.dashboard') 
+                        @if (request()->route()->getName() == 'admin.dashboard' ||
+                                request()->route()->getName() == 'company.dashboard')
                             @yield('admin.dashboard')
                         @endif
                         @if (request()->route()->getName() == 'admin.change-password.edit')
@@ -319,7 +336,9 @@
                         @if (request()->route()->getName() == 'forgot-password')
                             @yield('forgotPassword')
                         @endif
-
+                        @if (request()->route()->getName() == 'admin.contact-us.index')
+                            @yield('admin.contact-us.index')
+                        @endif
                         @if (request()->route()->getName() == 'company.booking.index')
                             {{-- {{dd(3)}} --}}
                             @yield('company')

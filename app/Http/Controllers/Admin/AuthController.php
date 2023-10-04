@@ -24,8 +24,9 @@ class AuthController extends Controller
 
     public function signIn(Login $request)
     {
+        // dd($request);
         $this->authservice->signIn($request);
-
+        
         if (Auth::user()) {
             if ($request->user()->role->firstWhere('name', config('site.roles.admin'))) {
                 return redirect()->route('admin.dashboard');
