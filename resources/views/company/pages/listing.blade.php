@@ -128,9 +128,8 @@
 
                             },
                             success: function() {
-                                console.log('deleted successfully');
-                                $("#company" + id).hide();
-                                // toastr.success("Company deleted successfully!");
+                                console.log('deleted successfully');                                
+                                
                             }
                         });
 

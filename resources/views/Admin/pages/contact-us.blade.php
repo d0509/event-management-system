@@ -28,50 +28,79 @@
                 }
             });
             $(document).ready(function() {
-                var table = $('#data-table').DataTable({
+               
+                    var table = $('#data-table').DataTable({
 
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        'type': 'GET',
-                        url: "{{ route('admin.contact-us.index') }}",
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            'type': 'GET',
+                            url: "{{ route('admin.contact-us.index') }}",
+                            dataType: "JSON",
+                        },
+                        columns: [{
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex',
+                                orderable: false,
+                                searchable: false
+                            },
+                            {
+                                data: 'email',
+                                name: 'email'
+                            },
+                            {
+                                data: 'name',
+                                name: 'name',
+                            },
+                            {
+                                data: 'phone',
+                                name: 'phone',
+                                orderable: false,
+                            },
+                            {
+                                data: 'message',
+                                name: 'message',
+                            },
+                            {
+                                data: 'action',
+                                name: 'action',
+                                orderable: false,
+                                searchable: false
+                            },
+                        ],
+
+                    });
+                $(document).on('click', '.delete_contact', function() {
+
+                    var id = $(this).attr('data-id');
+
+                    var url = "{{ route('admin.contact-us.destroy', ':id') }}";
+                    url = url.replace(':id', id);
+
+                    var token = "{{ csrf_token() }}";
+
+                    $.ajax({
+                        url: url,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+
+                        type: 'DELETE',
                         dataType: "JSON",
-                    },
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'email',
-                            name: 'email'
-                        },
-                        {
-                            data: 'name',
-                            name: 'name',
-                        },
-                        {
-                            data: 'phone',
-                            name: 'phone',
-                            orderable: false,
-                        },
-                        {
-                            data: 'message',
-                            name: 'message',
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
-                    ],
+                        data: {
+                            id: id,
+                            "_token": "{{ csrf_token() }}",
 
-                });
+                        },
+                        success: function() {
+                            console.log('deleted successfully');
+                            
+                            $('#data-table').DataTable().ajax.reload();
+                        }
 
-                $(document).on('click','.delete_contact',function(){
-                    alert('Delete button clicked');
+
+
+                    });
                 });
 
             });

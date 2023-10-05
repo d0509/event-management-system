@@ -23,7 +23,7 @@ class ContactUsService
 
                 $ShowUrl = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
                 // $downloadUrl = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
-                $btn = '<a class="delete_contact" href="' . $ShowUrl . '" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
+                $btn = '<a class="delete_contact" id="delete_target_'.$row->id.'" data-id="'.$row->id.'" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
                 // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
                 // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
                 return $btn;
@@ -62,10 +62,8 @@ class ContactUsService
 
     public function destroy(String $id)
     {
-        $delete = ContactUs::where('id', $id)->delete();
+        return ContactUs::where('id', $id)->delete();
        
-        if ($delete) {
-            return response()->json(['success' => true]);
-        }
+       
     }
 }
