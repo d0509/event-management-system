@@ -17,7 +17,8 @@
                             request()->route()->getName() == 'company.event.edit' ||
                             request()->route()->getName() == 'company.event.update' ||
                             request()->route()->getName() == 'company.event.destroy' ||
-                            request()->route()->getName() == 'company.booking.index')
+                            request()->route()->getName() == 'company.booking.index' ||
+                            request()->route()->getName() == 'company.attend-event.index' )
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
@@ -96,7 +97,7 @@
                                 href="{{ route('admin.contact-us.index') }}" aria-expanded="true"
                                 aria-controls="collapseUtilities">
                                 <i class="fa-solid fa-question"></i>
-                                <span>{{__('dashboard.inquiries')}}</span>
+                                <span>{{ __('dashboard.inquiries') }}</span>
                             </a>
                         </li>
                     @endif
@@ -113,8 +114,7 @@
 
 
 
-                        <li
-                            class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
+                        <li class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.create') }}" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-fw fa-cog"></i>
@@ -123,19 +123,24 @@
 
                         </li>
 
-                        <li
-                            class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
+                        <li class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
                                 <i class="fas fa-fw fa-wrench"></i>
                                 <span>{{ __('dashboard.events') }}</span>
                             </a>
                         </li>
 
-                        <li
-                            class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
+                        <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
                                 <i class="fas fa-fw fa-wrench"></i>
                                 <span>{{ __('dashboard.bookings') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
+                            <a class="nav-link collapsed" href="{{ route('company.attend-event.index') }}">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>{{ __('dashboard.attend_event') }}</span>
                             </a>
                         </li>
                     @endif
@@ -347,7 +352,9 @@
                         @if (request()->route()->getName() == 'admin.user.index')
                             @yield('admin.users.index')
                         @endif
-
+                        @if (request()->route()->getName() == 'company.attend-event.index')
+                            @yield('company.attend-event.index')
+                        @endif
                         @if (request()->route()->getName() == 'admin.user.index')
                             @yield('admin.user.show')
                         @endif

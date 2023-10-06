@@ -13,6 +13,7 @@
                         {{-- <li><a href="{{ route('homepage') }}">{{ __('dashboard.home') }}</a></li>                        --}}
                         @auth
                             <li><a href="{{ route('user.contact-us.index') }}">{{ __('dashboard.contact_us') }}</a></li>
+                            {{-- <li><a href="{{ route('user.attend-event.index') }}">{{ __('dashboard.attend_event') }}</a></li> --}}
                             <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
@@ -93,8 +94,9 @@
     @elseif(request()->route()->getName() == 'user.booking.show')
         @yield('user.booking.show')
     @elseif(request()->route()->getName() == 'user.contact-us.index')
-    {{-- {{dd('hi')}} --}}
         @yield('user.contact_us.create')
     @endif
+        {{-- @if (request()->route()->getName() == 'user.attend-event.index')
+            @yield('user.attend-event.index')
+        @endif --}}
 @endsection
-

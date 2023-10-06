@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UserStatusController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
+use App\Http\Controllers\Company\AttendEvent;
 use App\Http\Controllers\Company\BookingController as CompanyBookingController;
 use App\Http\Controllers\Company\EventController;
 use App\Http\Controllers\User\BookingController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\User\EventController as UserEventController;
 use App\Http\Controllers\User\PasswordController as UserPasswordController;
 use App\Http\Controllers\User\PDFController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
+use App\Models\Booking;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,38 +60,53 @@ Route::group(['middleware' => ['guest']], function () {
 Route::middleware('auth')->group(function () {
 
     Route::resource('profile', ProfileController::class)->except('create', 'store', 'delete', 'show');
-    
-    Route::prefix('user')->name('user.')->group(function(){
-        Route::resource('contact-us',ContactUsController::class)->only('index','store');
-        Route::resource('profile',UserProfileController::class)->only('edit','update');
-        
-        Route::resource('change-password',UserPasswordController::class)->only('edit','update');
+
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('contact-us', ContactUsController::class)->only('index', 'store');
+        Route::resource('profile', UserProfileController::class)->only('edit', 'update');
+       
+        Route::resource('change-password', UserPasswordController::class)->only('edit', 'update');
     });
-    
+
     Route::get('user/booking_history', [BookingController::class, 'index'])->name('user.booking.index');
     Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
-    Route::get('booking/{booking}',[BookingController::class,'show'])->name('user.booking.show');
+    Route::get('booking/{booking}', [BookingController::class, 'show'])->name('user.booking.show');
     Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
-        Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');    
-        
-        Route::resource('user',UserController::class)->only('index','show');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::resource('contact-us',AdminContactUsController::class);
+        Route::resource('user', UserController::class)->only('index', 'show');
 
-        Route::post('user/status',UserStatusController::class);
-        
-        Route::resource('change-password',PasswordController::class)->only('edit','update');
+        Route::resource('contact-us', AdminContactUsController::class);
+
+        Route::post('user/status', UserStatusController::class);
+
+        Route::resource('change-password', PasswordController::class)->only('edit', 'update');
 
         Route::resource('company', CompanyController::class)->except('show');
 
-        Route::resource('event',AdminEventController::class)->only('index','edit','update');
+        Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update');
 
         Route::post('status', CompanyStatusController::class)->name('company.status');
-        
     });
+
+    Route::get('qr-code-g', function () {
+        //    phpinfo();
+        //    dd(1);
+        $simple = \QrCode::size(120)->generate('20222');
+        // dd($simple);
+        return view('User.pages.qr-code', compact('simple'));
+
+        // $image = new \Imagick();
+        // $image->newImage(1, 1, new ImagickPixel('#ffffff'));
+        // $image->setImageFormat('png');
+        // $pngData = $image->getImagesBlob();
+        // echo strpos($pngData, "\x89PNG\r\n\x1a\n") === 0 ? 'Ok' : 'Failed';
+    });
+
+
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
@@ -96,9 +114,8 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
-
-    Route::resource('event',EventController::class)->except('show');
-    Route::get('booking',[CompanyBookingController::class,'index'])->name('booking.index');
-    Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('attend-event',AttendEvent::class);
+    Route::resource('event', EventController::class)->except('show');
+    Route::get('booking', [CompanyBookingController::class, 'index'])->name('booking.index');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
-

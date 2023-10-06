@@ -16,7 +16,8 @@ return[
     'booking_history' => 'Booking History',
     'bookings' => 'Bookings',
     'contact_us' => 'Contact Us',
-    'inquiries' => 'Inquiries'
+    'inquiries' => 'Inquiries',
+    'attend_event' => 'Attend Event'
 ]
 
 ?>
