@@ -6,8 +6,34 @@
 @section('company.event.index')
 
     <body>
-        <div class="container">
-            <div class="row row-cols-3 g-3">
+        <div class="container-fluid">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Events</h1>
+            </div>
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th> Name</th>
+                        <th>City</th>
+                        <th>Host Company</th>
+                        {{-- <th>Category</th> --}}
+                        {{-- <th>Description</th> --}}
+                        <th>Available Seat</th>
+                        <th>Venue</th>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>To</th>
+                        {{-- <th>Free Event?</th> --}}
+                        {{-- <th>Ticket</th> --}}
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            {{-- <div class="row row-cols-3 g-3">
 
                 @foreach ($events as $event)
                     <div class="col">
@@ -33,7 +59,7 @@
                     </div>
                 @endforeach
 
-            </div>
+            </div> --}}
         </div>
         <div class="modal fade" id="deleteModal">
             <div class="modal-dialog">
@@ -78,23 +104,116 @@
                             data: {
                                 id: id,
                                 "_token": "{{ csrf_token() }}",
-                                // "id": id,
-                                // "_method": 'DELETE',
-                                // "_token": token,
                             },
                             success: function() {
                                 console.log('event deleted successfully');
                                 $("#event" + id).parent().addClass("d-none");
-                                // window.location.href = "{{ route('company.event.index') }}";
+
                             }
                         });
                     });
-                    // session() - > flash('danger', 'There are some issues in deleting event');
+
 
                 });
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $(document).ready(function() {
+                    var table = $('#dataTable').DataTable({
+
+                        processing: true,
+                        serverSide: true,
+                        order: [
+                            [1, 'desc']
+                        ],
+                        ajax: {
+                            'type': 'GET',
+                            url: "{{ route('company.event.index') }}",
+                            dataType: "JSON",
+                        },
+                        // 'company_id', 'city_id', 'name', 'category_id', 'description','available_seat','venue','event_date','start_time','end_time','ticket','is_free'
+                        columns: [{
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex',
+                                orderable: false,
+                                searchable: false
+                            },
+                            {
+                                data: 'name',
+                                name: 'name'
+                            },
+                            {
+                                data: 'city.name',
+                               
+                            },
+                            {
+                                data: 'company.name',
+                                
+                                
+                            },
+                            // {
+                            //     data: 'category_id',
+                            //     name: 'category_id',
+                            // },
+                            // {
+                            //     data: 'description',
+                            //     name: "description",
+                            //     orderable: false,
+                            // },
+                            {
+                                data: 'available_seat',
+                                name: 'available_seat',
+                            },
+                            {
+                                data: 'venue',
+                                name: 'venue',
+                            },
+                            {
+                                data: 'event_date',
+                                name: 'event_date',
+                                orderable:false,
+                            },
+                            {
+                                data: 'start_time',
+                                name: 'start_time',
+                                orderable:false,
+                            },
+                            {
+                                data: 'end_time',
+                                name: 'end_time',
+                                orderable:false,
+                            },
+                            // {
+                            //     data: 'is_free',
+                            //     name: 'is_free',
+                            //     render: function(data, type, full, meta) {
+                            //         return data ? "Yes" : "No";
+                            //     }
+                            // },
+                            // {
+                            //     data: 'ticket',
+                            //     name: 'ticket'
+                            // },
+                            {
+                                data: 'action',
+                                name:'action',
+                                searchable:false,
+                                orderable:false,
+                            }
+                        ],
+
+                    });
+
+                });
+
             });
         </script>
 
     </body>
+
 
 @endsection

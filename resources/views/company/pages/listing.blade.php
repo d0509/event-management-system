@@ -11,7 +11,7 @@
             <h1 class="h3 mb-0 text-gray-800">Company Details</h1>
             <a href="{{ route('admin.company.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fa-solid fa-user-plus"></i>
-                Add Company</a>
+                Create Company</a>
         </div>
 
 
@@ -44,9 +44,8 @@
                                         <td>{{ $company->description }}</td>
                                         <td>{{ $company->address }}</td>
                                         {{-- <td>{{ $company->user->status }}</td> --}}
-                                        <td>
-                                            <!-- Default switch -->
-                                            <!-- Default checked -->
+                                        <td  >
+                                           
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" style="margin: 0 auto"
                                                     role="switch" id="flexSwitchCheckChecked"
@@ -56,10 +55,10 @@
                                             </div>
 
                                         </td>
-                                        <td>
+                                        <td class="d-flex" >
                                             {{-- update --}}
                                             <a class="btn btn-success"
-                                                href="{{ route('admin.company.edit', ['company' => $company]) }}">Update</a>
+                                                href="{{ route('admin.company.edit', ['company' => $company]) }}">Edit</a>
                                             {{-- delete --}}
                                             <button type="button" class="btn btn-danger"
                                                 data-companyId="{{ $company->id }}" data-target="#deleteModal"

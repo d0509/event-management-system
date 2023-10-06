@@ -4,27 +4,30 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\AttendEvent as CompanyAttendEvent;
+use App\Models\Booking;
 use App\Models\Event;
+use App\Services\AttendService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AttendEvent extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    
+    protected $attendservice;
 
-        $todayEvent  =  Event::where('company_id',Auth::user()->company->id)->where('event_date',Carbon::now()->format('Y-m-d'))->select('id','name')->get();
-        // dd($todayEvent->toArray());
-        return view(
-            'company.pages.attend-event',[
-                'todayEvents' =>$todayEvent,
-                
-            ]
-        );
+    public function __construct(AttendService $attendservice){
+        $this->attendservice = $attendservice;
+    }
+
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $user_bookings =  $this->attendservice->collection();
+            return $user_bookings;
+        }
+        return view('company.attend-event.index');
     }
 
     /**
@@ -32,7 +35,15 @@ class AttendEvent extends Controller
      */
     public function create()
     {
-        return view('company.pages.attend-event');
+        $todayEvent  =  Event::where('company_id', Auth::user()->company->id)->where('event_date', Carbon::now()->format('Y-m-d'))->select('id', 'name')->get();
+        // dd($todayEvent->toArray());
+        return view(
+            'company.attend-event.create',
+            [
+                'todayEvents' => $todayEvent,
+
+            ]
+        );
     }
 
     /**
@@ -40,7 +51,37 @@ class AttendEvent extends Controller
      */
     public function store(CompanyAttendEvent $request)
     {
-        
+        // dd($request);
+        $eventId  = $request->event_id;
+        $bookingNumber  = $request->booking_number;
+        $noOfAttendee = $request->no_of_attendee;
+
+        // dd($noOfAttendee);
+        $booking = Booking::where('booking_number', $bookingNumber)->first();
+        // dd($booking->toArray());
+
+        $bookingEventId  = $booking->event_id;
+        $bookingAttendee = $booking->no_of_attendees;
+        $bookingQuantity = $booking->quantity;
+        $sum = $bookingAttendee  +  $noOfAttendee;
+        // dd(config('site.is_attended.attended'));
+
+        if ($bookingEventId != $eventId) {
+            session()->flash('danger', 'Booking number or your selected event is incorrect');
+            return redirect()->route('company.attend-event.index');
+        } elseif ($sum > $bookingQuantity) {
+            session()->flash('danger', 'Please enter valid attendees count');
+            return redirect()->route('company.attend-event.index');
+        } else {
+            $update =  $booking->update([
+                'is_attended' => config('site.is_attended.attended'),
+                'no_of_attendees' => $sum,
+            ]);
+            if ($update == true) {
+                session()->flash('success', 'You have successfully added event as attended');
+                return redirect()->route('company.attend-event.index');
+            }
+        }
     }
 
     /**

@@ -13,7 +13,8 @@ use Yajra\DataTables\Facades\DataTables;
 class BookingService
 {
 
-    public function collection(){
+    public function collection()
+    {
 
         $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
         // dd($data);
@@ -27,6 +28,9 @@ class BookingService
                 // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
                 // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
                 return $btn;
+            })
+            ->orderColumn('event_id', function ($query, $order) {
+                $query->orderBy('id', $order);
             })
             ->addColumn('event_id', function ($row) {
                 return $row->event->name;
@@ -43,15 +47,13 @@ class BookingService
 
     public function Companycollection(Request $request)
     {
-        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type', 'created_at'])
+        $data = Booking::select(['id', 'user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type', 'created_at'])
             ->with(['company', 'event'])
-            ->where('company_id', Auth::user()->company->id)
-            ->latest();
+            ->where('company_id', Auth::user()->company->id);
 
         return Datatables::of($data)
-            ->orderColumn('booking_number', function ($query) {
-                $query->orderBy('created_at', 'desc');
-                return $query;
+            ->orderColumn('user_id', function ($query, $order) {
+                $query->orderBy('id', $order);
             })
             ->addColumn('user_id', function ($row) {
                 return $row->user->name;
@@ -70,7 +72,7 @@ class BookingService
 
     public function store(Event $event, Create $request)
     {
-       
+
         $quantity = $request->quantity;
 
         $mytime = Carbon::now()->format('ymd');
@@ -88,7 +90,7 @@ class BookingService
 
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
         } else {
-           $data = Booking::create([
+            $data = Booking::create([
                 'user_id' => Auth::user()->id,
                 'event_id' => $event->id,
                 'company_id' => $event->company_id,
@@ -102,7 +104,7 @@ class BookingService
                 'is_free_event' => $event->is_free
             ]);
 
-            
+
 
             session()->flash('success', 'Your ticket is booked successfully');
             return $data;

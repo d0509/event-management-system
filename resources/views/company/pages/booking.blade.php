@@ -2,12 +2,13 @@
 @section('title', 'Bookings')
 @section('company')
 
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bookings</h1>
+        </div>
 
-    <h1 class="text-center">Company Bookings</h1>
 
-
-    <div class="container mt-5">
-        <table class="table table-striped" id="data-table">
+        <table class="table table-primary table-striped" id="data-table">
             <thead>
                 <tr>
                     <th>Sr. No</th>

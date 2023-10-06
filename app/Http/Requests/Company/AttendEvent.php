@@ -23,9 +23,9 @@ class AttendEvent extends FormRequest
     {
         // dd($this);
         return [
-            'eventName' => 'required|not_in:default',
+            'event_id' => 'required|not_in:default',
             'booking_number' => 'required|exists:bookings,booking_number',
-            'no_of_attendee'=>'required|number'
+            'no_of_attendee'=>'required|numeric'
         ];
     }
 }

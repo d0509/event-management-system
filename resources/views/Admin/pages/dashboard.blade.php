@@ -18,7 +18,8 @@
                             request()->route()->getName() == 'company.event.update' ||
                             request()->route()->getName() == 'company.event.destroy' ||
                             request()->route()->getName() == 'company.booking.index' ||
-                            request()->route()->getName() == 'company.attend-event.index' )
+                            request()->route()->getName() == 'company.attend-event.create' ||
+                            request()->route()->getName() == 'company.attend-event.index')
                         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
@@ -352,7 +353,9 @@
                         @if (request()->route()->getName() == 'admin.user.index')
                             @yield('admin.users.index')
                         @endif
-                        @if (request()->route()->getName() == 'company.attend-event.index')
+                        @if (request()->route()->getName() == 'company.attend-event.create')
+                            @yield('company.attend-event.create')
+                        @elseif(request()->route()->getName() == 'company.attend-event.index')
                             @yield('company.attend-event.index')
                         @endif
                         @if (request()->route()->getName() == 'admin.user.index')

@@ -1,6 +1,6 @@
 @extends('admin.pages.dashboard')
 @section('title', 'Attend Event')
-@section('company.attend-event.index')
+@section('company.attend-event.create')
 
     <div class="container">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -12,13 +12,13 @@
             {{-- {{dd($todayEvents)}} --}}
             <div class="form-outline mb-4">
                 <label for="exampleFormControlInput1" class="form-label">Event Name</label>
-                <select class="form-control" name="eventName" aria-label="Default select example">
+                <select class="form-control" name="event_id" aria-label="Default select example">
                     <option value="default"> Please select an event </option>
                     @foreach ($todayEvents as $todayEvent)
-                        <option value="{{ $todayEvent->name }}">{{ $todayEvent->name }}</option>
+                        <option value="{{ $todayEvent->id }}">{{ $todayEvent->name }}</option>
                     @endforeach
                 </select>
-                @error('eventName')
+                @error('event_id')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>

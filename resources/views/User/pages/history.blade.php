@@ -36,6 +36,9 @@
                
                 processing: true,
                 serverSide: true,
+                order: [
+                    [1, 'desc']
+                ],
                 ajax: {
                     'type': 'GET',
                     url: "{{ route('user.booking.index') }}",

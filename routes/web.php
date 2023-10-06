@@ -114,8 +114,11 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
-    Route::resource('attend-event',AttendEvent::class);
-    Route::resource('event', EventController::class)->except('show');
+    // Route::resource('attend-event',AttendEvent::class);
+    Route::get('event/attend',[AttendEvent::class,'create'])->name('attend-event.create');
+    Route::get('event/attend/list',[AttendEvent::class,'index'])->name('attend-event.index');
+    Route::resource('event', EventController::class);
     Route::get('booking', [CompanyBookingController::class, 'index'])->name('booking.index');
+    Route::post('event/attend/list',[AttendEvent::class,'store'])->name('attend-event.store');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

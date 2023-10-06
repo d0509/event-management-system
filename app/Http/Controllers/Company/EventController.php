@@ -26,14 +26,14 @@ class EventController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $events = $this->eventservice->collection();
+        if ($request->ajax()) {
+            $user_bookings =  $this->eventservice->companyCollection();
+            return $user_bookings;
+        }
 
-        // dd($events);
-        return view('company.event.index', [
-            'events' => $events
-        ]);
+        return view('company.event.index');
     }
 
     public function create()
@@ -55,7 +55,7 @@ class EventController extends Controller
 
     public function show(string $id)
     {
-        //
+        
     }
 
     public function edit(Event $event)

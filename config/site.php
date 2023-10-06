@@ -24,6 +24,12 @@ return [
         'technical' => 'technical',       
     ],
     'date_format' => 'd/m/Y',
+    'time_format' => 'h:i A',
+    'is_attended' => [
+        'attended' => 1,
+        'not_attended' => 0,
+        
+    ]
 ];
 
 
