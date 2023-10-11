@@ -17,7 +17,9 @@ return[
     'bookings' => 'Bookings',
     'contact_us' => 'Contact Us',
     'inquiries' => 'Inquiries',
-    'attend_event' => 'Attend Event'
+    'attend_event' => 'Attend Event',
+    'add_attendee' => 'Add Attendee',
+    'attendee_list' => 'Attendee List'
 ]
 
 ?>

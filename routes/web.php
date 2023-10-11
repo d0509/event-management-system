@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CompanyStatusController;
 use App\Http\Controllers\Admin\ContactUsController as AdminContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\EventStatusController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
@@ -84,10 +85,10 @@ Route::middleware('auth')->group(function () {
         Route::post('user/status', UserStatusController::class);
 
         Route::resource('change-password', PasswordController::class)->only('edit', 'update');
-
+        Route::post('event/status',EventStatusController::class)->name('event.status');
         Route::resource('company', CompanyController::class)->except('show');
 
-        Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update');
+        Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update','show');
 
         Route::post('status', CompanyStatusController::class)->name('company.status');
     });
@@ -99,11 +100,7 @@ Route::middleware('auth')->group(function () {
         // dd($simple);
         return view('User.pages.qr-code', compact('simple'));
 
-        // $image = new \Imagick();
-        // $image->newImage(1, 1, new ImagickPixel('#ffffff'));
-        // $image->setImageFormat('png');
-        // $pngData = $image->getImagesBlob();
-        // echo strpos($pngData, "\x89PNG\r\n\x1a\n") === 0 ? 'Ok' : 'Failed';
+       
     });
 
 

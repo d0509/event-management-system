@@ -11,6 +11,10 @@ return [
         'pending' => 'pending',
         'approved' => 'approved'
     ],
+    'is_approved'=>[
+        'pending' => 0,
+        'approved'=>1,
+    ],
     'role_names' =>[
         'admin' => 'admin',
         'company' => 'company',

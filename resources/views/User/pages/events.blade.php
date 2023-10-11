@@ -67,6 +67,8 @@
                                 <p class="col-1 text-dark"><i class="fas fa-industry"></i></p>
                                 <p class="col-10 text-dark">{{ $event->company->name }}</p>
                             </div>
+                            {{-- {{dd((Carbon\Carbon::parse($event->event_date)->toDateString())> ('2023-10-19'))}}
+                            {{dd(Carbon\Carbon::parse($event->event_date)->toDateString())}} --}}
                             {{-- <div class="d-flex justify-content-between">
                             <p class="text-dark">Category</p>
                             <p class="text-dark">{{ $event->category->name}}</p>

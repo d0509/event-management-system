@@ -47,8 +47,9 @@ class BookingService
 
     public function Companycollection(Request $request)
     {
-        $data = Booking::select(['id', 'user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type', 'created_at'])
-            ->with(['company', 'event'])
+        // dd(Auth::user()->company->id);
+        $data = Booking::select(['bookings.*'])
+            ->with(['user', 'event'])
             ->where('company_id', Auth::user()->company->id);
 
         return Datatables::of($data)
@@ -101,7 +102,8 @@ class BookingService
                 'discount' => 0,
                 'total' => $event->ticket * $quantity,
                 'type' => $quantity > 1 ? 'multiple' : 'single',
-                'is_free_event' => $event->is_free
+                'is_free_event' => $event->is_free,
+                'no_of_attendees' => 0,
             ]);
 
 

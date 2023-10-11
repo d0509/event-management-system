@@ -29,9 +29,10 @@
 
                                 @if (request()->route()->getName() == 'admin.company.edit')
                                     <form action="{{ route('admin.company.update', ['company' => $company]) }}"
-                                        method="post" enctype="multipart/form-data" >
+                                        method="post" enctype="multipart/form-data">
                                     @elseif(request()->route()->getName() == 'admin.company.create')
-                                        <form action="{{ route('admin.company.store') }}" method="post"  enctype="multipart/form-data">
+                                        <form action="{{ route('admin.company.store') }}" method="post"
+                                            enctype="multipart/form-data">
                                 @endif
                                 @csrf
                                 @if (request()->route()->getName() == 'admin.company.edit')
@@ -139,9 +140,10 @@
                                                         </div>
 
                                                         <div class="form-outline mb-4">
-                                                            <label class="form-label" for="form7Example2">Profile Picture</label>
-                                                            <input type="file" accept="image/png, image/jpeg, image/jpg" name="profile"
-                                                                id="profile" class="form-control" />
+                                                            <label class="form-label" for="form7Example2">Profile
+                                                                Picture</label>
+                                                            <input type="file" accept="image/png, image/jpeg, image/jpg"
+                                                                name="profile" id="profile" class="form-control" />
                                                             @error('profile')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
@@ -167,7 +169,8 @@
                                                                 <input type="password" name="password_confirmation"
                                                                     id="password_confirmation"
                                                                     class="form-control form-control-user rounded-pill"
-                                                                    id="exampleInputPassword" placeholder="Confirm Password"
+                                                                    id="exampleInputPassword"
+                                                                    placeholder="Confirm Password"
                                                                     value="{{ old('password') }}">
 
                                                                 @error('password_confirmation')

@@ -19,8 +19,11 @@
                             request()->route()->getName() == 'company.event.destroy' ||
                             request()->route()->getName() == 'company.booking.index' ||
                             request()->route()->getName() == 'company.attend-event.create' ||
-                            request()->route()->getName() == 'company.attend-event.index')
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                            request()->route()->getName() == 'company.attend-event.index' || 
+                            request()->route()->getName() == 'company.event.show' 
+                            )
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                            href="{{ route('company.dashboard') }}">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
                             </div>
@@ -36,8 +39,12 @@
                             request()->route()->getName() == 'admin.event.index' ||
                             request()->route()->getName() == 'admin.event.edit' ||
                             request()->route()->getName() == 'admin.event.update' ||
-                            request()->route()->getName() == 'admin.user.index')
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                            request()->route()->getName() == 'admin.user.index' ||
+                            request()->route()->getName() == 'admin.contact-us.index' ||
+                            request()->route()->getName() == 'admin.user.show' ||
+                            request()->route()->getName() == 'admin.event.show')
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                            href="{{ route('admin.dashboard') }}">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
                             </div>
@@ -113,16 +120,20 @@
                             </a>
                         </li>
 
+                        <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
+                            <a class="nav-link" href="{{ route('company.attend-event.create') }}">
+                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <span>{{ __('dashboard.add_attendee') }}</span>
+                            </a>
+                        </li>
 
-
-                        <li class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
+                        {{-- <li class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.create') }}" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-fw fa-cog"></i>
                                 <span>{{ __('dashboard.add_event') }}</span>
                             </a>
-
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
@@ -141,7 +152,7 @@
                         <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.attend-event.index') }}">
                                 <i class="fas fa-fw fa-wrench"></i>
-                                <span>{{ __('dashboard.attend_event') }}</span>
+                                <span>{{ __('dashboard.attendee_list') }}</span>
                             </a>
                         </li>
                     @endif
@@ -353,6 +364,10 @@
                         @if (request()->route()->getName() == 'admin.user.index')
                             @yield('admin.users.index')
                         @endif
+
+                        @if (request()->route()->getName() == 'admin.event.show' || request()->route()->getName() == 'company.event.show')
+                            @yield('admin.event.show')
+                        @endif
                         @if (request()->route()->getName() == 'company.attend-event.create')
                             @yield('company.attend-event.create')
                         @elseif(request()->route()->getName() == 'company.attend-event.index')
@@ -417,7 +432,6 @@
                     });
                 });
             </script>
-
         </body>
     @endif
 @endsection

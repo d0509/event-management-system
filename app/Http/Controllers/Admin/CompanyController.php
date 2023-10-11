@@ -32,10 +32,13 @@ class CompanyController extends Controller
         $this->cityservice = $cityservice;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $companies = $this->companyservice->getAllCompanies();
-        return view('company.pages.listing', ['companies' => $companies]);
+        if ($request->ajax()) {
+            $companies =  $this->companyservice->collection();
+            return $companies;
+        }
+        return view('company.pages.listing');
     }
 
     /**
@@ -93,7 +96,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-
+        // dd($company->toArray());
         $delete = $company->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);

@@ -6,7 +6,7 @@
             <h1 class="h3 mb-0 text-gray-800">Attended Event</h1>
         </div>
 
-        <table class="table table-primary" id="data-table">
+        <table class="table" id="data-table">
             <thead>
                 <tr>
                     <th>Sr. No</th>

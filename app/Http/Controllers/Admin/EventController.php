@@ -24,17 +24,15 @@ class EventController extends Controller
         $this->categoryservice = $categoryservice;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        return view(
-            'admin.event.index',
-            [
-                'events' => $this->eventservice->collection()
-            ]
-        );
+        if ($request->ajax()) {
+            $events  = $this->eventservice->collection();
+            return $events;
+        }
+        return view('admin.event.index');
     }
-    
+
     public function create()
     {
         //
@@ -45,13 +43,18 @@ class EventController extends Controller
         //
     }
 
-    
+
     public function show(string $id)
     {
-        //
+        // dd($id);
+        $event =  $this->eventservice->resource($id);
+        //    dd($event->toArray());
+        return view('admin.event.show', [
+            'event' => $event
+        ]);
     }
 
-   public function edit(Event $event)
+    public function edit(Event $event)
     {
         return view('admin.event.edit', [
             'event' => $event,
@@ -60,7 +63,7 @@ class EventController extends Controller
         ]);
     }
 
-   public function update(Status $request, Event $event)
+    public function update(Status $request, Event $event)
     {
         $this->eventservice->chnagestatus($request, $event);
         return redirect()->route('admin.event.index');

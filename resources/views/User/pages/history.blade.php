@@ -3,7 +3,7 @@
 @section('title', 'User Booking History')
 @section('user.booking.history')
     <div class="container mt-5">
-        <table class="table table-primary" id="data-table">
+        <table class="table" id="data-table">
             <thead>
                 <tr>
                     <th>Sr. No</th>
