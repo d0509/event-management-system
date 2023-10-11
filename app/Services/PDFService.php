@@ -14,10 +14,11 @@ class PDFService
 {
     public function generatePDF($data)
     {
-        
+        // dd($data['booking_number']);
+
         $user = $data->user;
-        
-        $data2 = [
+
+        $pdfData = [
             'owner_name' => $data->user->name,
             'date' =>  Carbon::parse($data->event->event_date)->format(config('site.date_format')),
             'event_name' => $data->event->name,
@@ -31,19 +32,29 @@ class PDFService
             'host_company' => $data->company->name,
         ];
 
+        $pdf = $this->generateQrCodeAndLoadView($data,'my-ticket', $pdfData);
+        
 
         $pdfName = 'booking_' . now()->timestamp . '.pdf';
-        $pdf = PDF::loadView('my-ticket', $data2);
+        // $pdf = PDF::loadView('my-ticket', $data2);
 
         $pdf->save(public_path() . '/storage/tickets/' . $pdfName);
         // dd( Booking::where('booking_number', $data->booking_number)->get());
         Booking::where('booking_number', $data->booking_number)->update(['pdf_name' => $pdfName]);
 
         try {
-            $user->notify(new TicketMail($data, $pdf, $pdfName));
+            // $user->notify(new TicketMail($data, $pdf, $pdfName));
         } catch (Exception $e) {
             Log::info($e);
-        }        
+        }
     }
-    
+
+    function generateQrCodeAndLoadView( $data2,$view, $data)
+    {
+        // dd($data2);
+        // $simple = \QrCode::size(120)->generate($data2);
+        // dd($simple);
+        $pdf = PDF::loadView($view, $data );
+        return $pdf;
+    }
 }

@@ -23,6 +23,7 @@ use App\Http\Controllers\User\EventController as UserEventController;
 use App\Http\Controllers\User\PasswordController as UserPasswordController;
 use App\Http\Controllers\User\PDFController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
+use App\Http\Controllers\User\QRCodeController;
 use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Support\Facades\Route;
@@ -65,7 +66,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('user')->name('user.')->group(function () {
         Route::resource('contact-us', ContactUsController::class)->only('index', 'store');
         Route::resource('profile', UserProfileController::class)->only('edit', 'update');
-       
+        Route::get('qr-code', function(){
+            $qrCodes = [];
+            $qrCodes['simple'] = QrCode::size(120)->generate(231011090);
+            return view('user.pages.qr-code', $qrCodes);
+        });
         Route::resource('change-password', UserPasswordController::class)->only('edit', 'update');
     });
 
@@ -77,33 +82,15 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
         Route::resource('user', UserController::class)->only('index', 'show');
-
         Route::resource('contact-us', AdminContactUsController::class);
-
         Route::post('user/status', UserStatusController::class);
-
         Route::resource('change-password', PasswordController::class)->only('edit', 'update');
-        Route::post('event/status',EventStatusController::class)->name('event.status');
+        Route::post('event/status', EventStatusController::class)->name('event.status');
         Route::resource('company', CompanyController::class)->except('show');
-
-        Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update','show');
-
+        Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update', 'show');
         Route::post('status', CompanyStatusController::class)->name('company.status');
     });
-
-    Route::get('qr-code-g', function () {
-        //    phpinfo();
-        //    dd(1);
-        $simple = \QrCode::size(120)->generate('20222');
-        // dd($simple);
-        return view('User.pages.qr-code', compact('simple'));
-
-       
-    });
-
-
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
@@ -112,10 +99,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
     // Route::resource('attend-event',AttendEvent::class);
-    Route::get('event/attend',[AttendEvent::class,'create'])->name('attend-event.create');
-    Route::get('event/attend/list',[AttendEvent::class,'index'])->name('attend-event.index');
+    Route::get('event/attend', [AttendEvent::class, 'create'])->name('attend-event.create');
+    Route::get('event/attend/list', [AttendEvent::class, 'index'])->name('attend-event.index');
     Route::resource('event', EventController::class);
     Route::get('booking', [CompanyBookingController::class, 'index'])->name('booking.index');
-    Route::post('event/attend/list',[AttendEvent::class,'store'])->name('attend-event.store');
+    Route::post('event/attend/list', [AttendEvent::class, 'store'])->name('attend-event.store');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

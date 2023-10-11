@@ -98,9 +98,19 @@
 
 			<div class="column-2">
 				<div class="qr-holder">
-					{{-- <img src="qr-code.png" width="120px" height="120px" /> --}}
+
+					{!! $booking_number !!}
+					
+					{{-- <img src="data:image/png;base64, <?php // echo base64_encode(QrCode::size(120)->generate($booking_number)); ?>" /> --}}
+
+					{{-- <img src="{!! $ticket_number !!}" width="120px" height="120px" /> --}}
 				</div>
+
 			</div>
+		</div>
+
+		<div >
+			{{-- {{QrCode::size(120)->generate(231011090)}} --}}
 		</div>
 	</body>
 </html>

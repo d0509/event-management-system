@@ -45,10 +45,9 @@ class BookingController extends Controller
     public function store(Event $event, Create $request)
     {
         $store_data = $this->bookingservice->store($event, $request);
-    //    dd($store_data->toArray());
-    if($store_data){
-        $this->PDFservice->generatePDF($store_data);
-    }
+        if ($store_data) {
+            $this->PDFservice->generatePDF($store_data);
+        }
 
         return redirect()->route('homepage');
     }
