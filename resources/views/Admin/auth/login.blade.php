@@ -1,4 +1,4 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admin-layout')
 @section('title', 'Login page')
 {{-- {{dd('im afetr title')}} --}}
 @section('container')
@@ -33,9 +33,9 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('auth.welcome') }}</h1>
                                             </div>
                                             @if (request()->route()->getName() == 'admin.login')
-                                                <form action="{{ route('signin') }}" class="user" method="POST">
+                                                <form action="{{ route('signIn') }}" class="user" method="POST">
                                                 @elseif(request()->route()->getName() == 'login')
-                                                    <form action="{{ route('signin') }}" class="user" method="POST">
+                                                    <form action="{{ route('signIn') }}" class="user" method="POST">
                                             @endif
                                             @csrf
                                             <div class="form-group">

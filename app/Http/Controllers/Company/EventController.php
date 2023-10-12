@@ -14,22 +14,22 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    protected $cityservice;
-    protected $eventservice;
-    protected $categoryservice;
+    protected $cityService;
+    protected $eventService;
+    protected $categoryService;
 
-    public function __construct(CityService $cityservice, EventService $eventservice, CategoryService $categoryservice)
+    public function __construct(CityService $cityService, EventService $eventService, CategoryService $categoryService)
     {
-        $this->cityservice = $cityservice;
-        $this->eventservice = $eventservice;
-        $this->categoryservice = $categoryservice;
+        $this->cityService = $cityService;
+        $this->eventService = $eventService;
+        $this->categoryService = $categoryService;
     }
 
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->eventservice->companyCollection();
+            $user_bookings =  $this->eventService->companyCollection();
             return $user_bookings;
         }
 
@@ -38,25 +38,24 @@ class EventController extends Controller
 
     public function create()
     {
-        $event = $this->cityservice->collection();
+        $event = $this->cityService->collection();
 
-        return view('company.pages.createEvent', [
-            'cities' => $this->cityservice->collection(),
-            'categories' => $this->categoryservice->index()
+        return view('company.pages.create-event', [
+            'cities' => $this->cityService->collection(),
+            'categories' => $this->categoryService->index()
         ]);
     }
 
     public function store(AddEvent $request)
     {
-        $this->eventservice->store($request);
+        $this->eventService->store($request);
 
         return redirect()->route('company.event.index');
     }
 
     public function show(string $id)
     {
-        $event =  $this->eventservice->resource($id);
-        //    dd($event->toArray());
+        $event =  $this->eventService->resource($id);
         return view('admin.event.show', [
             'event' => $event
         ]);
@@ -65,10 +64,10 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         if(Auth::user()->company->id == $event->company_id){
-            return view('company.pages.createEvent', [
+            return view('company.pages.create-event', [
                 'event' => $event,
-                'cities' => $this->cityservice->collection(),
-                'categories' => $this->categoryservice->index(),
+                'cities' => $this->cityService->collection(),
+                'categories' => $this->categoryService->index(),
             ]);
         } else {
             abort(404);
@@ -78,7 +77,7 @@ class EventController extends Controller
     public function update(AddEvent $request, Event $event)
     {
         // dd(3);
-        $this->eventservice->update($request, $event);
+        $this->eventService->update($request, $event);
         return redirect()->route('company.event.index');
     }
 

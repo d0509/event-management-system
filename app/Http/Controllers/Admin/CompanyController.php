@@ -20,22 +20,22 @@ use Illuminate\Support\Facades\Hash;
 class CompanyController extends Controller
 {
 
-    protected $companyservice;
-    protected $cityservice;
+    protected $companyService;
+    protected $cityService;
     /**
      * Display a listing of the resource.
      */
 
-    public function __construct(CompanyService $companyservice, CityService $cityservice)
+    public function __construct(CompanyService $companyService, CityService $cityService)
     {
-        $this->companyservice = $companyservice;
-        $this->cityservice = $cityservice;
+        $this->companyService = $companyService;
+        $this->cityService = $cityService;
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $companies =  $this->companyservice->collection();
+            $companies =  $this->companyService->collection();
             return $companies;
         }
         return view('company.pages.listing');
@@ -46,7 +46,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $cities = $this->cityservice->collection();
+        $cities = $this->companyService->collection();
 
         return view('company.pages.edit', [
             'cities' => $cities,
@@ -58,7 +58,7 @@ class CompanyController extends Controller
      */
     public function store(Add $request): RedirectResponse
     {
-        $this->companyservice->storeByAdmin($request);
+        $this->companyService->storeByAdmin($request);
         return redirect()->route('admin.company.index');
     }
 
@@ -78,7 +78,7 @@ class CompanyController extends Controller
         // dd('admin.company.edit');
         return view('company.pages.edit', [
             'company' => $company,
-            'cities' => $this->cityservice->collection(),
+            'cities' => $this->cityService->collection(),
         ]);
     }
 
@@ -87,7 +87,7 @@ class CompanyController extends Controller
      */
     public function update(EditCompany $request, Company $company)
     {
-        $this->companyservice->updateByAdmin($request, $company);
+        $this->companyService->updateByAdmin($request, $company);
         return redirect()->route('admin.company.index');
     }
 

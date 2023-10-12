@@ -1,4 +1,4 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admin-layout')
 @section('admindashboard')
     @if (Auth::user())
 
@@ -122,7 +122,7 @@
 
                         <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
                             <a class="nav-link" href="{{ route('company.attend-event.create') }}">
-                                <i class="fas fa-fw fa-tachometer-alt"></i>
+                                <i class="fas fa-user-plus"></i>
                                 <span>{{ __('dashboard.add_attendee') }}</span>
                             </a>
                         </li>
@@ -137,21 +137,21 @@
 
                         <li class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fas fa-music"></i>
                                 <span>{{ __('dashboard.events') }}</span>
                             </a>
                         </li>
 
                         <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fas fa-ticket-alt"></i>
                                 <span>{{ __('dashboard.bookings') }}</span>
                             </a>
                         </li>
 
                         <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.attend-event.index') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fas fa-users"></i>
                                 <span>{{ __('dashboard.attendee_list') }}</span>
                             </a>
                         </li>
@@ -342,7 +342,7 @@
                             @yield('event')
                         @endif
                         @if (request()->route()->getName() == 'reset.password.get')
-                            @yield('forgetPasswordLink')
+                            @yield('forget-password-link')
                         @endif
                         @if (request()->route()->getName() == 'admin.company.index')
                             @yield('content')
@@ -351,7 +351,7 @@
                             @yield('edit')
                         @endif
                         @if (request()->route()->getName() == 'forgot-password')
-                            @yield('forgotPassword')
+                            @yield('forgot-password')
                         @endif
                         @if (request()->route()->getName() == 'admin.contact-us.index')
                             @yield('admin.contact-us.index')
@@ -432,6 +432,7 @@
                     });
                 });
             </script>
+           
         </body>
     @endif
 @endsection

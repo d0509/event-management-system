@@ -13,21 +13,21 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
 
-    protected $eventservice;
-    protected $cityservice;
-    protected $categoryservice;
+    protected $eventService;
+    protected $cityService;
+    protected $categoryService;
 
-    public function __construct(EventService $eventservice, CityService $cityservice, CategoryService $categoryservice)
+    public function __construct(EventService $eventService, CityService $cityService, CategoryService $categoryService)
     {
-        $this->eventservice = $eventservice;
-        $this->cityservice = $cityservice;
-        $this->categoryservice = $categoryservice;
+        $this->eventService = $eventService;
+        $this->cityService = $cityService;
+        $this->categoryService = $categoryService;
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $events  = $this->eventservice->collection();
+            $events  = $this->eventService->collection();
             return $events;
         }
         return view('admin.event.index');
@@ -47,7 +47,7 @@ class EventController extends Controller
     public function show(string $id)
     {
         // dd($id);
-        $event =  $this->eventservice->resource($id);
+        $event =  $this->eventService->resource($id);
         //    dd($event->toArray());
         return view('admin.event.show', [
             'event' => $event
@@ -58,14 +58,14 @@ class EventController extends Controller
     {
         return view('admin.event.edit', [
             'event' => $event,
-            'cities' => $this->cityservice->collection(),
-            'categories' => $this->categoryservice->index(),
+            'cities' => $this->cityService->collection(),
+            'categories' => $this->categoryService->index(),
         ]);
     }
 
     public function update(Status $request, Event $event)
     {
-        $this->eventservice->chnagestatus($request, $event);
+        $this->eventService->changeStatus($request, $event);
         return redirect()->route('admin.event.index');
     }
 

@@ -84,39 +84,7 @@
         </div>
         <script>
             $(document).ready(function() {
-                $(document).on('click', '.delete_event', function(e) {
-
-                    e.preventDefault();
-
-                    var id = $(this).attr("data-eventId");
-                    console.log(id);
-                    var url = "{{ route('company.event.destroy', ':id') }}";
-                    url = url.replace(':id', id);
-                    var token = "{{ csrf_token() }}";
-                    $(document).on('click', ".deletefinal", function() {
-                        $.ajax({
-                            url: url,
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-
-                            type: 'DELETE',
-                            dataType: "JSON",
-                            data: {
-                                id: id,
-                                "_token": "{{ csrf_token() }}",
-                            },
-                            success: function() {
-                                console.log('event deleted successfully');
-                                $("#event" + id).parent().addClass("d-none");
-
-                            }
-                        });
-                    });
-
-
-                });
-
+             
 
                 $.ajaxSetup({
                     headers: {

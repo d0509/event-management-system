@@ -1,4 +1,5 @@
-@extends('layouts.userlayout')
+@extends('layouts.user-layout')
+{{-- @extends('User.pages.footer') --}}
 @section('dashboard')
     <header class="header-section">
         <div class="container">
@@ -18,8 +19,8 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                     @foreach (Auth::user()->media as $item)
-                                        <img class="img-profile rounded-circle" width="70px" style="border-radius: 50%"
-                                            height="70px"
+                                        <img class="img-profile rounded-circle" width="40px" style="border-radius: 50%"
+                                            height="40px"
                                             src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}">
                                     @endforeach
                                 </a>
@@ -96,7 +97,6 @@
     @elseif(request()->route()->getName() == 'user.contact-us.index')
         @yield('user.contact_us.create')
     @endif
-        {{-- @if (request()->route()->getName() == 'user.attend-event.index')
-            @yield('user.attend-event.index')
-        @endif --}}
+    @yield('footer')
 @endsection
+

@@ -128,7 +128,7 @@ class EventService
                 $events = Event::latest()->where('is_approved', 1)->where('city_id', request('city'))->where('event_date', '>=', Carbon::now()->toDateString())->get();
                 return $events;
             } else {
-                // dd('i dont have any condition to show event');
+                // dd("i don't have any condition to show event");
                 $events = Event::latest()->where('is_approved', 1)->whereDate('event_date', '>=', Carbon::now())->get();
                 // dd(Event::where('is_approved',1)->get()->toArray());
                 return $events;
@@ -219,7 +219,7 @@ class EventService
 
     }
 
-    public function chnagestatus(Status $request, Event $event)
+    public function changeStatus(Status $request, Event $event)
     {
         $validated = $request->validated();
 
@@ -231,7 +231,6 @@ class EventService
     public function resource($id)
     {
         $event  = Event::find($id);
-        // dd($event->toArray());
         return $event;
     }
 }

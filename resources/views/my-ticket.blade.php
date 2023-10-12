@@ -88,20 +88,17 @@
 		<div class="container">
 			<div class="column-1">
 				<div class="text-frame">
-					<div class="event">{{$event_name}}</div>
-					<div class="date">{{$date}}</div>
+					<div class="event">Event Name: {{$event_name}}</div>
+					<div class="date">Event Date: {{$date}}</div>
 					<br />
-					<div class="name">{{$owner_name}}</div>
-					<div class="ticket-id"> {{$ticket_number}} </div>
+					<div class="name">Name: {{$owner_name}}</div>
+					<div class="ticket-id">Ticket Number: {{$ticket_number}} </div>
 				</div>
 			</div>
 
 			<div class="column-2">
 				<div class="qr-holder">
-
-					{!! $booking_number !!}
-					
-					{{-- <img src="data:image/png;base64, <?php // echo base64_encode(QrCode::size(120)->generate($booking_number)); ?>" /> --}}
+					<img src="data:image/png;base64, {!! $qr_code !!}">
 
 					{{-- <img src="{!! $ticket_number !!}" width="120px" height="120px" /> --}}
 				</div>

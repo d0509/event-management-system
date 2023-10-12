@@ -58,7 +58,7 @@
 @guest
     @yield('register')
     @yield('forgotPassword')
-    @yield('forgetPasswordLink')
+    @yield('forget-password-link')
 @endguest
 @yield('container')
 

@@ -1,6 +1,6 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admin-layout')
 @section('title', 'Reset Password')
-@section('forgetPasswordLink')
+@section('forget-password-link')
     {{-- {{dd('im inside reset password link')}} --}}
 
     <body class="bg-gradient-primary">

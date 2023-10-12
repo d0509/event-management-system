@@ -14,17 +14,17 @@ use Illuminate\Support\Facades\Auth;
 class AttendEvent extends Controller
 {
     
-    protected $attendservice;
+    protected $attendService;
 
-    public function __construct(AttendService $attendservice){
-        $this->attendservice = $attendservice;
+    public function __construct(AttendService $attendService){
+        $this->attendService = $attendService;
     }
 
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->attendservice->collection();
+            $user_bookings =  $this->attendService->collection();
             return $user_bookings;
         }
         return view('company.attend-event.index');

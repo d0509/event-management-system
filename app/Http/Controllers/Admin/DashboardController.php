@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    protected $authservice;
+    protected $authService;
 
-    public function __construct(AuthService $authservice)
+    public function __construct(AuthService $authService)
     {
-        $this->authservice = $authservice;
+        $this->authService = $authService;
     }
 
     public function index(Request $request)
@@ -29,7 +29,7 @@ class DashboardController extends Controller
             $userCount = User::where('role_id','=',3)->count();
             $totalEvent =  Event::count();
 
-            return view('admin.pages.contentdashboard',[
+            return view('admin.pages.content-dashboard',[
 
                 'companyCount' => $companyCount,
                 'userCount' => $userCount,
@@ -43,7 +43,7 @@ class DashboardController extends Controller
             $pastEvent = Event::where('company_id','=',$company_id)->where('event_date','<',Carbon::now())->count();
             $upcomingEvent = Event::where('company_id','=',$company_id)->where('event_date','>',Carbon::now())->count();
 
-            return view('admin.pages.contentdashboard',[
+            return view('admin.pages.content-dashboard',[
                 
                     'totalEvent' =>$totalEvent,  
                     'todayEvent' => $todayEvent,

@@ -1,4 +1,4 @@
-{{-- @extends('layouts.adminlayout') --}}
+{{-- @extends('layouts.admin-layout') --}}
 @extends('admin.pages.dashboard')
 @if (request()->route()->getName() == 'admin.company.edit')
     @section('title', 'Edit Company')
