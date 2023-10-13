@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    protected $userservice;
+    protected $userService;
 
-    public function __construct(UserService $userservice)
+    public function __construct(UserService $userService)
     {
-        $this->userservice = $userservice;
+        $this->userService = $userService;
     }
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = $this->userservice->collection();
+            $users = $this->userService->collection();
             return $users;
         }
         return view('admin.pages.users');

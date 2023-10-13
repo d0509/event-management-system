@@ -21,7 +21,7 @@ class IsAdmin
         if (Auth::user()->role->name == config('site.role_names.admin')) {
             return $next($request);
         } else {
-            return redirect()->route('homepage');
+            return redirect()->route('home');
         }
     }
 }

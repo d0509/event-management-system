@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    protected $authservice;
+    protected $authService;
 
-    public function __construct(AuthService $authservice)
+    public function __construct(AuthService $authService)
     {
-        $this->authservice = $authservice;
+        $this->authService = $authService;
     }
 
     public function login()
@@ -25,7 +25,7 @@ class AuthController extends Controller
     public function signIn(Login $request)
     {
         // dd($request);
-        $this->authservice->signIn($request);
+        $this->authService->signIn($request);
         
         if (Auth::user()) {
             if ($request->user()->role->firstWhere('name', config('site.roles.admin'))) {

@@ -11,9 +11,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- sweet alert --}}
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         {{-- bootstrap 5 cdn --}}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {{-- jQuery cdn --}}
@@ -24,7 +21,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     {{-- jquery cdn --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -38,6 +35,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {{-- toastr cdn css --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- INSTASCAN --}}
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <title>@yield('title')</title>
 
 
@@ -61,11 +60,11 @@
 @guest
     @yield('register')
     @yield('forgotPassword')
-    @yield('forgetPasswordLink')
+    @yield('forget-password-link')
 @endguest
 @yield('container')
 
-
+@stack('myScript')
 <script src="{{ asset('admin_assets/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- Core plugin JavaScript-->

@@ -72,7 +72,10 @@ class ContactUsController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->contactusservice->destroy($id);
-        return redirect()->route('admin.contact-us.index');
+       $delete = $this->contactusservice->destroy($id);
+        if ($delete) {
+            session()->flash('success','Inquiry deleted successfully');
+            return response()->json(['success' => true]);
+        } 
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admin-layout')
 @section('title', 'Login page')
 {{-- {{dd('im afetr title')}} --}}
 @section('container')
@@ -35,7 +35,7 @@
                                                 @endif
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('auth.welcome') }}</h1>
                                             </div>
-                                            <form action="{{ route('signin') }}" class="user" method="POST">
+                                            <form action="{{ route('signIn') }}" class="user" method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label class="form-label" for="form7Example2">{{ __('auth.email') }}</label>

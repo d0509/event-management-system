@@ -2,12 +2,13 @@
 @section('title', 'Bookings')
 @section('company')
 
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bookings</h1>
+        </div>
 
-    <h1 class="text-center">Company Bookings</h1>
 
-
-    <div class="container mt-5">
-        <table class="table table-striped" id="data-table">
+        <table class="table" id="data-table">
             <thead>
                 <tr>
                     <th>Sr. No</th>
@@ -50,12 +51,12 @@
                         searchable: false
                     },
                     {
-                        data: 'user_id',
-                        name: 'user_id'
+                        data: 'user.name',
+                        name: 'user.name'
                     },
                     {
-                        data: 'event_id',
-                        name: 'event_id'
+                        data: 'event.name',
+                        name: 'event.name'
                     },
                     {
                         data: 'booking_number',
@@ -65,14 +66,14 @@
                         data: 'is_attended',
                         name: 'is_attended',
                         render: function(data, type, full, meta) {
-                            return data ? "Attended" : "Not Attended";
+                            return data ? "Yes" : "No";
                         }
                     },
                     {
                         data: 'is_free_event',
                         name: 'is_free_event',
                         render: function(data, type, full, meta) {
-                            return data ? "Free" : "Paid";
+                            return data ? "Yes" : "No";
                         }
                     },
                     {
@@ -103,5 +104,9 @@
             });
 
         });
+
     </script>
 @endsection
+@push('myScript')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+@endpush

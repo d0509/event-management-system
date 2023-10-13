@@ -1,3 +1,4 @@
+
 {
     "name": "laravel/laravel",
     "type": "project",
@@ -17,6 +18,7 @@
         "php-flasher/flasher-laravel": "^1.15",
         "plank/laravel-mediable": "^5.9",
         "realrashid/sweet-alert": "^7.1",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "yajra/laravel-datatables": "10.0",
         "yajra/laravel-datatables-oracle": "10.3.1"
     },

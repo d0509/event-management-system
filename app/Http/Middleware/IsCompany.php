@@ -21,7 +21,7 @@ class IsCompany
             return $next($request);
         } else {
             // dd('user is not a company');
-            return redirect()->route('homepage');
+            return redirect()->route('home');
         }
     }
 }

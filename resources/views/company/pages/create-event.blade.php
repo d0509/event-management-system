@@ -32,13 +32,7 @@
 
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Description</label>
-            <textarea {{ old('description') }} name="description" id="description" class="form-control " placeholder="Description">
-@if (isset($event))
-{{ old('description', $event->description) }}
-@else
-{{ old('description') }}
-@endif
-</textarea>
+            <textarea {{ old('description') }} name="description" id="description" class="form-control " placeholder="Description">@if (isset($event)){{ old('description', $event->description) }}@else{{ old('description') }}@endif</textarea>
             @error('description')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
