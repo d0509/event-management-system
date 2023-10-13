@@ -6,6 +6,7 @@ use \PDF;
 use App\Http\Requests\Booking\Create;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Notifications\TicketMail;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Carbon\Carbon;
 use Exception;
@@ -76,15 +77,13 @@ class BookingService
         return true;
     }
 
-    public function store(Event $event, Create $request)
+    public function store($event, $inputs)
     {
-
-        $quantity = $request->quantity;
-
-        $myTime = Carbon::now()->format('ymd');
+        // dd($inputs);
+        $quantity = $inputs['quantity'];
 
         $last_booking = Booking::latest()->first();
-        $booking_number = $myTime . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
+        $booking_number = Carbon::now()->format('ymd') . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
 
         $totalSeats = Event::where('id', '=', $event->id)->select('available_seat')->first();
 
@@ -96,8 +95,8 @@ class BookingService
 
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
         } else {
-            $data = Booking::create([
-                'user_id' => Auth::user()->id,
+            $booking = Booking::create([
+                'user_id' => Auth::id(),
                 'event_id' => $event->id,
                 'company_id' => $event->company_id,
                 'booking_number' => $booking_number,
@@ -111,42 +110,30 @@ class BookingService
                 'no_of_attendees' => 0,
             ]);
 
-            // dd($data);
-
-            $user = $data->user;
-
             $pdfData = [
-                'owner_name' => $data->user->name,
-                'date' =>  Carbon::parse($data->event->event_date)->format(config('site.date_format')),
-                'event_name' => $data->event->name,
-                'person' => $data->quantity,
-                'ticket_number' => $data->booking_number,
-                'total' => $data->total,
-                'start_time'=> $data->event->start_time,
-                'discount' => $data->discount,
-                'quantity' => $data->quantity,
-                'price_per_ticket' => $data->ticket_price,
-                'sub_total' => $data->sub_total,
-                'host_company' => $data->company->name,
-                'qr_code' => base64_encode(QrCode::format('svg')->size(120)->errorCorrection('H')->generate($data->booking_number)),
+                'user_name' => $booking->user->name,
+                'date' =>  Carbon::parse($booking->event->event_date)->format(config('site.date_format')),
+                'event_name' => $booking->event->name,
+                'booking_no' => $booking->booking_number,
+                'start_time'=> $booking->event->start_time,
+                'quantity' => $booking->quantity,
+                'qr_code' => base64_encode(QrCode::format('svg')->size(120)->errorCorrection('H')->generate($booking->booking_number)),
             ];
             
-            $pdf = FacadePdf::loadView('booking.booking-ticket', $pdfData );
-            
+            $pdf = FacadePdf::loadView('pdf.booking-ticket', $pdfData );            
             $pdfName = 'booking_' . now()->timestamp . '.pdf';
-
             $pdf->save(public_path() . '/storage/tickets/' . $pdfName);
-            Booking::where('booking_number', $data->booking_number)->update(['pdf_name' => $pdfName]);
+
+            Booking::where('booking_number', $booking->booking_number)->update(['pdf_name' => $pdfName]);
 
             try {
-                // $user->notify(new TicketMail($data, $pdf, $pdfName));
+                $booking->user->notify(new TicketMail($booking, $pdf, $pdfName));
             } catch (Exception $e) {
                 Log::info($e);
             }
 
-
             session()->flash('success', 'Your ticket is booked successfully');
-            return $data;
+            return $booking;
         }
     }
 

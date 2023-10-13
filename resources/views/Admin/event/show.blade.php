@@ -6,7 +6,7 @@
             <h1 class="h3 mb-0 text-gray-800">Event</h1>
         </div>
 
-        <div class="card mb-3" style="max-width: 1080px;">
+        <div class="card mb-3 mx-auto" style="max-width: 1080px;">
             <div class="row g-0">
                 <div class="col-md-7">
                     {{-- {{dd($event)}} --}}
@@ -18,7 +18,7 @@
                     @endforelse
 
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 ">
                     <div class="card-body">
                         <h5 class="card-title">{{ $event->name }}</h5>
                         <div class="row">
@@ -56,14 +56,14 @@
                         <div class="row">
                             <p class="col-1 text-dark"><i class="fas fa-film"></i></p>
                             <p class="col-10 text-dark">
-                                {{ $event->ticket}} <i class="fas fa-indian-rupee-sign"></i> </p>
+                                {{ $event->ticket }} <i class="fas fa-indian-rupee-sign"></i> </p>
                         </div>
                         <div class="row">
                             <p class="col-1 text-dark"><i class="fa-solid fa-check"></i></p>
                             <p class="col-10 text-dark">
                                 {{ $event->is_approved == 1 ? 'Approved' : 'Pending' }} </p>
                         </div>
-                        <a class="btn btn-primary btn-block" href="{{url()->previous()}}"> Back </a>
+                        <a class="btn btn-primary btn-block" href="{{ url()->previous() }}"> Back </a>
                     </div>
                 </div>
             </div>

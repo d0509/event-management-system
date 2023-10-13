@@ -72,7 +72,7 @@
             <div class="col-lg-12">
                 <div class="footer-text">
                     <div class="ft-logo">
-                        <a href="{{route('homepage')}}" class="footer-logo"><img src="{{asset('user_assets/img/footer-logo.png')}}" alt=""></a>
+                        <a href="{{route('home')}}" class="footer-logo"><img src="{{asset('user_assets/img/footer-logo.png')}}" alt=""></a>
                     </div>
                     <ul>
                         <li><a href="#">Home</a></li>

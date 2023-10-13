@@ -45,8 +45,7 @@ class AuthController extends Controller
     public function signIn(Login $request): RedirectResponse
     {
         $this->authService->signIn($request);
-        // return redirect()->route('homepage');
-        return redirect()->intended(route('homepage'));
+        return redirect()->intended(route('home'));
     }
 
     public function register()
@@ -63,7 +62,7 @@ class AuthController extends Controller
     public function signup(Register $request)
     {
         $this->authService->signup($request);
-        return redirect()->route('homepage');
+        return redirect()->route('home');
     }
 
     public function logout()

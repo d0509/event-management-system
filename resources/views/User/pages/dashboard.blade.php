@@ -4,14 +4,14 @@
     <header class="header-section">
         <div class="container">
             <div class="logo">
-                <a href="{{ route('homepage') }}">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('user_assets/img/logo.png') }}" alt="">
                 </a>
             </div>
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
-                        {{-- <li><a href="{{ route('homepage') }}">{{ __('dashboard.home') }}</a></li>                        --}}
+                        {{-- <li><a href="{{ route('home') }}">{{ __('dashboard.home') }}</a></li>                        --}}
                         @auth
                             <li><a href="{{ route('user.contact-us.index') }}">{{ __('dashboard.contact_us') }}</a></li>
                             {{-- <li><a href="{{ route('user.attend-event.index') }}">{{ __('dashboard.attend_event') }}</a></li> --}}
@@ -71,7 +71,7 @@
         </div>
         </nav>
     </header>
-    @if (request()->route()->getName() == 'homepage')
+    @if (request()->route()->getName() == 'home')
         @yield('events')
     @elseif(request()->route()->getName() == 'user.profile.edit')
         @yield('user.profile')

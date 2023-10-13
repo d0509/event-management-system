@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\AttendEvent as CompanyAttendEvent;
 use App\Models\Booking;
 use App\Models\Event;
-use App\Services\AttendService;
+use App\Services\AttendEventService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AttendEvent extends Controller
 {
-    
+
     protected $attendService;
 
-    public function __construct(AttendService $attendService){
+    public function __construct(AttendEventService $attendService)
+    {
         $this->attendService = $attendService;
     }
 
@@ -35,15 +36,8 @@ class AttendEvent extends Controller
      */
     public function create()
     {
-        $todayEvent  =  Event::where('company_id', Auth::user()->company->id)->where('event_date', Carbon::now()->format('Y-m-d'))->select('id', 'name')->get();
-        // dd($todayEvent->toArray());
-        return view(
-            'company.attend-event.create',
-            [
-                'todayEvents' => $todayEvent,
-
-            ]
-        );
+        $todayEvents  =  Event::where('company_id', Auth::user()->company->id)->where('event_date', Carbon::now()->format('Y-m-d'))->select('id', 'name')->get();
+        return view('company.attend-event.create', ['todayEvents' => $todayEvents]);
     }
 
     /**
@@ -68,10 +62,10 @@ class AttendEvent extends Controller
 
         if ($bookingEventId != $eventId) {
             session()->flash('danger', 'Booking number or your selected event is incorrect');
-            return redirect()->route('company.attend-event.index');
+            return redirect()->route('company.attend-event.create');
         } elseif ($sum > $bookingQuantity) {
             session()->flash('danger', 'Please enter valid attendees count');
-            return redirect()->route('company.attend-event.index');
+            return redirect()->route('company.attend-event.create');
         } else {
             $update =  $booking->update([
                 'is_attended' => config('site.is_attended.attended'),
@@ -79,7 +73,7 @@ class AttendEvent extends Controller
             ]);
             if ($update == true) {
                 session()->flash('success', 'You have successfully added event as attended');
-                return redirect()->route('company.attend-event.index');
+                return redirect()->route('company.attend-event.create');
             }
         }
     }

@@ -37,7 +37,7 @@ class ContactUsController extends Controller
     {
        
         $this->contactUsService->store($request);
-        return redirect()->route('homepage');
+        return redirect()->route('home');
     }
 
 

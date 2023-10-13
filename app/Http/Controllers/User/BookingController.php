@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
@@ -44,36 +43,15 @@ class BookingController extends Controller
 
     public function store(Event $event, Create $request)
     {
-        $store_data = $this->bookingService->store($event, $request);
-        // if ($store_data) {
-        //     $this->PDFservice->generatePDF($store_data);
-        // }
-
-        return redirect()->route('homepage');
+        $this->bookingService->store($event, $request->all());
+        return redirect()->route('home');
     }
 
     public function show(string $id)
     {
-        // dd($id);
         $booking = $this->bookingService->show($id);
-        // dd($booking->booking_number);
         return view('User.pages.booking', [
             'booking' => $booking,
         ]);
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }

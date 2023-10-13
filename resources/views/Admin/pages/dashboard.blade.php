@@ -123,7 +123,7 @@
                         <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
                             <a class="nav-link" href="{{ route('company.attend-event.create') }}">
                                 <i class="fas fa-user-plus"></i>
-                                <span>{{ __('dashboard.add_attendee') }}</span>
+                                <span>{{ __('dashboard.attend_event') }}</span>
                             </a>
                         </li>
 
@@ -149,12 +149,12 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
+                        {{-- <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.attend-event.index') }}">
                                 <i class="fas fa-users"></i>
                                 <span>{{ __('dashboard.attendee_list') }}</span>
                             </a>
-                        </li>
+                        </li> --}}
                     @endif
 
 

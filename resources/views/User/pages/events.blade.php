@@ -4,7 +4,7 @@
     <div class="container">
 
         <div class="row d-flex">
-            <form action="{{ route('homepage') }}" method="get" class="mb-5 d-flex ">
+            <form action="{{ route('home') }}" method="get" class="mb-5 d-flex ">
                 <select class="form-control col-3 ml-2  mr-4 " type="text" id="form3" name="city">
                     <option>  </option>
                     @forelse ($cities as $city)

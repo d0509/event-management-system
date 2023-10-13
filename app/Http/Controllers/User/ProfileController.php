@@ -72,7 +72,7 @@ class ProfileController extends Controller
     public function update(Update $request, User $user)
     {
         $this->profileService->update($request,$user);
-        return redirect()->route('homepage');
+        return redirect()->route('home');
 
     }
 
