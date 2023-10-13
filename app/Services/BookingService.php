@@ -4,10 +4,10 @@ namespace App\Services;
 
 use \PDF;
 use App\Http\Requests\Booking\Create;
+use App\Jobs\GenerateBookingTicket;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Notifications\TicketMail;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,8 +31,7 @@ class BookingService
                 $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
                 $downloadUrl = route('download-ticket', ['booking' => $row->id]);
                 $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="' . $downloadUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
-                // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
-                // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
+                
                 return $btn;
             })
             ->orderColumn('event_id', function ($query, $order) {
@@ -110,40 +109,12 @@ class BookingService
                 'no_of_attendees' => 0,
             ]);
 
-            $pdfData = [
-                'user_name' => $booking->user->name,
-                'date' =>  Carbon::parse($booking->event->event_date)->format(config('site.date_format')),
-                'event_name' => $booking->event->name,
-                'booking_no' => $booking->booking_number,
-                'start_time'=> $booking->event->start_time,
-                'quantity' => $booking->quantity,
-                'qr_code' => base64_encode(QrCode::format('svg')->size(120)->errorCorrection('H')->generate($booking->booking_number)),
-            ];
-            
-            $pdf = FacadePdf::loadView('pdf.booking-ticket', $pdfData );            
-            $pdfName = 'booking_' . now()->timestamp . '.pdf';
-            $pdf->save(public_path() . '/storage/tickets/' . $pdfName);
-
-            Booking::where('booking_number', $booking->booking_number)->update(['pdf_name' => $pdfName]);
-
             try {
-                $booking->user->notify(new TicketMail($booking, $pdf, $pdfName));
+                GenerateBookingTicket::dispatch($booking);
             } catch (Exception $e) {
                 Log::info($e);
             }
-
-            session()->flash('success', 'Your ticket is booked successfully');
-            return $booking;
         }
-    }
-
-    function generateQrCodeAndLoadView( $data2,$view, $data)
-    {
-        // dd($data2);
-        // $simple = \QrCode::size(120)->generate($data2);
-        // dd($simple);
-        $pdf = PDF::loadView($view, $data );
-        return $pdf;
     }
 
     public function show(string $id)
