@@ -83,7 +83,7 @@ class AuthController extends Controller
 
     public function adminDashboard()
     {
-        return view('admin.pages.contentdashboard');
+        return view('admin.pages.content-dashboard');
     }
 
     public function companyDashboard()
