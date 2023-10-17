@@ -1,11 +1,11 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @if (request()->route()->getName() == 'company.event.create')
     @section('title', 'Add Event')
 @else
     @section('title', 'Update Event')
 @endif
 
-@section('company.event.create')
+@section('content')
     <div class="container">
         {{-- {{ dd($event->toArray()) }} --}}
         <h1 class="text-center fw-bold  ">Add Event</h1>

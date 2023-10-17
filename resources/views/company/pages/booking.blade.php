@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Bookings')
-@section('company')
+@section('content')
 
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
