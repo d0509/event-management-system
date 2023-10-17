@@ -1,5 +1,4 @@
-@extends('layouts.user-layout')
-{{-- @extends('User.pages.footer') --}}
+@extends('frontend.master.layout')
 @section('dashboard')
     <header class="header-section">
         <div class="container">
@@ -99,4 +98,3 @@
     @endif
     @yield('footer')
 @endsection
-

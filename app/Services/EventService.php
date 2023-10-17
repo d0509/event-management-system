@@ -231,6 +231,7 @@ class EventService
     public function resource($id)
     {
         $event  = Event::find($id);
+        // dd($event);
         return $event;
     }
 }

@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-
 <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta charset="UTF-8">
     <meta name="description" content="Manup Template">
     <meta name="keywords" content="Manup, unica, creative, html">
@@ -47,63 +44,3 @@
 
 
 </head>
-
-<body>
-    <!-- Page Preloder -->
-    @include('sweetalert::alert')
-    @yield('dashboard')
-   
-
-    <!-- Js Plugins -->
-    <script src="http://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" defer="defer"></script>
-
-    <script src="{{ asset('user_assets/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/jquery.countdown.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/jquery.slicknav.js') }}"></script>
-    <script src="{{ asset('user_assets/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/main.js') }}"></script>
-
-    
-</body>
-<footer class="footer-section mt-5 left-0 right-0" >
-    <div class="">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="footer-text">
-                    <div class="ft-logo">
-                        <a href="{{route('home')}}" class="footer-logo"><img src="{{asset('user_assets/img/footer-logo.png')}}" alt=""></a>
-                    </div>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Speakers</a></li>
-                        <li><a href="#">Schedule</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                    <div class="copyright-text">
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i
-                            class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com/"
-                            target="_blank">Colorlib</a>
-                        </p>
-                    </div>
-                    <div class="ft-social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- Mirrored from themewagon.github.io/manup/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Aug 2023 13:58:37 GMT -->
-
-</html>

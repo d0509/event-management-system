@@ -15,57 +15,15 @@ class ContactUsController extends Controller
     {
         $this->contactUsService = $contactUsService;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        return view('User.pages.contact-us');
+        return view('frontend.pages.contact-us');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Store $request)
-    {
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Store $request)
     {
-       
         $this->contactUsService->store($request);
         return redirect()->route('home');
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-   
-    public function destroy(string $id)
-    {
-        //
     }
 }

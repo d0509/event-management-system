@@ -1,9 +1,9 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Events')
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
-@section('company.event.index')
+@section('content')
 
     <body>
         <div class="container-fluid">

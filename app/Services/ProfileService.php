@@ -30,9 +30,6 @@ class ProfileService
 
         if ($request->hasFile('profile')) {
 
-            // dd('request has profile picture');
-            
-            
             if (!empty($user->media[0])) {
                 // dd($user->media);
                 // dd('user already have profile picture and i want to update it');

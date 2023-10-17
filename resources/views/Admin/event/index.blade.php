@@ -1,16 +1,11 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Events')
-@section('meta')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-@endsection
-@section('admin.event.index')
+@section('content')
 
-    <div class="container-fluid">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Events</h1>
-
-        </div>
-
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Events</h1>
+    </div>
         <table class="table " id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>

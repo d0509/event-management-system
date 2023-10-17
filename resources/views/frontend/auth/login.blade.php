@@ -1,7 +1,7 @@
 @extends('layouts.admin-layout')
 @section('title', 'Login page')
 {{-- {{dd('im afetr title')}} --}}
-@section('container')
+@section('content')
 
     @auth
 

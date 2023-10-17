@@ -1,6 +1,6 @@
-@extends('User.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title', 'Change Password')
-@section('user.password.edit')
+@section('content')
     <div class="container">
         <h3 class="text-center mt-5" > {{__('changePassword.change_password')}} </h3>
         <form action="{{ route('user.change-password.update',['change_password'=>Auth::id()]) }}" method="POST" class="mt-5">

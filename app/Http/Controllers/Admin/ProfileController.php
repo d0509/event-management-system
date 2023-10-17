@@ -26,21 +26,6 @@ class ProfileController extends Controller
         return view('admin.profile.index');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
     public function edit(string $id)
     {
         $cities = $this->cityService->collection();
@@ -57,8 +42,4 @@ class ProfileController extends Controller
         return redirect()->route('profile.index');
     }
 
-    public function destroy(string $id)
-    {
-        //
-    }
 }

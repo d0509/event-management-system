@@ -1,5 +1,5 @@
-@extends('layouts.admin-layout')
-@section('admindashboard')
+@extends('backend.master.layout')
+@section('content')
     @if (Auth::user())
 
         <body id="page-top">

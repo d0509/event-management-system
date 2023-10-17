@@ -1,6 +1,6 @@
-@extends('User.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title', 'Contact Us')
-@section('user.contact_us.create')
+@section('content')
     <section class="contact-from-section spad">
         <div class="container">
             <div class="row">

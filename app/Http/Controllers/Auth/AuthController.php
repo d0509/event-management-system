@@ -39,7 +39,7 @@ class AuthController extends Controller
     public function login()
     {
         // dd(redirect()->back());
-         return view('User.auth.login');       
+         return view('frontend.auth.login');       
     }
 
     public function signIn(Login $request): RedirectResponse
@@ -51,7 +51,7 @@ class AuthController extends Controller
     public function register()
     {
         if (!Auth::user()) {
-            return view('User.auth.register', [
+            return view('frontend.auth.register', [
                 'cities' => $this->cityService->collection()
             ]);
         } else {
@@ -73,7 +73,7 @@ class AuthController extends Controller
 
     public function companyRegisterForm()
     {
-        return view('User.auth.register', [
+        return view('frontend.auth.register', [
             'cities' => $this->cityService->collection()
         ]);
     }
@@ -93,7 +93,7 @@ class AuthController extends Controller
     public function forgotPassword()
     {
         if (!Auth::user()) {
-            return view('User.auth.forgot-password');
+            return view('frontend.auth.forgotPassword');
         } else {
             return redirect()->back();
         }
@@ -107,7 +107,7 @@ class AuthController extends Controller
     public function ResetPasswordForm($token)
     {
         if (!Auth::user()) {
-            return view('User.auth.forget-password-link', ['token' => $token]);
+            return view('frontend.auth.forgetPasswordLink', ['token' => $token]);
         } else {
             return redirect()->back();
         }

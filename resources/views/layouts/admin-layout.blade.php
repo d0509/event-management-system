@@ -61,6 +61,7 @@
 @include('sweetalert::alert')
 @yield('admindashboard')
 @guest
+@yield('content')
     @yield('register')
     @yield('forgotPassword')
     @yield('forget-password-link')

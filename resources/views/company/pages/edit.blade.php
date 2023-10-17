@@ -1,5 +1,5 @@
 {{-- @extends('layouts.admin-layout') --}}
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @if (request()->route()->getName() == 'admin.company.edit')
     @section('title', 'Edit Company')
 @elseif(request()->route()->getName() == 'admin.company.create')
@@ -8,7 +8,7 @@
 
 
 @section('title', 'Edit Company')
-@section('edit')
+@section('content')
 
     <body class="bg-gradient-primary">
         <div class="container">

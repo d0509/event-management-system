@@ -1,4 +1,4 @@
-{{-- @extends('layouts.admin-layout') --}}
+@extends('backend.master.layout')
 {{-- @extends('admin.pages.dashboard') --}}
 @section('content')
     <div class="container-fluid">

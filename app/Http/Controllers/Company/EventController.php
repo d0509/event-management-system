@@ -56,6 +56,7 @@ class EventController extends Controller
     public function show(string $id)
     {
         $event =  $this->eventService->resource($id);
+        // dd($event);
         return view('admin.event.show', [
             'event' => $event
         ]);

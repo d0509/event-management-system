@@ -29,13 +29,13 @@ class BookingController extends Controller
             $user_bookings =  $this->bookingService->collection($request);
             return $user_bookings;
         }
-        return view('User.pages.history');
+        return view('frontend.pages.booking-history');
     }
 
     public function create()
     {
         if (Auth::user()) {
-            return view('User.pages.book-event');
+            return view('frontend.pages.book-event');
         } else {
             session()->flash('danger', 'Please login to book !');
         }
@@ -50,8 +50,9 @@ class BookingController extends Controller
     public function show(string $id)
     {
         $booking = $this->bookingService->show($id);
-        return view('User.pages.booking', [
+        
+        return view('frontend.pages.booking', [
             'booking' => $booking,
         ]);
-    }
+    }    
 }

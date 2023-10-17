@@ -19,7 +19,7 @@ class PasswordController extends Controller
 
     public function edit()
     {
-        return view('User.auth.password');
+        return view('frontend.auth.password');
     }
 
     public function update(Change $request)

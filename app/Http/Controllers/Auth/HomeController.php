@@ -26,7 +26,7 @@ class HomeController extends Controller
         $city_id = request('city');
         // dd($city_id);
         // dd($cities);
-        return view('User.pages.events',[
+        return view('frontend.pages.home',[
             'events' => $events,
             'cities' => $cities,
             'city_id' => $city_id
