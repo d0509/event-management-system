@@ -13,28 +13,26 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
 
-    protected $eventservice;
-    protected $cityservice;
-    protected $categoryservice;
+    protected $eventService;
+    protected $cityService;
+    protected $categoryService;
 
-    public function __construct(EventService $eventservice, CityService $cityservice, CategoryService $categoryservice)
+    public function __construct(EventService $eventService, CityService $cityService, CategoryService $categoryService)
     {
-        $this->eventservice = $eventservice;
-        $this->cityservice = $cityservice;
-        $this->categoryservice = $categoryservice;
+        $this->eventService = $eventService;
+        $this->cityService = $cityService;
+        $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        return view(
-            'admin.event.index',
-            [
-                'events' => $this->eventservice->collection()
-            ]
-        );
+        if ($request->ajax()) {
+            $events  = $this->eventService->collection();
+            return $events;
+        }
+        return view('admin.event.index');
     }
-    
+
     public function create()
     {
         //
@@ -45,24 +43,29 @@ class EventController extends Controller
         //
     }
 
-    
+
     public function show(string $id)
     {
-        //
-    }
-
-   public function edit(Event $event)
-    {
-        return view('admin.event.edit', [
-            'event' => $event,
-            'cities' => $this->cityservice->collection(),
-            'categories' => $this->categoryservice->index(),
+        // dd($id);
+        $event =  $this->eventService->resource($id);
+        //    dd($event->toArray());
+        return view('admin.event.show', [
+            'event' => $event
         ]);
     }
 
-   public function update(Status $request, Event $event)
+    public function edit(Event $event)
     {
-        $this->eventservice->chnagestatus($request, $event);
+        return view('admin.event.edit', [
+            'event' => $event,
+            'cities' => $this->cityService->collection(),
+            'categories' => $this->categoryService->index(),
+        ]);
+    }
+
+    public function update(Status $request, Event $event)
+    {
+        $this->eventService->changeStatus($request, $event);
         return redirect()->route('admin.event.index');
     }
 

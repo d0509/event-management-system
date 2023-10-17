@@ -10,21 +10,21 @@ use Illuminate\Http\Request;
 class PasswordController extends Controller
 {
 
-    protected $passwordservice;
+    protected $passwordService;
 
-    public function __construct(PasswordService $passwordservice)
+    public function __construct(PasswordService $passwordService)
     {
-        $this->passwordservice = $passwordservice;
+        $this->passwordService = $passwordService;
     }
 
     public function edit()
     {
-        return view('User.auth.password');
+        return view('frontend.auth.password');
     }
 
     public function update(Change $request)
     {
-        $this->passwordservice->update($request);
+        $this->passwordService->update($request);
         return redirect()->route('homepage');
     }
 }

@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'User Information')
-@section('admin.user.show-single')
+@section('content')
     {{-- {{dd($user->media)}} --}}
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">

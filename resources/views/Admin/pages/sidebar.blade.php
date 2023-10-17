@@ -1,4 +1,4 @@
-@extends('layouts.adminlayout')
+@extends('backend.master.layout')
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->

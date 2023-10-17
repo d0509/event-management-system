@@ -15,28 +15,28 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
 
-    protected $bookingservice;
+    protected $bookingService;
     protected $PDFservice;
 
-    public function __construct(BookingService $bookingservice, PDFService $PDFservice)
+    public function __construct(BookingService $bookingService, PDFService $PDFservice)
     {
-        $this->bookingservice = $bookingservice;
+        $this->bookingService = $bookingService;
         $this->PDFservice = $PDFservice;
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->bookingservice->collection($request);
+            $user_bookings =  $this->bookingService->collection($request);
             return $user_bookings;
         }
-        return view('User.pages.history');
+        return view('frontend.pages.booking-history');
     }
 
     public function create()
     {
         if (Auth::user()) {
-            return view('User.pages.bookEvent');
+            return view('frontend.pages.book-event');
         } else {
             session()->flash('danger', 'Please login to book !');
         }
@@ -44,7 +44,7 @@ class BookingController extends Controller
 
     public function store(Event $event, Create $request)
     {
-        $store_data = $this->bookingservice->store($event, $request);
+        $store_data = $this->bookingService->store($event, $request);
     //    dd($store_data->toArray());
     if($store_data){
         $this->PDFservice->generatePDF($store_data);
@@ -56,25 +56,10 @@ class BookingController extends Controller
     public function show(string $id)
     {
         // dd($id);
-        $booking = $this->bookingservice->show($id);
+        $booking = $this->bookingService->show($id);
         // dd($booking->booking_number);
-        return view('User.pages.booking', [
+        return view('frontend.pages.booking', [
             'booking' => $booking,
         ]);
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
-    }
+    }    
 }

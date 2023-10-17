@@ -23,23 +23,9 @@
                     Search
                 </button>
             </form>
-
-            {{-- <label class="form-label select-label col-4">Example label</label> --}}
-            {{-- <select class="select col-3 border border-primary mb-5 ">
-                <option>Please select a city</option>
-                @forelse ($cities as $city)
-                    <option value="{{ $city->id }}"> {{ $city->name }} </option>
-                @empty
-                    <option>No cities to show!</option>
-                @endforelse
-            </select> --}}
-
         </div>
 
-
-
         <div class="row row-cols-3 g-3">
-
             @forelse ($events as $event)
                 <div class="col">
                     <div class="card">
@@ -60,16 +46,6 @@
                                 <p class="col-1 text-dark"><i class="fas fa-industry"></i></p>
                                 <p class="col-10 text-dark">{{ $event->company->name }}</p>
                             </div>
-                            {{-- <div class="d-flex justify-content-between">
-                            <p class="text-dark">Category</p>
-                            <p class="text-dark">{{ $event->category->name}}</p>
-                        </div> --}}
-                            {{-- <div class="d-flex justify-content-between">
-                            <p class="text-dark">Description:</p>
-                            <p class="text-dark">{{ $event->description}}</p>
-                        </div> --}}
-
-                            {{-- company relation not working --}}
                             <div class="row">
                                 <p class="col-1 text-dark"><i class="fas fa-chair"></i></p>
                                 <p class="col-10 text-dark">{{ $event->available_seat }}</p>

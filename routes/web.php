@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CompanyStatusController;
 use App\Http\Controllers\Admin\ContactUsController as AdminContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\EventStatusController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
@@ -60,12 +61,12 @@ Route::middleware('auth')->group(function () {
     
     Route::prefix('user')->name('user.')->group(function(){
         Route::resource('contact-us',ContactUsController::class)->only('index','store');
-        Route::resource('profile',UserProfileController::class)->only('edit','update');
+        Route::resource('profile',UserProfileController::class)->only('index','update');
         
         Route::resource('change-password',UserPasswordController::class)->only('edit','update');
     });
     
-    Route::get('user/booking_history', [BookingController::class, 'index'])->name('user.booking.index');
+    Route::get('user/booking-history', [BookingController::class, 'index'])->name('user.booking.index');
     Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
     Route::get('booking/{booking}',[BookingController::class,'show'])->name('user.booking.show');
     Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
@@ -73,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
         Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');    
-        
+        Route::post('event/status', EventStatusController::class)->name('event.status');
         Route::resource('user',UserController::class)->only('index','show');
 
         Route::resource('contact-us',AdminContactUsController::class);

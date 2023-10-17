@@ -25,7 +25,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        return view('User.pages.show-event',[
+        return view('frontend.pages.event-detail',[
             'event' => $event,
         ]);
     }

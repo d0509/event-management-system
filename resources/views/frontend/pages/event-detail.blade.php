@@ -44,47 +44,6 @@
                             $start_time = $event->start_time;
                             $currentDateTime = \Carbon\Carbon::now();
                         @endphp
-                        {{-- {{ dd(\Carbon\Carbon::parse($event_date)->format('Y-m-d')>= date('Y-m-d')) }} --}}
-                        {{-- @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') >= date('Y-m-d'))
-                            @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') == date('Y-m-d') && $start_time > $currentDateTime && $currentDateTime->diffInMinutes($start_time) > 180)
-                                <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}"
-                                    class="booking" method="post">
-                                    @csrf
-                                    <div>
-                                        <label class="form-label"
-                                            for="form7Example2">{{ __('showEvent.quantity') }}</label>
-                                        <input type="number" name="quantity" id="quantity" class="form-control" />
-                                        @error('quantity')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-
-                                   
-                                    <div class="modal-footer">
-                                        <button id="bookTicket" class="btn btn-block btn-primary mt-2"
-                                            data-dismiss="modal">{{ __('showEvent.book_ticket') }}</button>
-                                    </div>
-                                </form>
-                            @elseif (
-                                $start_time > \Carbon\Carbon::parse(date('H:i:s')) &&
-                                    \Carbon\Carbon::parse(date('H:i:s'))->toTimeString()->diffInMinutes($start_time) < 180)
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>Sorry!</strong> You have to book ticket before 3 hours of starting the event.
-                                </div>
-                            @elseif(\Carbon\Carbon::parse(date('H:i:s'))->toTimeString()->diffInMinutes($start_time) > 180)
-                               
-                                <div class="alert alert-success" role="alert">
-                                    <strong>Congratulations!</strong> you can book the tickets.
-                                </div>
-                            @endif
-                        @else
-                            <div class="alert alert-danger" role="alert">
-                                <strong>Sorry!</strong> but you cannot purchase tickets for the event because it occurred on
-                                {{ $event->event_date }}.
-                            </div>
-                        @endif --}}
-                        {{-- {{dd(\Carbon\Carbon::parse($event_date)->format('Y-m-d') == date('Y-m-d'))}} --}}
-
                         @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') > date('Y-m-d'))
                             <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}" class="booking"
                                 method="post">
@@ -114,10 +73,6 @@
 
                             </form>
                         @endif
-
-                        {{-- {{$event->event_date}} --}}
-
-                        </>
                     </div>
 
                 </div>

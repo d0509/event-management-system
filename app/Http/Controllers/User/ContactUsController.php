@@ -9,18 +9,18 @@ use Illuminate\Http\Request;
 
 class ContactUsController extends Controller
 {
-    protected $contactusservice;
+    protected $contactUsService;
 
-    public function __construct(ContactUsService $contactusservice)
+    public function __construct(ContactUsService $contactUsService)
     {
-        $this->contactusservice = $contactusservice;
+        $this->contactUsService = $contactUsService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('User.pages.contact-us');
+        return view('frontend.pages.contact-us');
     }
 
     /**
@@ -36,7 +36,7 @@ class ContactUsController extends Controller
     public function store(Store $request)
     {
        
-        $this->contactusservice->store($request);
+        $this->contactUsService->store($request);
         return redirect()->route('homepage');
     }
 
