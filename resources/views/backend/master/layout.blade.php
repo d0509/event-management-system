@@ -9,8 +9,7 @@
 
 <body>
     @include('backend.includes.header')
-    @yield('content')
-
+    
     @include('backend.includes.footer')
 
     @include('backend.includes.scripts')

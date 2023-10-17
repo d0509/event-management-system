@@ -3,7 +3,7 @@
 @section('title', 'User Booking History')
 @section('content')
     <div class="container mt-5">
-        <label class="h3 text-end" >Booking History</label>
+        <h3 class="text-center mb-5" >Booking History</h3>
         <table class="table" id="data-table">
             <thead>
                 <tr>
@@ -37,6 +37,9 @@
                
                 processing: true,
                 serverSide: true,
+                order: [
+                    [1, 'desc']
+                ],
                 ajax: {
                     'type': 'GET',
                     url: "{{ route('user.booking.index') }}",

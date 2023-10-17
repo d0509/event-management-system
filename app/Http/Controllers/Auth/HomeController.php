@@ -10,23 +10,23 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    protected $eventservice;
-    protected $cityservice;
+    protected $eventService;
+    protected $cityService;
 
-    public function __construct(EventService $eventservice,CityService $cityservice)
+    public function __construct(EventService $eventService,CityService $cityService)
     {
-        $this->eventservice=$eventservice;
-        $this->cityservice = $cityservice;
+        $this->eventService=$eventService;
+        $this->cityService = $cityService;
     }
 
     public function index(){
         // dd('hello');
-        $events = $this->eventservice->collection();
-        $cities = $this->cityservice->collection();
+        $events = $this->eventService->collection();
+        $cities = $this->cityService->collection();
         $city_id = request('city');
         // dd($city_id);
         // dd($cities);
-        return view('User.pages.home',[
+        return view('frontend.pages.home',[
             'events' => $events,
             'cities' => $cities,
             'city_id' => $city_id

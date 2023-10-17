@@ -1,7 +1,7 @@
     <header class="header-section">
         <div class="container">
             <div class="logo">
-                <a href="{{ route('homepage') }}">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('user_assets/img/logo.png') }}" alt="">
                 </a>
             </div>

@@ -12,17 +12,47 @@ use App\Models\RoleUser;
 use App\Models\User;
 use App\Notifications\CompanyRegistered;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Plank\Mediable\Facades\MediaUploader;
 use Throwable;
+use Yajra\DataTables\Facades\DataTables;
 
 class CompanyService
 {
 
-    public function getAllCompanies()
+
+    public function collection()
     {
-        return Company::latest()->get();
+        $data = Company::with(['user:id,name,status'])->select(['id', 'user_id', 'name', 'description', 'address']);
+        return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                $editURL = route('admin.company.edit', ['company' => $row->id]);
+                $btn = '<div class="d-flex"><a class="text-white w-3 btn btn-danger mr-2" onclick="deleteCompany('.$row->id.')" > <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
+                return $btn;
+            })
+            ->addColumn('user_id',function($row){
+               
+                $status = $row->user->status;
+               
+                $condition = $status == config('site.status.approved') ? 'checked' : '';
+                $switch = '
+                <div class="form-check form-switch text-center " >
+                <input class="form-check-input" type="checkbox" data-companyId="' . $row->id . '"  role="switch" id="flexSwitchCheckChecked" ' . $condition . '>
+                <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                </div>';
+                return $switch;
+
+            })
+            ->orderColumn('name', function ($query, $order) {
+                $query->orderBy('id', $order);
+            })
+            ->rawColumns(['name','action','user_id'])
+            ->setRowId('id')
+            ->addIndexColumn()
+            ->make(true);
+
     }
 
     public function storeByAdmin(Add $request)
@@ -59,9 +89,9 @@ class CompanyService
             'name' => $validated['company_name']
         ]);
 
-        
 
-        try{
+
+        try {
             $user->notify(new CompanyRegistered($request));
             // session()->flash('success','Company is notified about their registeration by the admin');
         } catch (Exception $e) {
@@ -69,7 +99,6 @@ class CompanyService
             // session()->flash('danger','Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
             Log::info($e);
         }
-        
     }
 
     public function updateByAdmin(EditCompany $request, Company $company)

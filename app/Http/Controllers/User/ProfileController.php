@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Profile\Update;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\ProfileService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Profile\Update;
 
 class ProfileController extends Controller
 {
@@ -22,9 +22,7 @@ class ProfileController extends Controller
         $this->profileService = $profileService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $cities = $this->cityService->collection();
@@ -34,53 +32,9 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-       
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Update $request, User $user)
     {
         $this->profileService->update($request,$user);
-        return redirect()->route('homepage');
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('home');
     }
 }

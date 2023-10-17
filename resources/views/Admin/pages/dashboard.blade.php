@@ -17,8 +17,13 @@
                             request()->route()->getName() == 'company.event.edit' ||
                             request()->route()->getName() == 'company.event.update' ||
                             request()->route()->getName() == 'company.event.destroy' ||
-                            request()->route()->getName() == 'company.booking.index')
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                            request()->route()->getName() == 'company.booking.index' ||
+                            request()->route()->getName() == 'company.attend-event.create' ||
+                            request()->route()->getName() == 'company.attend-event.index' || 
+                            request()->route()->getName() == 'company.event.show' 
+                            )
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                            href="{{ route('company.dashboard') }}">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
                             </div>
@@ -34,8 +39,12 @@
                             request()->route()->getName() == 'admin.event.index' ||
                             request()->route()->getName() == 'admin.event.edit' ||
                             request()->route()->getName() == 'admin.event.update' ||
-                            request()->route()->getName() == 'admin.user.index')
-                        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                            request()->route()->getName() == 'admin.user.index' ||
+                            request()->route()->getName() == 'admin.contact-us.index' ||
+                            request()->route()->getName() == 'admin.user.show' ||
+                            request()->route()->getName() == 'admin.event.show')
+                        <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                            href="{{ route('admin.dashboard') }}">
                             <div class="sidebar-brand-icon rotate-n-15">
                                 <i class="fas fa-laugh-wink"></i>
                             </div>
@@ -96,7 +105,7 @@
                                 href="{{ route('admin.contact-us.index') }}" aria-expanded="true"
                                 aria-controls="collapseUtilities">
                                 <i class="fa-solid fa-question"></i>
-                                <span>{{__('dashboard.inquiries')}}</span>
+                                <span>{{ __('dashboard.inquiries') }}</span>
                             </a>
                         </li>
                     @endif
@@ -111,33 +120,41 @@
                             </a>
                         </li>
 
+                        <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
+                            <a class="nav-link" href="{{ route('company.attend-event.create') }}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>{{ __('dashboard.attend_event') }}</span>
+                            </a>
+                        </li>
 
-
-                        <li
-                            class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
+                        {{-- <li class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.create') }}" aria-expanded="true"
                                 aria-controls="collapseTwo">
                                 <i class="fas fa-fw fa-cog"></i>
                                 <span>{{ __('dashboard.add_event') }}</span>
                             </a>
+                        </li> --}}
 
-                        </li>
-
-                        <li
-                            class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
+                        <li class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fas fa-music"></i>
                                 <span>{{ __('dashboard.events') }}</span>
                             </a>
                         </li>
 
-                        <li
-                            class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
+                        <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                             <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
-                                <i class="fas fa-fw fa-wrench"></i>
+                                <i class="fas fa-ticket-alt"></i>
                                 <span>{{ __('dashboard.bookings') }}</span>
                             </a>
                         </li>
+
+                        {{-- <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
+                            <a class="nav-link collapsed" href="{{ route('company.attend-event.index') }}">
+                                <i class="fas fa-users"></i>
+                                <span>{{ __('dashboard.attendee_list') }}</span>
+                            </a>
+                        </li> --}}
                     @endif
 
 
@@ -325,7 +342,7 @@
                             @yield('event')
                         @endif
                         @if (request()->route()->getName() == 'reset.password.get')
-                            @yield('forgetPasswordLink')
+                            @yield('forget-password-link')
                         @endif
                         @if (request()->route()->getName() == 'admin.company.index')
                             @yield('content')
@@ -334,7 +351,7 @@
                             @yield('edit')
                         @endif
                         @if (request()->route()->getName() == 'forgot-password')
-                            @yield('forgotPassword')
+                            @yield('forgot-password')
                         @endif
                         @if (request()->route()->getName() == 'admin.contact-us.index')
                             @yield('admin.contact-us.index')
@@ -348,6 +365,14 @@
                             @yield('admin.users.index')
                         @endif
 
+                        @if (request()->route()->getName() == 'admin.event.show' || request()->route()->getName() == 'company.event.show')
+                            @yield('admin.event.show')
+                        @endif
+                        @if (request()->route()->getName() == 'company.attend-event.create')
+                            @yield('company.attend-event.create')
+                        @elseif(request()->route()->getName() == 'company.attend-event.index')
+                            @yield('company.attend-event.index')
+                        @endif
                         @if (request()->route()->getName() == 'admin.user.index')
                             @yield('admin.user.show')
                         @endif
@@ -407,7 +432,7 @@
                     });
                 });
             </script>
-
+           
         </body>
     @endif
 @endsection

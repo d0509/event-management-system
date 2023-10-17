@@ -1,6 +1,8 @@
+
 @extends('frontend.master.layout')
 @section('title', 'Reset Password')
 @section('content')
+
     {{-- {{dd('im inside reset password link')}} --}}
 
     <body class="bg-gradient-primary">

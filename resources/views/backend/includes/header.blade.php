@@ -257,6 +257,7 @@
 
                     </nav>
 
+                    @yield('content')
 
                 </div>
 

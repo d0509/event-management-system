@@ -16,20 +16,20 @@ use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
 {
-    protected $cityservice;
-    protected $companyservice;
+    protected $cityService;
+    protected $companyService;
 
-    public function __construct(CompanyService $companyService, CityService $cityservice)
+    public function __construct(CompanyService $companyService, CityService $cityService)
     {
-        $this->companyservice = $companyService;
-        $this->cityservice = $cityservice;
+        $this->companyService = $companyService;
+        $this->cityService = $cityService;
     }
 
     public function create()
     {
         if(!Auth::user()){
             return view('User.auth.register', [
-                'cities' => $this->cityservice->collection()
+                'cities' => $this->cityService->collection()
             ]);
         } else {
             return redirect()->back();
@@ -40,7 +40,7 @@ class CompanyController extends Controller
     public function store(CompanyRegister $request): RedirectResponse
     {
         
-        $this->companyservice->registeredByCompany($request);
+        $this->companyService->registeredByCompany($request);
         return redirect()->route('guest.company.create');
     }
 }

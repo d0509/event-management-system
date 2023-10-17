@@ -3,22 +3,23 @@
     <header class="header-section">
         <div class="container">
             <div class="logo">
-                <a href="{{ route('homepage') }}">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('user_assets/img/logo.png') }}" alt="">
                 </a>
             </div>
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
-                        {{-- <li><a href="{{ route('homepage') }}">{{ __('dashboard.home') }}</a></li>                        --}}
+                        {{-- <li><a href="{{ route('home') }}">{{ __('dashboard.home') }}</a></li>                        --}}
                         @auth
                             <li><a href="{{ route('user.contact-us.index') }}">{{ __('dashboard.contact_us') }}</a></li>
+                            {{-- <li><a href="{{ route('user.attend-event.index') }}">{{ __('dashboard.attend_event') }}</a></li> --}}
                             <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                     @foreach (Auth::user()->media as $item)
-                                        <img class="img-profile rounded-circle" width="70px" style="border-radius: 50%"
-                                            height="70px"
+                                        <img class="img-profile rounded-circle" width="40px" style="border-radius: 50%"
+                                            height="40px"
                                             src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}">
                                     @endforeach
                                 </a>
@@ -69,7 +70,7 @@
         </div>
         </nav>
     </header>
-    @if (request()->route()->getName() == 'homepage')
+    @if (request()->route()->getName() == 'home')
         @yield('events')
     @elseif(request()->route()->getName() == 'user.profile.edit')
         @yield('user.profile')
@@ -93,7 +94,7 @@
     @elseif(request()->route()->getName() == 'user.booking.show')
         @yield('user.booking.show')
     @elseif(request()->route()->getName() == 'user.contact-us.index')
-        {{-- {{dd('hi')}} --}}
         @yield('user.contact_us.create')
     @endif
+    @yield('footer')
 @endsection

@@ -2,18 +2,25 @@
 
 namespace App\Services;
 
+use \PDF;
 use App\Http\Requests\Booking\Create;
+use App\Jobs\GenerateBookingTicket;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Notifications\TicketMail;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
 
 class BookingService
 {
 
-    public function collection(){
+    public function collection()
+    {
 
         $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
         // dd($data);
@@ -24,9 +31,11 @@ class BookingService
                 $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
                 $downloadUrl = route('download-ticket', ['booking' => $row->id]);
                 $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="' . $downloadUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
-                // $btn2 = '<a href="'.$downloadUrl.'" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a>';
-                // $btn .= '<a  href="#" class="text-white  btn btn-danger" onclick="event.preventDefault(); deleteCategory(' . $row->id . ');"> <i class="fa-sharp fa-solid fa-trash"></i></a>';
+                
                 return $btn;
+            })
+            ->orderColumn('event_id', function ($query, $order) {
+                $query->orderBy('id', $order);
             })
             ->addColumn('event_id', function ($row) {
                 return $row->event->name;
@@ -41,17 +50,16 @@ class BookingService
         return true;
     }
 
-    public function Companycollection(Request $request)
+    public function CompanyCollection(Request $request)
     {
-        $data = Booking::select(['user_id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type', 'created_at'])
-            ->with(['company', 'event'])
-            ->where('company_id', Auth::user()->company->id)
-            ->latest();
+        // dd(Auth::user()->company->id);
+        $data = Booking::select(['bookings.*'])
+            ->with(['user', 'event'])
+            ->where('company_id', Auth::user()->company->id);
 
         return Datatables::of($data)
-            ->orderColumn('booking_number', function ($query) {
-                $query->orderBy('created_at', 'desc');
-                return $query;
+            ->orderColumn('user_id', function ($query, $order) {
+                $query->orderBy('id', $order);
             })
             ->addColumn('user_id', function ($row) {
                 return $row->user->name;
@@ -68,15 +76,13 @@ class BookingService
         return true;
     }
 
-    public function store(Event $event, Create $request)
+    public function store($event, $inputs)
     {
-       
-        $quantity = $request->quantity;
-
-        $mytime = Carbon::now()->format('ymd');
+        // dd($inputs);
+        $quantity = $inputs['quantity'];
 
         $last_booking = Booking::latest()->first();
-        $booking_number = $mytime . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
+        $booking_number = Carbon::now()->format('ymd') . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
 
         $totalSeats = Event::where('id', '=', $event->id)->select('available_seat')->first();
 
@@ -88,8 +94,8 @@ class BookingService
 
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
         } else {
-           $data = Booking::create([
-                'user_id' => Auth::user()->id,
+            $booking = Booking::create([
+                'user_id' => Auth::id(),
                 'event_id' => $event->id,
                 'company_id' => $event->company_id,
                 'booking_number' => $booking_number,
@@ -100,13 +106,14 @@ class BookingService
                 'total' => $event->ticket * $quantity,
                 'type' => $quantity > 1 ? 'multiple' : 'single',
                 'is_free_event' => $event->is_free,
-                'no_of_attendees' => 0, 
+                'no_of_attendees' => 0,
             ]);
 
-            
-
-            session()->flash('success', 'Your ticket is booked successfully');
-            return $data;
+            try {
+                GenerateBookingTicket::dispatch($booking);
+            } catch (Exception $e) {
+                Log::info($e);
+            }
         }
     }
 

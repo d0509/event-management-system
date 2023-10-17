@@ -25,15 +25,15 @@ use RealRashid\SweetAlert\Facades\Alert;
 class AuthController extends Controller
 {
 
-    protected $authservice;
-    protected $cityservice;
-    protected $companyservice;
+    protected $authService;
+    protected $cityService;
+    protected $companyService;
 
-    public function __construct(AuthService $authservice, CompanyService $companyservice, CityService $cityservice)
+    public function __construct(AuthService $authService, CompanyService $companyService, CityService $cityService)
     {
-        $this->companyservice = $companyservice;
-        $this->cityservice = $cityservice;
-        $this->authservice = $authservice;
+        $this->companyService = $companyService;
+        $this->cityService = $cityService;
+        $this->authService = $authService;
     }
 
     public function login()
@@ -44,16 +44,15 @@ class AuthController extends Controller
 
     public function signIn(Login $request): RedirectResponse
     {
-        $this->authservice->signIn($request);
-        // return redirect()->route('homepage');
-        return redirect()->intended(route('homepage'));
+        $this->authService->signIn($request);
+        return redirect()->intended(route('home'));
     }
 
     public function register()
     {
         if (!Auth::user()) {
             return view('frontend.auth.register', [
-                'cities' => $this->cityservice->collection()
+                'cities' => $this->cityService->collection()
             ]);
         } else {
             return redirect()->back();
@@ -62,8 +61,8 @@ class AuthController extends Controller
 
     public function signup(Register $request)
     {
-        $this->authservice->signup($request);
-        return redirect()->route('homepage');
+        $this->authService->signup($request);
+        return redirect()->route('home');
     }
 
     public function logout()
@@ -75,7 +74,7 @@ class AuthController extends Controller
     public function companyRegisterForm()
     {
         return view('frontend.auth.register', [
-            'cities' => $this->cityservice->collection()
+            'cities' => $this->cityService->collection()
         ]);
     }
 
@@ -102,7 +101,7 @@ class AuthController extends Controller
 
     public function resetPassword(ResetPassword $request)
     {
-        $this->authservice->resetPassword($request);
+        $this->authService->resetPassword($request);
     }
 
     public function ResetPasswordForm($token)
@@ -116,7 +115,7 @@ class AuthController extends Controller
 
     public function submitReset(ResetPasswordPost $request)
     {
-        $this->authservice->submitReset($request);
+        $this->authService->submitReset($request);
         return redirect()->route('login');
     }
 }

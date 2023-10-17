@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
     
-    protected $cityservice;
-    protected $profileservice;
+    protected $cityService;
+    protected $profileService;
 
-    public function __construct(CityService $cityservice, ProfileService $profileservice){
-        $this->cityservice = $cityservice;
-        $this->profileservice = $profileservice;
+    public function __construct(CityService $cityService, ProfileService $profileService){
+        $this->cityService = $cityService;
+        $this->profileService = $profileService;
     }
 
     public function index()
@@ -26,24 +26,9 @@ class ProfileController extends Controller
         return view('admin.profile.index');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
     public function edit(string $id)
     {
-        $cities = $this->cityservice->collection();
+        $cities = $this->cityService->collection();
         return view('admin.profile.edit',[
             'cities' => $cities,
             'user' => Auth::user()
@@ -53,12 +38,8 @@ class ProfileController extends Controller
     public function update(Update $request, User $user)
     {
         
-        $this->profileservice->update($request,$user);
+        $this->profileService->update($request,$user);
         return redirect()->route('profile.index');
     }
 
-    public function destroy(string $id)
-    {
-        //
-    }
 }

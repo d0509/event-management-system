@@ -25,6 +25,6 @@ class PasswordController extends Controller
     public function update(Change $request)
     {
         $this->passwordService->update($request);
-        return redirect()->route('homepage');
+        return redirect()->route('home');
     }
 }

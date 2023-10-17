@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class PasswordController extends Controller
 {
 
-    protected $passwordservice;
+    protected $passwordService;
 
-    public function __construct(PasswordService $passwordservice)
+    public function __construct(PasswordService $passwordService)
     {
-        $this->passwordservice = $passwordservice;
+        $this->passwordService = $passwordService;
     }
 
     public function edit(){
@@ -22,7 +22,7 @@ class PasswordController extends Controller
     }
 
     public function update(Change $request){
-        $this->passwordservice->update($request);
+        $this->passwordService->update($request);
         if ($request->user()->role->firstWhere('name', 'admin')) {
             return redirect()->route('admin.dashboard');
         } else if($request->user()->role->firstWhere('name', 'company')) {

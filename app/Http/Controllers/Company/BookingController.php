@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class BookingController extends Controller
 {
 
-    protected $bookingservice;
+    protected $bookingService;
 
-    public function __construct(BookingService $bookingservice)
+    public function __construct(BookingService $bookingService)
     {
-        $this->bookingservice = $bookingservice;
+        $this->bookingService = $bookingService;
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->bookingservice->Companycollection($request);
+            $user_bookings =  $this->bookingService->CompanyCollection($request);
             return $user_bookings;
         }
         return view('company.pages.booking');
@@ -30,7 +30,7 @@ class BookingController extends Controller
     // public function index(Request $request)
     // { 
     //     if ($request->ajax()) {
-    //         $user_bookings =  $this->bookingservice->collection($request);
+    //         $user_bookings =  $this->bookingService->collection($request);
     //         return $user_bookings;
     //     }
     //     return view('User.pages.history');
