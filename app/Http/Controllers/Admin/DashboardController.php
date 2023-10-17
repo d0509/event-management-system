@@ -57,16 +57,60 @@ class DashboardController extends Controller
             //     ->groupBy('company_id', 'created_at', 'quantity')
             //     ->get();
 
-            $companyWiseBookings = Booking::select('company_id', \DB::raw('SUM(quantity) as total_quantity'))
-                ->groupBy('company_id')
-                ->pluck('total_quantity', 'company_id')
-                ->toArray();          
+            // $companyWiseBookings = Booking::select('companies.name as company_name', 'company_id', \DB::raw('SUM(quantity) as total_quantity'))
+            //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
+            //     ->groupBy('company_id', 'company_name')
+            //     ->pluck('total_quantity', 'company_name')
+            //     ->get();
+
+            // $companyWiseBookings = Booking::select('companies.name as company_name', 'company_id', \DB::raw('SUM(quantity) as total_quantity'))
+            //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
+            //     ->groupBy('company_id', 'company_name')
+            //     ->get();
+
+            // $dayWiseBookings = Booking::select('companies.name as company_name', \DB::raw('DATE(bookings.created_at) as booking_day'), \DB::raw('SUM(bookings.quantity) as total_quantity'))
+            //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
+            //     ->groupBy('company_name', 'booking_day')
+            //     ->get();
+
+            $currentYear = Carbon::now()->year; // Get the current year
+
+            $allDaysInYear = [];
+            $startDate = Carbon::create($currentYear, 1, 1);
+            $endDate = Carbon::create($currentYear, 12, 31);
+
+            while ($startDate <= $endDate) {
+                $allDaysInYear[] = $startDate->toDateString();
+                $startDate->addDay();
+            }
+
+            $result = [];
+
+            $dayWiseBookings = Booking::select('companies.name as company_name', \DB::raw('DATE(bookings.created_at) as booking_day'), \DB::raw('SUM(bookings.quantity) as total_quantity'))
+                ->join('companies', 'companies.id', '=', 'bookings.company_id')
+                ->whereYear('bookings.created_at', $currentYear)
+                ->groupBy('company_name', 'booking_day')
+                ->get();
+
+            $bookingsData = [];
+            foreach ($dayWiseBookings as $booking) {
+                $bookingsData[$booking->company_name][$booking->booking_day] = (int) $booking->total_quantity;
+            }
+
+            // Merge the database results with the full year list, filling in missing days with 0
+            
+            foreach ($allDaysInYear as $day) {
+                $result[$day] = [];
+                foreach ($bookingsData as $company => $bookings) {
+                    $result[$day][$company] = $bookings[$day] ?? 0;
+                }
+            }
 
 
-            // dd($companyWiseBookings);
+            // dd($bookingsData);
 
 
-            return view('admin.pages.content-dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data','companyWiseBookings'));
+            return view('admin.pages.content-dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'bookingsData'));
         } else {
 
             $company_id = Auth::user()->company->id;

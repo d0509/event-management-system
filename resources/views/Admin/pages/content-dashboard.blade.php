@@ -106,7 +106,7 @@
                         <!-- Card Body -->
                         <div class="card-body">
                             <div class="chart-area" style="height:500px; width:1200px;">
-                                <canvas id="lineChart2"></canvas>
+                                <canvas id="dayWiseBookings"></canvas>
                             </div>
                         </div>
                     </div>
@@ -187,6 +187,58 @@
                         }
                     },
                 });
+
+
+                // day wise booking chart
+
+                var data = @json($bookingsData);
+
+                var ctx = document.getElementById('dayWiseBookings').getContext('2d');
+
+                // Create an object to store datasets
+                var datasets = {};
+
+                // Loop through the data and create datasets for each company
+                data.forEach(function(item) {
+                    var companyName = item.company_name;
+
+                    if (!datasets[companyName]) {
+                        datasets[companyName] = {
+                            label: companyName,
+                            data: [],
+                            fill: false,
+                            borderColor: getRandomColor(),
+                        };
+                    }
+
+                    datasets[companyName].data.push(item.total_quantity);
+                });
+
+                // Create labels based on the booking days
+                var labels = data.map(function(item) {
+                    return item.booking_day;
+                });
+
+                // Convert datasets object to an array
+                var chartData = {
+                    labels: labels,
+                    datasets: Object.values(datasets),
+                };
+
+                var lineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                });
+
+                // Function to get a random color for line colors
+                function getRandomColor() {
+                    var letters = '0123456789ABCDEF';
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
             </script>
 
             {{-- <script>
