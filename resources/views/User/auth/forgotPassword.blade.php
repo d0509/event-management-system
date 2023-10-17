@@ -1,7 +1,7 @@
-@extends('layouts.adminlayout')
+@extends('frontend.master.layout')
 @section('title','Forgot Password')
 
-@section('forgotPassword')
+@section('content')
 
     <body class="bg-gradient-primary">
         <div class="container">

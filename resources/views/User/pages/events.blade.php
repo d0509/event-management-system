@@ -1,34 +1,27 @@
-@extends('User.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title', 'Events')
-@section('events')
+@section('content')
     <div class="container">
 
         <div class="row d-flex">
             <form action="{{ route('homepage') }}" method="get" class="mb-5 d-flex ">
                 <select class="form-control col-3 ml-2  mr-4 " type="text" id="form3" name="city">
-                    <option>  </option>
+                    <option> </option>
                     @forelse ($cities as $city)
-                        <option value="{{ $city->id }}" {{ ( $city_id == $city->id ? 'selected' : '') }} > {{ $city->name }} </option>
+                        <option value="{{ $city->id }}" {{ $city_id == $city->id ? 'selected' : '' }}>
+                            {{ $city->name }} </option>
                     @empty
                         <option>No cities to show!</option>
                     @endforelse
                 </select>
 
-                
-                    <input type="search" class="form-control col-3" id="form1" name="search"
-                        value="{{ request('search') }}" placeholder="search" class="form-control" />
 
-                    <button type="submit" class="btn btn-primary">
-                        Search
-                    </button>
-                
+                <input type="search" class="form-control col-3" id="form1" name="search"
+                    value="{{ request('search') }}" placeholder="search" class="form-control" />
 
-
-
-
-
-
-
+                <button type="submit" class="btn btn-primary">
+                    Search
+                </button>
             </form>
 
             {{-- <label class="form-label select-label col-4">Example label</label> --}}
@@ -87,7 +80,8 @@
                             </div>
                             <div class="row">
                                 <p class="col-1 text-dark"><i class="fa-solid fa-calendar-days"></i></p>
-                                <p class="col-10 text-dark">{{ Carbon\Carbon::parse($event->event_date)->format(config('site.date_format')) }}</p>
+                                <p class="col-10 text-dark">
+                                    {{ Carbon\Carbon::parse($event->event_date)->format(config('site.date_format')) }}</p>
                             </div>
                             <div class="row">
                                 <p class="col-1 text-dark"><i class="fa-regular fa-clock"></i> </p>

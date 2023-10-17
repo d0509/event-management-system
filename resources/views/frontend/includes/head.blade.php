@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-
 <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta charset="UTF-8">
     <meta name="description" content="Manup Template">
     <meta name="keywords" content="Manup, unica, creative, html">
@@ -47,25 +44,3 @@
 
 
 </head>
-
-<body>
-    <!-- Page Preloder -->
-    @include('sweetalert::alert')
-    @yield('dashboard')
-    <!-- Js Plugins -->
-    <script src="http://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" defer="defer"></script>
-
-    <script src="{{ asset('user_assets/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/jquery.countdown.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/jquery.slicknav.js') }}"></script>
-    <script src="{{ asset('user_assets/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('user_assets/js/main.js') }}"></script>
-
-</body>
-
-
-<!-- Mirrored from themewagon.github.io/manup/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Aug 2023 13:58:37 GMT -->
-
-</html>

@@ -99,7 +99,8 @@ class BookingService
                 'discount' => 0,
                 'total' => $event->ticket * $quantity,
                 'type' => $quantity > 1 ? 'multiple' : 'single',
-                'is_free_event' => $event->is_free
+                'is_free_event' => $event->is_free,
+                'no_of_attendees' => 0, 
             ]);
 
             

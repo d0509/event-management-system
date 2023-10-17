@@ -1,6 +1,6 @@
-@extends('user.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title', $event->name)
-@section('showEvent')
+@section('content')
 
     <div class="container">
         <div class="row">
@@ -128,6 +128,6 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
     @endsection

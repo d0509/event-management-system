@@ -1,6 +1,6 @@
-@extends('User.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title','User Profile')
-@section('user.profile')
+@section('content')
     {{-- {{dd($user->toArray())}} --}}
     {{-- name,email,contact_no,city_id,status --}}
     <div class="container">

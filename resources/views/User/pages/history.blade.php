@@ -1,7 +1,7 @@
-@extends('User.pages.dashboard')
+@extends('frontend.master.layout')
 {{-- @extends('layouts.userlayout') --}}
 @section('title', 'User Booking History')
-@section('user.booking.history')
+@section('content')
     <div class="container mt-5">
         <table class="table table-primary" id="data-table">
             <thead>

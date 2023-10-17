@@ -1,6 +1,6 @@
-@extends('user.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title', 'Booking History')
-@section('user.booking.show')
+@section('content')
 
 
     <div class="container">

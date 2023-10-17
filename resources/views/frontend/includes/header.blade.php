@@ -1,5 +1,3 @@
-@extends('frontend.master.layout')
-@section('dashboard')
     <header class="header-section">
         <div class="container">
             <div class="logo">
@@ -15,7 +13,8 @@
                             <li><a href="{{ route('user.contact-us.index') }}">{{ __('dashboard.contact_us') }}</a></li>
                             <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                    <span
+                                        class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                     @foreach (Auth::user()->media as $item)
                                         <img class="img-profile rounded-circle" width="70px" style="border-radius: 50%"
                                             height="70px"
@@ -30,7 +29,8 @@
                                     <li><a
                                             href="{{ route('user.change-password.edit', ['change_password' => Auth::id()]) }}">{{ __('dashboard.change_password') }}</a>
                                     </li>
-                                    <li> <a href="{{ route('user.booking.index') }}"> {{ __('dashboard.booking_history') }}
+                                    <li> <a href="{{ route('user.booking.index') }}">
+                                            {{ __('dashboard.booking_history') }}
                                         </a> </li>
 
                                     <li><a data-toggle="modal" data-target="#logoutModal">Logout</a></li>
@@ -57,7 +57,8 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                        </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                             <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>
@@ -69,31 +70,3 @@
         </div>
         </nav>
     </header>
-    @if (request()->route()->getName() == 'homepage')
-        @yield('events')
-    @elseif(request()->route()->getName() == 'user.profile.edit')
-        @yield('user.profile')
-    @endif
-    {{-- @if (request()->route()->getName() == 'companyDashboard')
-        @yield('hero')
-    @elseif(request()->route()->getName() == 'company.event.create' || request()->route()->getName() == 'company.event.edit' )
-        @yield('createEvent')
-    @elseif(request()->route()->getName() == 'company.event.index')
-        @yield('company.event.index')
-    @endif --}}
-
-    @if (request()->route()->getName() == 'user.event.show')
-        @yield('showEvent')
-    @elseif(request()->route()->getName() == 'book_ticket')
-        @yield('book_ticket')
-    @elseif(request()->route()->getName() == 'user.change-password.edit')
-        @yield('user.password.edit')
-    @elseif(request()->route()->getName() == 'user.booking.index')
-        @yield('user.booking.history')
-    @elseif(request()->route()->getName() == 'user.booking.show')
-        @yield('user.booking.show')
-    @elseif(request()->route()->getName() == 'user.contact-us.index')
-        {{-- {{dd('hi')}} --}}
-        @yield('user.contact_us.create')
-    @endif
-@endsection
