@@ -1,7 +1,7 @@
 
 @extends('backend.includes.head')
 @section('title', 'Reset Password')
-@section('content')
+@section('auth-content')
     {{-- {{dd('im inside reset password link')}} --}}
 
     <body class="bg-gradient-primary">

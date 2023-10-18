@@ -1,6 +1,6 @@
 @extends('backend.includes.head')
 @section('title', 'Register')
-@section('content')
+@section('auth-content')
 
     @auth
         {{-- <h1>You are not allowed to visit this page as you are already logged in. Please click below to go  <a href="{{ url()->previous() }}">Back</a></h1> --}}

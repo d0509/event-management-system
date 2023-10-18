@@ -1,7 +1,7 @@
 @extends('backend.includes.head')
 @section('title','Forgot Password')
 
-@section('content')
+@section('auth-content')
 
     <body class="bg-gradient-primary">
         <div class="container">

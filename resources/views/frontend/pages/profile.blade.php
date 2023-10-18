@@ -1,4 +1,4 @@
-@extends('admin.pages.dashboard')
+@extends('frontend.master.layout')
 @section('title', 'Profile')
 @section('content')
     {{-- {{dd('im inside profile')}} --}}

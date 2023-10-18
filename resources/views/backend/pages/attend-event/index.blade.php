@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Attended events listing')
-@section('company.attend-event.index')
+@section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Attended Event</h1>

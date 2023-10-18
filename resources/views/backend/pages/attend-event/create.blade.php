@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Attend Event')
-@section('company.attend-event.create')
+@section('content')
     {{-- <div id="qr_code_modal"  class="modal fade " style="margin: 0 auto" tabindex="-1">
         <div class="col-sm-6">
             <video id="preview" class="p-1 border" style="width:50%;"></video>

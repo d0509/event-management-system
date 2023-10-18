@@ -1,7 +1,7 @@
 @extends('backend.includes.head')
 @section('title', 'Login page')
 {{-- {{dd('im afetr title')}} --}}
-@section('content')
+@section('auth-content')
     @auth
         <script>
             window.location.href = '{{ url()->previous() }}';
