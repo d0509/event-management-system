@@ -22,6 +22,8 @@ class BookingService
     public function collection()
     {
 
+        
+
         $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
         // dd($data);
 

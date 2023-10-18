@@ -33,17 +33,6 @@ class EventController extends Controller
         return view('backend.pages.event.index');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-
     public function show(string $id)
     {
         // dd($id);
@@ -69,8 +58,4 @@ class EventController extends Controller
         return redirect()->route('admin.event.index');
     }
 
-    public function destroy(string $id)
-    {
-        //
-    }
 }
