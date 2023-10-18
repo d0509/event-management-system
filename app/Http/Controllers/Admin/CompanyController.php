@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
+use App\Models\City;
+use App\Models\RoleUser;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CompanyRegister;
 use App\Http\Requests\Company\Add;
 use App\Http\Requests\Company\EditCompany;
-use App\Models\City;
 use App\Models\Company;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\RoleUser;
-use App\Models\User;
 use App\Services\CityService;
 use App\Services\CompanyService;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
