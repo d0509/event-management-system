@@ -23,13 +23,13 @@ class ProfileController extends Controller
 
     public function index()
     {
-        return view('admin.profile.index');
+        return view('backend.pages.profile.index');
     }
 
     public function edit(string $id)
     {
         $cities = $this->cityService->collection();
-        return view('admin.profile.edit',[
+        return view('backend.pages.profile.edit',[
             'cities' => $cities,
             'user' => Auth::user()
         ]);

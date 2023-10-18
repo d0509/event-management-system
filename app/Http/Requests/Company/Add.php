@@ -22,16 +22,16 @@ class Add extends FormRequest
     public function rules(): array
     {
         return [
-                'name'=>'required',
-                'email'=>'required|email|unique:users,email',
-                'company_name' => 'required|min:3|max:50',
-                'description' => 'required|min:5|max:500',
-                'address' => 'required|min:15|max:500',
-                'password'=>'required|confirmed',
-                'password_confirmation'=>'required',
-                'city_id'=>'required',
-                'mobile_no'=>'required|numeric|digits:10|unique:users,mobile_no',
-                'status' => 'required'
+            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
+            'email' => 'required|email|unique:users,email',
+            'company_name' => 'required|min:3|max:50',
+            'description' => 'required|min:5|max:500',
+            'address' => 'required|min:15|max:500',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
+            'city_id' => 'required',
+            'mobile_no' => 'required|numeric|digits:10|unique:users,mobile_no',
+            'status' => 'required'
         ];
     }
 }

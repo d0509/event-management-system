@@ -28,7 +28,7 @@ class CompanyController extends Controller
     public function create()
     {
         if(!Auth::user()){
-            return view('User.auth.register', [
+            return view('frontend.auth.register', [
                 'cities' => $this->cityService->collection()
             ]);
         } else {

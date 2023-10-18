@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        return view('admin.auth.login');
+        return view('backend.pages.auth.login');
     }
 
     public function signIn(Login $request)

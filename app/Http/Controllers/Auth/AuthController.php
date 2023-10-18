@@ -82,18 +82,18 @@ class AuthController extends Controller
 
     public function adminDashboard()
     {
-        return view('admin.pages.content-dashboard');
+        return view('backend.pages.dashboard');
     }
 
     public function companyDashboard()
     {
-        return view('company.pages.dashboard');
+        return view('backend.pages.dashboard');
     }
 
     public function forgotPassword()
     {
         if (!Auth::user()) {
-            return view('frontend.auth.forgotPassword');
+            return view('frontend.auth.forgot-password');
         } else {
             return redirect()->back();
         }
@@ -107,7 +107,7 @@ class AuthController extends Controller
     public function ResetPasswordForm($token)
     {
         if (!Auth::user()) {
-            return view('frontend.auth.forgetPasswordLink', ['token' => $token]);
+            return view('frontend.auth.forget-password-link', ['token' => $token]);
         } else {
             return redirect()->back();
         }

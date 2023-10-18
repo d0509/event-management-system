@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('user', UserController::class)->only('index', 'show');
         Route::resource('contact-us', AdminContactUsController::class);
-        Route::post('user/status', UserStatusController::class);
+        // Route::post('user/status', UserStatusController::class);
         Route::resource('change-password', PasswordController::class)->only('edit', 'update');
         Route::post('event/status', EventStatusController::class)->name('event.status');
         Route::resource('company', CompanyController::class)->except('show');

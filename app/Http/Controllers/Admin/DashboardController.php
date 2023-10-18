@@ -101,7 +101,7 @@ class DashboardController extends Controller
             // dd($companyData->toArray());
 
 
-            return view('admin.pages.content-dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'companyData'));
+            return view('backend.pages.dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'companyData'));
         } else {
 
             $company_id = Auth::user()->company->id;
@@ -110,10 +110,7 @@ class DashboardController extends Controller
             $pastEvent = Event::where('company_id', '=', $company_id)->where('event_date', '<', Carbon::now())->count();
             $upcomingEvent = Event::where('company_id', '=', $company_id)->where('event_date', '>', Carbon::now())->count();
 
-            return view(
-                'admin.pages.content-dashboard',
-                compact('totalEvent', 'todayEvent', 'pastEvent', 'upcomingEvent')
-            );
+            return view('backend.pages.dashboard',compact('totalEvent', 'todayEvent', 'pastEvent', 'upcomingEvent'));
         }
     }
 }

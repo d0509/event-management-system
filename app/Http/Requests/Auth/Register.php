@@ -23,7 +23,7 @@ class Register extends FormRequest
     {
         // dd($this->profile);
             return [
-                'name'=>'required',
+                'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
                 'email'=>'required|email|unique:users,email',
                 'password'=>'required|confirmed',
                 'password_confirmation'=>'required',

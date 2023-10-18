@@ -8,7 +8,7 @@
                     class="fa-solid fa-user-plus mr-2"></i>Create Company</a>
         </div>
 
-        <table class="table" id="dataTable" >
+        <table class="table" id="dataTable" width="100%">
             <thead>
                 <tr>
                     <th>Sr. No.</th>
@@ -106,7 +106,7 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function() {
-                        console.log('updated successfully');
+                        console.log('updated successfuly');
                         $('#dataTable').DataTable().ajax.reload();
                     }
                 });

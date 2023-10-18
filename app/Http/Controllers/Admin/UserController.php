@@ -25,7 +25,7 @@ class UserController extends Controller
             $users = $this->userService->collection();
             return $users;
         }
-        return view('admin.pages.users');
+        return view('backend.pages.user.index');
     }
 
     /**
@@ -52,7 +52,7 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         // dd($user);
 
-        return view('admin.pages.user-show', [
+        return view('backend.pages.user.show', [
             'user' => $user,
         ]);
     }

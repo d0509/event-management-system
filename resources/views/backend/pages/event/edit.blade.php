@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'View Event')
-@section('admin.event.edit')
+@section('content')
     {{-- {{dd(3)}} --}}
 
     <section style="background-color: #eee;">

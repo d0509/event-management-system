@@ -38,7 +38,7 @@ class CompanyController extends Controller
             $companies =  $this->companyService->collection();
             return $companies;
         }
-        return view('company.pages.listing');
+        return view('backend.pages.company.index');
     }
 
     /**
@@ -48,7 +48,7 @@ class CompanyController extends Controller
     {
         $cities = $this->companyService->collection();
 
-        return view('company.pages.edit', [
+        return view('backend.pages.company.edit', [
             'cities' => $cities,
         ]);
     }
@@ -76,7 +76,7 @@ class CompanyController extends Controller
     public function edit(Company $company)
     {
         // dd('admin.company.edit');
-        return view('company.pages.edit', [
+        return view('backend.pages.company.edit', [
             'company' => $company,
             'cities' => $this->cityService->collection(),
         ]);

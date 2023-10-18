@@ -23,7 +23,7 @@ class Update extends FormRequest
     {
 
         return [
-            'name' => 'required',
+            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
             'email' => 'required|email',
             'mobile_no' => 'required|numeric|digits:10',
             'city_id' => 'required',    

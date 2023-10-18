@@ -24,21 +24,10 @@ class BookingController extends Controller
             $user_bookings =  $this->bookingService->CompanyCollection($request);
             return $user_bookings;
         }
-        return view('company.pages.booking');
+        return view('backend.pages.booking-history.index');
     }
 
-    // public function index(Request $request)
-    // { 
-    //     if ($request->ajax()) {
-    //         $user_bookings =  $this->bookingService->collection($request);
-    //         return $user_bookings;
-    //     }
-    //     return view('User.pages.history');
-    // }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //

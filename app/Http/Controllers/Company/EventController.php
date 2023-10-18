@@ -33,14 +33,14 @@ class EventController extends Controller
             return $user_bookings;
         }
 
-        return view('company.event.index');
+        return view('backend.pages.event.index');
     }
 
     public function create()
     {
         $event = $this->cityService->collection();
 
-        return view('company.pages.create-event', [
+        return view('backend.pages.event.create', [
             'cities' => $this->cityService->collection(),
             'categories' => $this->categoryService->index()
         ]);
@@ -56,8 +56,8 @@ class EventController extends Controller
     public function show(string $id)
     {
         $event =  $this->eventService->resource($id);
-        // dd($event);
-        return view('admin.event.show', [
+        
+        return view('backend.pages.event.show', [
             'event' => $event
         ]);
     }
@@ -65,7 +65,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         if(Auth::user()->company->id == $event->company_id){
-            return view('company.pages.create-event', [
+            return view('backend.pages.event.create', [
                 'event' => $event,
                 'cities' => $this->cityService->collection(),
                 'categories' => $this->categoryService->index(),
