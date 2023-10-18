@@ -55,66 +55,53 @@ class DashboardController extends Controller
                 $data[$user->role_id][$user->month] = $user->count;
             }
 
-            // $companyWiseBookings = Booking::select('company_id', 'quantity')
-            //     ->selectRaw('count(*) as count')
-            //     ->selectRaw("Month(created_at) as month")
-            //     ->groupBy('company_id', 'created_at', 'quantity')
-            //     ->get();
+            // company engagement
 
-            // $companyWiseBookings = Booking::select('companies.name as company_name', 'company_id', \DB::raw('SUM(quantity) as total_quantity'))
-            //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
-            //     ->groupBy('company_id', 'company_name')
-            //     ->pluck('total_quantity', 'company_name')
-            //     ->get();
+            // $currentYear = Carbon::now()->year; // Get the current year
 
-            // $companyWiseBookings = Booking::select('companies.name as company_name', 'company_id', \DB::raw('SUM(quantity) as total_quantity'))
-            //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
-            //     ->groupBy('company_id', 'company_name')
-            //     ->get();
+            // $allDaysInYear = [];
+            // $startDate = Carbon::create($currentYear, 1, 1);
+            // $endDate = Carbon::create($currentYear, 12, 31);
+
+            // while ($startDate <= $endDate) {
+            //     $allDaysInYear[] = $startDate->toDateString();
+            //     $startDate->addDay();
+            // }
+
+            // $result = [];
 
             // $dayWiseBookings = Booking::select('companies.name as company_name', \DB::raw('DATE(bookings.created_at) as booking_day'), \DB::raw('SUM(bookings.quantity) as total_quantity'))
             //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
+            //     ->whereYear('bookings.created_at', $currentYear)
             //     ->groupBy('company_name', 'booking_day')
             //     ->get();
 
-            $currentYear = Carbon::now()->year; // Get the current year
+            // $bookingsData = [];
+            // foreach ($dayWiseBookings as $booking) {
+            //     $bookingsData[$booking->company_name][$booking->booking_day] = (int) $booking->total_quantity;
+            // }
 
-            $allDaysInYear = [];
-            $startDate = Carbon::create($currentYear, 1, 1);
-            $endDate = Carbon::create($currentYear, 12, 31);
+            // // Merge the database results with the full year list, filling in missing days with 0
 
-            while ($startDate <= $endDate) {
-                $allDaysInYear[] = $startDate->toDateString();
-                $startDate->addDay();
-            }
+            // foreach ($allDaysInYear as $day) {
+            //     $result[$day] = [];
+            //     foreach ($bookingsData as $company => $bookings) {
+            //         $result[$day][$company] = $bookings[$day] ?? 0;
+            //     }
+            // }
 
-            $result = [];
+            
 
-            $dayWiseBookings = Booking::select('companies.name as company_name', \DB::raw('DATE(bookings.created_at) as booking_day'), \DB::raw('SUM(bookings.quantity) as total_quantity'))
+            $companyData = Booking::select('companies.name as company_name', DB::raw('DATE(bookings.created_at) as booking_day'), DB::raw('SUM(bookings.quantity) as total_quantity'))
                 ->join('companies', 'companies.id', '=', 'bookings.company_id')
-                ->whereYear('bookings.created_at', $currentYear)
                 ->groupBy('company_name', 'booking_day')
                 ->get();
 
-            $bookingsData = [];
-            foreach ($dayWiseBookings as $booking) {
-                $bookingsData[$booking->company_name][$booking->booking_day] = (int) $booking->total_quantity;
-            }
 
-            // Merge the database results with the full year list, filling in missing days with 0
-            
-            foreach ($allDaysInYear as $day) {
-                $result[$day] = [];
-                foreach ($bookingsData as $company => $bookings) {
-                    $result[$day][$company] = $bookings[$day] ?? 0;
-                }
-            }
+            // dd($companyData->toArray());
 
 
-            // dd($bookingsData);
-
-
-            return view('admin.pages.content-dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'bookingsData'));
+            return view('admin.pages.content-dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'companyData'));
         } else {
 
             $company_id = Auth::user()->company->id;
