@@ -23,7 +23,7 @@ class EditCompany extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required',
+            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
             'email'=>['required','email', Rule::unique('users')->ignore($this->company->user)],
             'company_name' => 'required|min:3|max:50',
             'description' => 'required|min:5|max:5000',

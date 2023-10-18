@@ -22,7 +22,7 @@ class CompanyRegister extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required',
+            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
             'email'=>'required|email|unique:users,email',
             'company_name' => 'required|min:3|max:50',
             'description' => 'required|min:5|max:500',
