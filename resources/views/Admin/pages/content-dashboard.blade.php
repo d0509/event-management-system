@@ -101,7 +101,7 @@
                         <!-- Card Body -->
                         <div class="card-body">
                             <div class="chart-area" style="height:500px; width:1200px;">
-                                <canvas id="dayWiseBookings"></canvas>
+                                <canvas id="companyDataChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -184,127 +184,40 @@
                 });
 
 
-                // day wise booking chart
+                var companyData = @json($companyData);
 
-                var data = @json($bookingsData);
-
-                var ctx = document.getElementById('dayWiseBookings').getContext('2d');
-
-                // Create an object to store datasets
-                var datasets = {};
-
-                // Loop through the data and create datasets for each company
-                data.forEach(function(item) {
-                    var companyName = item.company_name;
-
-                    if (!datasets[companyName]) {
-                        datasets[companyName] = {
-                            label: companyName,
-                            data: [],
-                            fill: false,
-                            borderColor: getRandomColor(),
-                        };
-                    }
-
-                    datasets[companyName].data.push(item.total_quantity);
-                });
-
-                // Create labels based on the booking days
-                var labels = data.map(function(item) {
+                var labels = companyData.map(function(item) {
                     return item.booking_day;
                 });
 
-                // Convert datasets object to an array
-                var chartData = {
-                    labels: labels,
-                    datasets: Object.values(datasets),
-                };
-
-                var lineChart = new Chart(ctx, {
-                    type: 'line',
-                    data: chartData,
-                });
-
-                // Function to get a random color for line colors
-                function getRandomColor() {
-                    var letters = '0123456789ABCDEF';
-                    var color = '#';
-                    for (var i = 0; i < 6; i++) {
-                        color += letters[Math.floor(Math.random() * 16)];
+                var datasets = companyData.reduce(function(obj, item) {
+                    if (!obj[item.company_name]) {
+                        obj[item.company_name] = {
+                            label: item.company_name,
+                            data: [],
+                        };
                     }
-                    return color;
-                }
-            </script>
+                    obj[item.company_name].data.push(item.total_quantity);
+                    return obj;
+                }, {});
 
-            {{-- <script>
-                var data = @json($data); // Convert PHP array to JSON
-                var ctx = document.getElementById('lineChart').getContext('2d');
-                var datasets = [];
-                // Define an array to map month numbers to month names
-                var monthNames = [
-                    'January', 'February', 'March', 'April', 'May', 'June', 'July',
-                    'August', 'September', 'October', 'November', 'December'
-                ];
-            
-                const roleLabelMap = {
-                    1: "Admin",
-                    2: "Company",
-                    3: "User",
-                };
-            
-                // Define a static color (e.g., red) for the lines
-                const lineColor = 'rgb(0, 0, 255)';
-            
-                // Loop through the data and create datasets for each role
-                for (var roleId in data) {
-                    const label = roleLabelMap[roleId];
-            
-                    const dataset = {
-                        label: label,
-                        data: Object.values(data[roleId]),
-                        fill: false,
-                        borderColor: lineColor, // Set the static color here
-                    };
-            
-                    datasets.push(dataset);
-                }
-            
-                // Convert month numbers to month names in the chart labels
-                var chartLabels = Object.keys(data[Object.keys(data)[0]]).map(function(monthNumber) {
-                    return monthNames[monthNumber - 1]; // Adjust for 0-based array
-                });
-            
-                var chartData = {
-                    labels: chartLabels,
-                    datasets: datasets,
-                };
-            
-                var lineChart = new Chart(ctx, {
-                    type: 'line',
-                    data: chartData,
+                var ctx = document.getElementById('companyDataChart').getContext('2d');
+
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: Object.values(datasets),
+                    },
                     options: {
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'No. Of Users Registered', // Add a title to the x-axis
-                                },
-                                ticks: {
-                                    stepSize: 2, // Set the step size here
-                                },
                             },
-                            x: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Months', // Add a title to the x-axis
-                                },
-                            }
-                        }
+                        },
                     },
                 });
-            </script> --}}
+            </script>
 
 
         </div>

@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Profile')
-@section('profile')
+@section('content')
     {{-- {{dd('im inside profile')}} --}}
     <div class="container">
         <div class="row row-cols-3 g-3">

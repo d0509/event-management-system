@@ -1,6 +1,6 @@
-@extends('admin.pages.dashboard')
+@extends('backend.master.layout')
 @section('title', 'Edit Profile')
-@section('profile.edit')
+@section('content')
     <div class="container">
         <h1 class="mt-5 mb-5 text-center">Update Profile </h1>
         <form method="POST" action="{{ route('profile.update', ['profile' => Auth::user()]) }}" enctype="multipart/form-data">
