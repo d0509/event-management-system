@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class EventStatusController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
+    
     public function __invoke(Request $request)
     {
         // dd($request);

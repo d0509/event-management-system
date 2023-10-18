@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\Login;
 use App\Models\Booking;
-use App\Models\Company;
 use App\Models\Event;
 use App\Models\User;
 use App\Services\AuthService;
@@ -29,11 +27,7 @@ class DashboardController extends Controller
             $companyCount = User::where('role_id', '=', 2)->count();
             $userCount = User::where('role_id', '=', 3)->count();
             $totalEvent =  Event::count();
-            // $users = User::select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
-            //     ->whereYear('created_at', date('Y'))
-            //     ->groupBy(DB::raw("Month(created_at)"))
-            //     ->pluck('count', 'month_name');
-
+           
             $users = User::select('role_id')
                 ->where('role_id', '<>', '1')
                 ->selectRaw('count(*) as count')
