@@ -1,4 +1,4 @@
-@extends('frontend.master.layout')
+@extends('backend.includes.head')
 @section('title','Forgot Password')
 
 @section('content')
@@ -39,7 +39,7 @@
                                             <a class="small" href="{{route('register')}}">Create an Account!</a>
                                         </div>
                                         <div class="text-center">
-                                            <a class="small" href="{{route('signin')}}">Already have an account? Login!</a>
+                                            <a class="small" href="{{route('signIn')}}">Already have an account? Login!</a>
                                         </div>
                                     </div>
                                 </div>

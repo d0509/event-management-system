@@ -28,7 +28,7 @@
 
 
     <title>@yield('title')</title>
-
+@yield('content')
 
     {{-- <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link

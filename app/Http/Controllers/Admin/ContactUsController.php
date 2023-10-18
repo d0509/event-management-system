@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class ContactUsController extends Controller
 {
-    protected $contactusservice;
+    protected $contactUsService;
 
-    public function __construct(ContactUsService $contactusservice)
+    public function __construct(ContactUsService $contactUsService)
     {
-        $this->contactusservice = $contactusservice;
+        $this->contactUsService = $contactUsService;
     }
     /**
      * Display a listing of the resource.
@@ -20,11 +20,11 @@ class ContactUsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->contactusservice->collection();
+            $user_bookings =  $this->contactUsService->collection();
             return $user_bookings;
         }
 
-        return view('admin.pages.contact-us');
+        return view('backend.pages.contact-us.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class ContactUsController extends Controller
      */
     public function destroy(string $id)
     {
-       $delete = $this->contactusservice->destroy($id);
+       $delete = $this->contactUsService->destroy($id);
         if ($delete) {
             session()->flash('success','Inquiry deleted successfully');
             return response()->json(['success' => true]);

@@ -28,7 +28,7 @@ class AttendEvent extends Controller
             $user_bookings =  $this->attendService->collection();
             return $user_bookings;
         }
-        return view('company.attend-event.index');
+        return view('backend.pages.attend-event.index');
     }
 
     /**
@@ -37,7 +37,7 @@ class AttendEvent extends Controller
     public function create()
     {
         $todayEvents  =  Event::where('company_id', Auth::user()->company->id)->where('event_date', Carbon::now()->format('Y-m-d'))->select('id', 'name')->get();
-        return view('company.attend-event.create', ['todayEvents' => $todayEvents]);
+        return view('backend.pages.attend-event.create', ['todayEvents' => $todayEvents]);
     }
 
     /**

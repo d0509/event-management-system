@@ -14,7 +14,7 @@
                         request()->route()->getName() == 'company.event.edit' ||
                         request()->route()->getName() == 'company.event.update' ||
                         request()->route()->getName() == 'company.event.destroy' ||
-                        request()->route()->getName() == 'company.booking.index')
+                        request()->route()->getName() == 'company.booking.index' )
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-laugh-wink"></i>
@@ -31,7 +31,11 @@
                         request()->route()->getName() == 'admin.event.index' ||
                         request()->route()->getName() == 'admin.event.edit' ||
                         request()->route()->getName() == 'admin.event.update' ||
-                        request()->route()->getName() == 'admin.user.index')
+                        request()->route()->getName() == 'admin.user.index' ||
+                        request()->route()->getName() == 'admin.contact-us.index' ||
+                        request()->route()->getName() == 'admin.change-password.edit' ||
+                        request()->route()->getName() == 'profile.index' ||
+                        request()->route()->getName() == 'profile.edit')
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-laugh-wink"></i>

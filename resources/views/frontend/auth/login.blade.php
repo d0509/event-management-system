@@ -1,4 +1,4 @@
-@extends('layouts.admin-layout')
+@extends('backend.includes.head')
 @section('title', 'Login page')
 {{-- {{dd('im afetr title')}} --}}
 @section('content')

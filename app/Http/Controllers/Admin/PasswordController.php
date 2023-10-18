@@ -18,7 +18,7 @@ class PasswordController extends Controller
     }
 
     public function edit(){
-        return view('admin.auth.password');
+        return view('backend.pages.auth.password');
     }
 
     public function update(Change $request){
