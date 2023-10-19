@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\RoleUser;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 

@@ -2,40 +2,33 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Admin\Event\Status;
 use App\Http\Requests\Auth\CompanyRegister;
 use App\Http\Requests\Company\Add;
 use App\Http\Requests\Company\EditCompany;
 use App\Models\Company;
-use App\Models\Event;
-use App\Models\RoleUser;
 use App\Models\User;
 use App\Notifications\CompanyRegistered;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Plank\Mediable\Facades\MediaUploader;
-use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
 class CompanyService
 {
-
-
     public function collection()
     {
         $data = Company::with(['user:id,name,status'])->select(['id', 'user_id', 'name', 'description', 'address']);
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $editURL = route('admin.company.edit', ['company' => $row->id]);
-                $btn = '<div class="d-flex"><a class="text-white w-3 btn btn-danger mr-2" onclick="deleteCompany('.$row->id.')" > <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
+                $btn = '<div class="d-flex"><a class="text-white w-3 btn btn-danger mr-2" onclick="deleteCompany(' . $row->id . ')" > <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
                 return $btn;
             })
-            ->addColumn('user_id',function($row){
-               
+            ->addColumn('user_id', function ($row) {
+
                 $status = $row->user->status;
-               
+
                 $condition = $status == config('site.status.approved') ? 'checked' : '';
                 $switch = '
                 <div class="form-check form-switch text-center " >
@@ -43,16 +36,14 @@ class CompanyService
                 <label class="form-check-label" for="flexSwitchCheckChecked"></label>
                 </div>';
                 return $switch;
-
             })
             ->orderColumn('name', function ($query, $order) {
                 $query->orderBy('id', $order);
             })
-            ->rawColumns(['name','action','user_id'])
+            ->rawColumns(['name', 'action', 'user_id'])
             ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
-
     }
 
     public function storeByAdmin(Add $request)

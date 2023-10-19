@@ -1,4 +1,5 @@
 @if (Auth::user())
+
     <body id="page-top">
 
         <!-- Page Wrapper -->
@@ -14,7 +15,8 @@
                         request()->route()->getName() == 'company.event.edit' ||
                         request()->route()->getName() == 'company.event.update' ||
                         request()->route()->getName() == 'company.event.destroy' ||
-                        request()->route()->getName() == 'company.booking.index' )
+                        request()->route()->getName() == 'company.booking.index'||
+                        request()->route()->getName() == 'company.attend-event.create')
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-laugh-wink"></i>
@@ -35,7 +37,8 @@
                         request()->route()->getName() == 'admin.contact-us.index' ||
                         request()->route()->getName() == 'admin.change-password.edit' ||
                         request()->route()->getName() == 'profile.index' ||
-                        request()->route()->getName() == 'profile.edit')
+                        request()->route()->getName() == 'profile.edit'
+                        )
                     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-laugh-wink"></i>
@@ -100,27 +103,23 @@
                         </a>
                     </li>
 
-
-
-                    <li class="nav-item {{ request()->route()->getName() == 'company.event.create'? 'active': '' }}">
-                        <a class="nav-link collapsed" href="{{ route('company.event.create') }}" aria-expanded="true"
-                            aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-cog"></i>
-                            <span>{{ __('dashboard.add_event') }}</span>
+                    <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
+                        <a class="nav-link" href="{{ route('company.attend-event.create') }}">
+                            <i class="fas fa-user-plus"></i>
+                            <span>{{ __('dashboard.attend_event') }}</span>
                         </a>
-
                     </li>
 
                     <li class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                         <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
-                            <i class="fas fa-calendar-plus"></i>
+                            <i class="fas fa-music"></i>
                             <span>{{ __('dashboard.events') }}</span>
                         </a>
                     </li>
 
                     <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                         <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
-                            <i class="fas fa-calendar-check"></i>
+                            <i class="fas fa-ticket-alt"></i>
                             <span>{{ __('dashboard.bookings') }}</span>
                         </a>
                     </li>
@@ -273,12 +272,12 @@
                         </div>
                     </div>
                 </footer>
-              
+
             </div>
-            
+
 
         </div>
-      
+
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>

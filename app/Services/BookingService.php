@@ -2,18 +2,14 @@
 
 namespace App\Services;
 
-use \PDF;
-use App\Http\Requests\Booking\Create;
 use App\Jobs\GenerateBookingTicket;
 use App\Models\Booking;
 use App\Models\Event;
-use App\Notifications\TicketMail;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
 
 class BookingService
@@ -21,9 +17,6 @@ class BookingService
 
     public function collection()
     {
-
-        
-
         $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
         // dd($data);
 
@@ -33,7 +26,7 @@ class BookingService
                 $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
                 $downloadUrl = route('download-ticket', ['booking' => $row->id]);
                 $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="' . $downloadUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
-                
+
                 return $btn;
             })
             ->orderColumn('event_id', function ($query, $order) {
@@ -110,9 +103,8 @@ class BookingService
                 'is_free_event' => $event->is_free,
                 'no_of_attendees' => 0,
             ]);
-
             try {
-                GenerateBookingTicket::dispatch($booking);
+                GenerateBookingTicket::dispatchSync($booking);
             } catch (Exception $e) {
                 Log::info($e);
             }

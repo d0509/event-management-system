@@ -18,6 +18,7 @@ class EventService
 
     public function companyCollection()
     {
+
         $data = Event::with(['category:id,name', 'city:id,name'])->select(['events.*'])
             ->where('company_id', Auth::user()->company->id);
         return DataTables::of($data)
@@ -26,7 +27,7 @@ class EventService
                 $showURL = route('company.event.show', ['event' => $row->id]);
                 $editURL = route('company.event.edit', ['event' => $row->id]);
                 $deleteURL = route('company.event.destroy', ['event' => $row->id]);
-                $btn = '<div class="d-flex"><a href="' . $showURL . '" class="text-white w-3 btn btn-primary delete_event mr-2"> <i class="fa-solid fa-eye"></i></a><a data-eventId="'.$row->id.'" onclick="deleteEvent('.$row->id.')" class="text-white w-3 btn btn-danger delete_event mr-2"> <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
+                $btn = '<div class="d-flex"><a href="' . $showURL . '" class="text-white w-3 btn btn-primary delete_event mr-2"> <i class="fa-solid fa-eye"></i></a><a data-eventId="' . $row->id . '" onclick="deleteEvent(' . $row->id . ')" class="text-white w-3 btn btn-danger delete_event mr-2"> <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
                 return $btn;
             })
             ->orderColumn('name', function ($query, $order) {
@@ -46,7 +47,7 @@ class EventService
             ->addColumn('end_time', function ($row) {
                 return Carbon::parse($row->end_time)->format(config('site.time_format'));
             })
-            ->rawColumns(['category_id', 'event_date', 'start_time', 'end_time','action','category_id'])
+            ->rawColumns(['category_id', 'event_date', 'start_time', 'end_time', 'action', 'category_id'])
             ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
@@ -110,14 +111,13 @@ class EventService
                     })
                     ->orderColumn('category_id', function ($query, $order) {
                         $query->orderBy('category_id', $order);
-                    })                    
+                    })
                     ->rawColumns(['name', 'event_date', 'start_time', 'is_approved', 'action', 'city_id', 'category_id'])
                     ->setRowId('id')
                     ->addIndexColumn()
                     ->make(true);
             }
         } else {
-            // dd('im not logged in ');
             if (request('city') && request('search')) {
                 $events = Event::latest()->where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->get();
                 return $events;
@@ -127,10 +127,8 @@ class EventService
             } elseif (request('city')) {
                 $events = Event::latest()->where('is_approved', 1)->where('city_id', request('city'))->where('event_date', '>=', Carbon::now()->toDateString())->get();
                 return $events;
-            } else {
-                // dd("i don't have any condition to show event");
-                $events = Event::latest()->where('is_approved', 1)->whereDate('event_date', '>=', Carbon::now())->get();
-                // dd(Event::where('is_approved',1)->get()->toArray());
+            } else {                
+                $events = Event::latest()->where('is_approved', 1)->whereDate('event_date', '>=', Carbon::now())->get();                
                 return $events;
             }
         }

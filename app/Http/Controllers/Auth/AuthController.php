@@ -5,22 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\CompanyRegister;
 use App\Http\Requests\Auth\ResetPassword;
 use App\Http\Requests\Auth\ResetPasswordPost;
-use App\Models\City;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Company;
-use App\Models\RoleUser;
-use App\Models\User;
 use App\Services\AuthService;
 use App\Services\CityService;
 use App\Services\CompanyService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -29,17 +20,16 @@ class AuthController extends Controller
     protected $cityService;
     protected $companyService;
 
-    public function __construct(AuthService $authService, CompanyService $companyService, CityService $cityService)
+    public function __construct(AuthService $authService)
     {
-        $this->companyService = $companyService;
-        $this->cityService = $cityService;
+        $this->companyService = new CompanyService();
+        $this->cityService = new  CityService();
         $this->authService = $authService;
     }
 
     public function login()
     {
-        // dd(redirect()->back());
-         return view('frontend.auth.login');       
+        return view('frontend.auth.login');
     }
 
     public function signIn(Login $request): RedirectResponse

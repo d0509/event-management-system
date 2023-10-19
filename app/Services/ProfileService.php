@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Http\Requests\Profile\Update;
-use Plank\Mediable\Mediable;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Plank\Mediable\Facades\MediaUploader;

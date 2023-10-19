@@ -17,10 +17,10 @@ class CompanyController extends Controller
     protected $companyService;
     protected $cityService;
 
-    public function __construct(CompanyService $companyService, CityService $cityService)
+    public function __construct(CompanyService $companyService)
     {
         $this->companyService = $companyService;
-        $this->cityService = $cityService;
+        $this->cityService = new CityService();
     }
 
     public function index(Request $request)

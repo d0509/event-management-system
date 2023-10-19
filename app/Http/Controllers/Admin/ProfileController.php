@@ -15,8 +15,8 @@ class ProfileController extends Controller
     protected $cityService;
     protected $profileService;
 
-    public function __construct(CityService $cityService, ProfileService $profileService){
-        $this->cityService = $cityService;
+    public function __construct(ProfileService $profileService){
+        $this->cityService = new CityService();
         $this->profileService = $profileService;
     }
 

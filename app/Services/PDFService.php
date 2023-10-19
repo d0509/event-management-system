@@ -6,16 +6,12 @@ use \PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Booking;
-use App\Notifications\TicketMail;
 
 class PDFService
 {
     public function generatePDF($data)
     {
-        // dd($data['booking_number']);
-
         $user = $data->user;
 
         $pdfData = [

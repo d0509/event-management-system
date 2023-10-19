@@ -95,13 +95,13 @@
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Company Engagement</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Top 10 Companies Event</h6>
 
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
                             <div class="chart-area" style="height:500px; width:1200px;">
-                                <canvas id="companyDataChart"></canvas>
+                                <canvas id="topCompanies"></canvas>
                             </div>
                         </div>
                     </div>
@@ -184,38 +184,50 @@
                 });
 
 
-                var companyData = @json($companyData);
+                var companyData = @json($topCompanies);
 
-                var labels = companyData.map(function(item) {
-                    return item.booking_day;
-                });
 
-                var datasets = companyData.reduce(function(obj, item) {
-                    if (!obj[item.company_name]) {
-                        obj[item.company_name] = {
-                            label: item.company_name,
-                            data: [],
-                        };
-                    }
-                    obj[item.company_name].data.push(item.total_quantity);
-                    return obj;
-                }, {});
 
-                var ctx = document.getElementById('companyDataChart').getContext('2d');
+                var ctx = document.getElementById('topCompanies').getContext('2d');
 
-                var myChart = new Chart(ctx, {
+                var chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: labels,
-                        datasets: Object.values(datasets),
+                        labels: companyData.map(function(item) {
+                            return item.company_name;
+                        }),
+                        datasets: [{
+                            label: 'Event Count',
+                            data: companyData.map(function(item) {
+                                return item.event_count;
+                            }),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            barPercentage:1,
+                        }]
                     },
                     options: {
                         scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Company Name'
+                                }
+                            },
                             y: {
                                 beginAtZero: true,
-                            },
-                        },
-                    },
+                                title: {
+                                    display: true,
+                                    text: 'Number of Events'
+                                },
+                                ticks: {
+                                    stepSize: 1,
+                                },
+                            }
+                        }
+
+                    }
                 });
             </script>
 
@@ -306,6 +318,52 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-8">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">City Wise Events</h6>
+
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-area" style="height:500px; width:1200px;">
+                                <canvas  id="cityWiseEvents"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var cityData = @json($cityWiseEvents);
+
+                var ctx = document.getElementById('cityWiseEvents').getContext('2d');
+
+                var chart = new Chart(ctx, {
+                    type: 'pie', // Use 'pie' for a pie chart
+                    data: {
+                        labels: cityData.map(function(item) {
+                            return item.city_name;
+                        }),
+                        datasets: [{
+                            data: cityData.map(function(item) {
+                                return item.count;
+                            }),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)'
+                                // You can add more colors if needed
+                            ],
+                        }]
+                    },                    
+                });
+            </script>
         </div>
     @endif
 @endsection

@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Admin\Password\Change;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\Password\Change;
 use Illuminate\Validation\ValidationException;
 
 class PasswordService{
@@ -31,6 +30,3 @@ class PasswordService{
         
     }
 }
-
-
-?>

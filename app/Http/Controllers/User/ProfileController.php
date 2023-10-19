@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\ProfileService;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +15,9 @@ class ProfileController extends Controller
     protected $cityService;
     protected $profileService;
 
-    public function __construct(CityService $cityService, ProfileService $profileService )
+    public function __construct( ProfileService $profileService )
     {
-        $this->cityService = $cityService;
+        $this->cityService = new CityService();
         $this->profileService = $profileService;
     }
 

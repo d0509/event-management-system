@@ -8,7 +8,6 @@ use App\Models\Event;
 use App\Services\CategoryService;
 use App\Services\CityService;
 use App\Services\EventService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,11 +17,11 @@ class EventController extends Controller
     protected $eventService;
     protected $categoryService;
 
-    public function __construct(CityService $cityService, EventService $eventService, CategoryService $categoryService)
+    public function __construct(EventService $eventService)
     {
-        $this->cityService = $cityService;
+        $this->cityService = new CityService();
         $this->eventService = $eventService;
-        $this->categoryService = $categoryService;
+        $this->categoryService = new CategoryService();
     }
 
 
@@ -33,7 +32,7 @@ class EventController extends Controller
             return $user_bookings;
         }
 
-        return view('backend.pages.event.index');
+        return view('backend.pages.event.company-index');
     }
 
     public function create()

@@ -3,11 +3,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Create;
-use App\Models\Booking;
 use App\Models\Event;
 use App\Services\BookingService;
 use App\Services\PDFService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,10 +15,10 @@ class BookingController extends Controller
     protected $bookingService;
     protected $PDFservice;
 
-    public function __construct(BookingService $bookingService, PDFService $PDFservice)
+    public function __construct(BookingService $bookingService)
     {
         $this->bookingService = $bookingService;
-        $this->PDFservice = $PDFservice;
+        $this->PDFservice = new PDFService();
     }
 
     public function index(Request $request)

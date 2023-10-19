@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Password\Change;
 use App\Services\PasswordService;
-use Illuminate\Http\Request;
 
 class PasswordController extends Controller
 {

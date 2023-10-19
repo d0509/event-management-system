@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\User;
-use App\Services\AuthService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,20 +13,15 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    protected $authService;
 
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
 
     public function index(Request $request)
     {
         if (Auth::user()->role->name == config('site.role_names.admin')) {
-            $companyCount = User::where('role_id', '=', 2)->count();
-            $userCount = User::where('role_id', '=', 3)->count();
+            $companyCount = User::where('role_id', 2)->count();
+            $userCount = User::where('role_id', 3)->count();
             $totalEvent =  Event::count();
-           
+
             $users = User::select('role_id')
                 ->where('role_id', '<>', '1')
                 ->selectRaw('count(*) as count')
@@ -49,53 +43,16 @@ class DashboardController extends Controller
                 $data[$user->role_id][$user->month] = $user->count;
             }
 
-            // company engagement
-
-            // $currentYear = Carbon::now()->year; // Get the current year
-
-            // $allDaysInYear = [];
-            // $startDate = Carbon::create($currentYear, 1, 1);
-            // $endDate = Carbon::create($currentYear, 12, 31);
-
-            // while ($startDate <= $endDate) {
-            //     $allDaysInYear[] = $startDate->toDateString();
-            //     $startDate->addDay();
-            // }
-
-            // $result = [];
-
-            // $dayWiseBookings = Booking::select('companies.name as company_name', \DB::raw('DATE(bookings.created_at) as booking_day'), \DB::raw('SUM(bookings.quantity) as total_quantity'))
-            //     ->join('companies', 'companies.id', '=', 'bookings.company_id')
-            //     ->whereYear('bookings.created_at', $currentYear)
-            //     ->groupBy('company_name', 'booking_day')
-            //     ->get();
-
-            // $bookingsData = [];
-            // foreach ($dayWiseBookings as $booking) {
-            //     $bookingsData[$booking->company_name][$booking->booking_day] = (int) $booking->total_quantity;
-            // }
-
-            // // Merge the database results with the full year list, filling in missing days with 0
-
-            // foreach ($allDaysInYear as $day) {
-            //     $result[$day] = [];
-            //     foreach ($bookingsData as $company => $bookings) {
-            //         $result[$day][$company] = $bookings[$day] ?? 0;
-            //     }
-            // }
-
-            
-
-            $companyData = Booking::select('companies.name as company_name', DB::raw('DATE(bookings.created_at) as booking_day'), DB::raw('SUM(bookings.quantity) as total_quantity'))
-                ->join('companies', 'companies.id', '=', 'bookings.company_id')
-                ->groupBy('company_name', 'booking_day')
+            $topCompanies = Event::selectRaw('companies.name as company_name, count(*) as event_count')
+                ->join('companies', 'events.company_id', '=', 'companies.id')
+                ->groupBy('company_name')
+                ->orderBy('event_count', 'desc')
+                ->limit(10)
                 ->get();
 
+                // dd($topCompanies->toArray());
 
-            // dd($companyData->toArray());
-
-
-            return view('backend.pages.dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'companyData'));
+            return view('backend.pages.dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'topCompanies'));
         } else {
 
             $company_id = Auth::user()->company->id;
@@ -103,8 +60,17 @@ class DashboardController extends Controller
             $todayEvent =  Event::where('company_id', '=', $company_id)->where('event_date', '=', Carbon::now())->count();
             $pastEvent = Event::where('company_id', '=', $company_id)->where('event_date', '<', Carbon::now())->count();
             $upcomingEvent = Event::where('company_id', '=', $company_id)->where('event_date', '>', Carbon::now())->count();
+            // dd(Auth::user()->company->id);
+            $cityWiseEvents = Event::select('cities.name as city_name')
+                ->selectRaw('count(*) as count')
+                ->where('company_id', Auth::user()->company->id)
+                ->join('cities', 'cities.id', '=', 'events.city_id')
+                ->groupBy('city_name')
+                ->get();
 
-            return view('backend.pages.dashboard',compact('totalEvent', 'todayEvent', 'pastEvent', 'upcomingEvent'));
+            // dd($cityWiseEvents->toArray());
+
+            return view('backend.pages.dashboard', compact('totalEvent', 'todayEvent', 'pastEvent', 'upcomingEvent', 'cityWiseEvents'));
         }
     }
 }

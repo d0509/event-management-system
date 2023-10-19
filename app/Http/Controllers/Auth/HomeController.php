@@ -13,10 +13,10 @@ class HomeController extends Controller
     protected $eventService;
     protected $cityService;
 
-    public function __construct(EventService $eventService,CityService $cityService)
+    public function __construct()
     {
-        $this->eventService=$eventService;
-        $this->cityService = $cityService;
+        $this->eventService=new EventService();
+        $this->cityService = new CityService();
     }
 
     public function index(){

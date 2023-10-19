@@ -20,8 +20,8 @@ class EventController extends Controller
     public function __construct(EventService $eventService, CityService $cityService, CategoryService $categoryService)
     {
         $this->eventService = $eventService;
-        $this->cityService = $cityService;
-        $this->categoryService = $categoryService;
+        $this->cityService = new CityService();
+        $this->categoryService = new CategoryService();
     }
 
     public function index(Request $request)
@@ -30,7 +30,7 @@ class EventController extends Controller
             $events  = $this->eventService->collection();
             return $events;
         }
-        return view('backend.pages.event.index');
+        return view('backend.pages.event.company-index');
     }
 
     public function show(string $id)

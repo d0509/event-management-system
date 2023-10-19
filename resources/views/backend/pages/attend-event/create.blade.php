@@ -78,7 +78,7 @@
 
     <script>
         $(document).ready(function() {
-
+           
             // $(".text-gray").click(function() {
             //     $("#qr_code_modal").modal('show');
             // });
