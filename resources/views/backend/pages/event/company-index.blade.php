@@ -9,9 +9,11 @@
         <div class="container-fluid">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Events</h1>
-                <a href="{{ route('company.event.create') }}"
-                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fa-solid fa-user-plus mr-2"></i>Create Event</a>
+                @if (request()->route()->getName() == 'company.event.index')
+                    <a href="{{ route('company.event.create') }}"
+                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            class="fa-solid fa-user-plus mr-2"></i>Create Event</a>
+                @endif
 
             </div>
             <table class="table" id="dataTable" width="100%" cellspacing="0">
@@ -139,7 +141,7 @@
 
                 } else {
 
-                   
+
                     $(function() {
                         var table = $('#dataTable').DataTable({
                             processing: true,
