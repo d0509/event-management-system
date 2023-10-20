@@ -11,14 +11,14 @@
                         alt="Event fvv" />
                 @endforeach
 
-                <h3 class="mt-5">{{ __('showEvent.details') }}</h3>
+                <h3 class="mt-5">{{ __('event_detail_details') }}</h3>
 
                 <h4 class="fw-bold mt-2">{{ ucwords($event->name) }}</h4>
 
                 <p class="mt-5">{{ $event->description }}</p>
 
-                <p class="text-dark font-weight-bold">** {{ __('showEvent.note') }} **</p>
-                <p class="fs-3 ml-2">{{ __('showEvent.note_msg') }}</p>
+                <p class="text-dark font-weight-bold">** {{ __('event_detail_note') }} **</p>
+                <p class="fs-3 ml-2">{{ __('event_detail_note_msg') }}</p>
             </div>
             <div class="col-4">
                 <div class="card">
@@ -49,13 +49,13 @@
                                 method="post">
                                 @csrf
                                 <div>
-                                    <label class="form-label" for="form7Example2">{{ __('showEvent.quantity') }}</label>
+                                    <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
                                     <input type="number" name="quantity" id="quantity" class="form-control" />
                                     @error('quantity')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <button class="btn btn-primary mt-2" type="submit">{{ __('showEvent.book_ticket') }}</button>
+                                <button class="btn btn-primary mt-2" type="submit">{{ __('event_detail_book_ticket') }}</button>
 
                             </form>
                         @elseif (\Carbon\Carbon::parse($event_date)->format('Y-m-d') == date('Y-m-d') && $start_time > $currentDateTime)
@@ -63,7 +63,7 @@
                                 method="post">
                                 @csrf
                                 <div>
-                                    <label class="form-label" for="form7Example2">{{ __('showEvent.quantity') }}</label>
+                                    <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
                                     <input type="number" name="quantity" id="quantity" class="form-control" />
                                     @error('quantity')
                                         <span class="text-danger">{{ $message }}</span>

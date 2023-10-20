@@ -13,6 +13,11 @@ class HomeController extends Controller
     protected $eventService;
     protected $cityService;
 
+    private static $availableLocales = [
+        'en' => 'English',
+        'gu' => 'Gujarati',
+    ];
+
     public function __construct()
     {
         $this->eventService=new EventService();
@@ -21,7 +26,8 @@ class HomeController extends Controller
 
     public function index(){
         // dd('hello');
-        $events = $this->eventService->collection();
+       
+                $events = $this->eventService->collection();
         $cities = $this->cityService->collection();
         $city_id = request('city');
         // dd($city_id);
@@ -29,7 +35,8 @@ class HomeController extends Controller
         return view('frontend.pages.home',[
             'events' => $events,
             'cities' => $cities,
-            'city_id' => $city_id
+            'city_id' => $city_id,
+            'available_locales' =>self::$availableLocales,
         ]);
     }   
 }

@@ -21,7 +21,7 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">{{ __('auth.create') }}</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">{{ __('register_create') }}</h1>
                                     </div>
                                     @if (request()->is('company-register'))
                                         <form class="user" action="{{ route('guest.company.store') }}" method="POST"
@@ -33,7 +33,7 @@
 
                                     @csrf
                                     <div class="form-group">
-                                        <label class="form-label" for="form7Example2">{{ __('auth.name') }}</label>
+                                        <label class="form-label" for="form7Example2">{{ __('register_name') }}</label>
                                         <input type="text" id="name" name="name"
                                             class="form-control form-control-user" id="exampleFirstName" placeholder=" Name"
                                             value="{{ old('name') }}">
@@ -45,7 +45,7 @@
 
                                     @if (request()->is('company-register'))
                                         <div class="form-group">
-                                            <label class="form-label" for="form7Example2">{{ __('auth.company_name') }}</label>
+                                            <label class="form-label" for="form7Example2">{{ __('register_company_name') }}</label>
                                             <input type="text" id="company_name" name="company_name"
                                                 class="form-control form-control-user" id="exampleFirstName"
                                                 placeholder="Company name" value="{{ old('company_name') }}">
@@ -55,7 +55,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="form7Example2">{{ __('auth.description') }}</label>
+                                            <label class="form-label" for="form7Example2">{{ __('register_description') }}</label>
                                             <input type="text" id="description" name="description"
                                                 class="form-control form-control-user" id="exampleFirstName"
                                                 placeholder="Company description" value="{{ old('description') }}">
@@ -66,7 +66,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label" for="form7Example2">{{ __('auth.address') }}</label>
+                                            <label class="form-label" for="form7Example2">{{ __('register_address') }}</label>
                                             <input type="text" id="address" name="address"
                                                 class="form-control form-control-user" id="exampleFirstName"
                                                 placeholder="Company Address" value="{{ old('address') }}">
@@ -77,7 +77,7 @@
                                         </div>
                                     @endif
                                     <div class="form-group">
-                                        <label class="form-label" for="form7Example2">{{ __('auth.email') }}</label>
+                                        <label class="form-label" for="form7Example2">{{ __('register_email') }}</label>
                                         <input type="email" name="email" id="email"
                                             class="form-control form-control-user" id="exampleLastName"
                                             placeholder="Email Address" value="{{ old('email') }}">
@@ -89,7 +89,7 @@
 
 
                                     <div class="form-group">
-                                        <label class="form-label" for="form7Example2">{{ __('auth.mobile_no') }}</label>
+                                        <label class="form-label" for="form7Example2">{{ __('register_mobile_no') }}</label>
                                         <input type="tel" name="mobile_no" id="mobile_no"
                                             class="form-control form-control-user" id="exampleInputEmail"
                                             placeholder="Contact Number" value="{{ old('mobile_no') }}">
@@ -99,7 +99,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-label" for="form7Example2">{{ __('auth.city_id') }}</label>
+                                        <label class="form-label" for="form7Example2">{{ __('register_city') }}</label>
                                         <select class="form-control rounded-pill form-select-lg"
                                             aria-label="Default select example" name="city_id" id="city_id">
 
@@ -121,7 +121,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="form7Example2">{{ __('auth.password') }}</label>
+                                        <label class="form-label" for="form7Example2">{{ __('register_password') }}</label>
                                         <input type="password" name="password" id="password"
                                             class="form-control form-control-user" id="exampleInputPassword"
                                             placeholder="Password" value="{{ old('password') }}">
@@ -133,7 +133,7 @@
 
                                     <div class="form-group">
                                         <label class="form-label"
-                                            for="form7Example2">{{ __('auth.password_confirmation') }}</label>
+                                            for="form7Example2">{{ __('register_password_confirmation') }}</label>
                                         <input type="password" name="password_confirmation" id="password_confirmation"
                                             class="form-control form-control-user" id="exampleInputPassword"
                                             placeholder="Confirm Password" value="{{ old('password') }}">
@@ -146,7 +146,7 @@
                                 <div class="container">
                                     <div class="row d-flex justify-content-center">
                                         <button type="submit" class=" btn btn-primary btn-block text-center rounded-pill">
-                                            {{ __('auth.register') }}
+                                            {{ __('register_register') }}
                                         </button>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                                 <hr>
 
                                 <div class="text-center">
-                                    <a class="small" href="{{ route('login') }}">{{ __('auth.already_account') }}</a>
+                                    <a class="small" href="{{ route('login') }}">{{ __('register_already_account') }}</a>
                                 </div>
                             </div>
                         </div>

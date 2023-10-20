@@ -63,10 +63,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('profile', ProfileController::class)->except('create', 'store', 'delete', 'show');
     
-    Route::prefix('user')->name('user.')->group(function(){
+    Route::prefix('user')->name('user.')->middleware('setlocale')->group(function(){
         Route::resource('contact-us',ContactUsController::class)->only('index','store');
-        Route::resource('profile',UserProfileController::class)->only('index','update');
-        
+        Route::resource('profile',UserProfileController::class)->only('index','update');        
         Route::resource('change-password',UserPasswordController::class)->only('edit','update');
     });
     

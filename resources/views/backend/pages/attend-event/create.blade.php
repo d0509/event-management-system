@@ -32,10 +32,10 @@
     </div>
     <div class="container">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{{ __('dashboard.attend_event') }}</h1>
+            <h1 class="h3 mb-0 text-gray-800">Attend Event</h1>
             <a href="{{ route('company.attend-event.index') }}"
                 class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
-                    class="fas fa-users mr-2"></i>{{ __('dashboard.attendee_list') }}</a>
+                    class="fas fa-users mr-2"></i> Atendee List</a>
 
         </div>
 {{-- {{$todayEvents}} --}}

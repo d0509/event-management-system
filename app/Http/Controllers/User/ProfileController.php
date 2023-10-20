@@ -25,7 +25,7 @@ class ProfileController extends Controller
     public function index()
     {
         $cities = $this->cityService->collection();
-        return view('frontend.profile.edit',[
+        return view('frontend.pages.edit-profile',[
             'cities' => $cities,
             'user' => Auth::user()
         ]);

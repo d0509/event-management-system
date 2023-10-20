@@ -329,7 +329,7 @@
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
-                            <div class="chart-area" style="height:500px; width:1200px;">
+                            <div class="chart-area d-flex justify-content-center" style="height:400px; width:1200px;">
                                 <canvas  id="cityWiseEvents"></canvas>
                             </div>
                         </div>

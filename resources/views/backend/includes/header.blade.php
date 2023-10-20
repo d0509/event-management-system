@@ -52,7 +52,7 @@
                     <li class="nav-item {{ request()->route()->getName() == 'admin.dashboard'? 'active': '' }}">
                         <a class="nav-link" href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>{{ __('dashboard.dashboard') }}</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -88,7 +88,7 @@
                             href="{{ route('admin.contact-us.index') }}" aria-expanded="true"
                             aria-controls="collapseUtilities">
                             <i class="fa-solid fa-question"></i>
-                            <span>{{ __('dashboard.inquiries') }}</span>
+                            <span>Inquiries</span>
                         </a>
                     </li>
                 @endif
@@ -99,28 +99,28 @@
                     <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
                         <a class="nav-link" href="{{ route('company.dashboard') }}">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>{{ __('dashboard.dashboard') }}</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li class="nav-item {{ request()->route()->getName() == 'company.dashboard'? 'active': '' }}">
                         <a class="nav-link" href="{{ route('company.attend-event.create') }}">
                             <i class="fas fa-user-plus"></i>
-                            <span>{{ __('dashboard.attend_event') }}</span>
+                            <span>Attend Event</span>
                         </a>
                     </li>
 
                     <li class="nav-item {{ request()->route()->getName() == 'company.event.index'? 'active': '' }}">
                         <a class="nav-link collapsed" href="{{ route('company.event.index') }}">
                             <i class="fas fa-music"></i>
-                            <span>{{ __('dashboard.events') }}</span>
+                            <span>Events</span>
                         </a>
                     </li>
 
                     <li class="nav-item {{ request()->route()->getName() == 'company.booking.index'? 'active': '' }}">
                         <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
                             <i class="fas fa-ticket-alt"></i>
-                            <span>{{ __('dashboard.bookings') }}</span>
+                            <span>Bookings</span>
                         </a>
                     </li>
                 @endif
@@ -239,17 +239,17 @@
                                     aria-labelledby="userDropdown" id="profileoptions">
                                     <a class="dropdown-item" href="{{ route('profile.index') }}">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        {{ __('dashboard.profile') }}
+                                        My Profile
                                     </a>
                                     <a class="dropdown-item"
                                         href="{{ route('admin.change-password.edit', ['change_password' => Auth::id()]) }}">
                                         <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        {{ __('dashboard.change_password') }}
+                                        Change Password
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        {{ __('dashboard.logout') }}
+                                        Logout
                                     </a>
                                 </div>
                             </li>

@@ -9,7 +9,27 @@
                 <nav class="mainmenu mobile-menu">
                     <ul>
                         @auth
-                            <li><a href="{{ route('user.contact-us.index') }}">{{ __('dashboard.contact_us') }}</a></li>
+                            <li><a href="{{ route('user.contact-us.index') }}">{{ __('header_contact_us') }}</a></li>
+                            <li>
+                                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
+                                    @foreach ($available_locales as $locale_name => $available_locale)
+                                    {{-- {{dd($available_locales)}} --}}
+                                   @php
+
+                                       $current_locale =  session(['locale' ]);
+                                   @endphp
+                                   
+                                        @if ($available_locale === $current_locale)
+                                            <span class="ml-2 mr-2 text-gray-700">{{ $locale_name }}</span>
+                                        @else
+                                            <a class="ml-1 underline ml-2 mr-2" href="{{ $available_locale }}">
+                                                <span>{{ $locale_name }}</span>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </li>
+                            
                             <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span
@@ -22,17 +42,17 @@
                                 </a>
 
                                 <ul class="dropdown">
-                                    <li><a
-                                            href="{{ route('user.profile.index') }}">{{ __('dashboard.user_profile') }}</a>
+                                    <li><a href="{{ route('user.profile.index') }}">{{ __('header_my_profile') }}</a>
                                     </li>
                                     <li><a
-                                            href="{{ route('user.change-password.edit', ['change_password' => Auth::id()]) }}">{{ __('dashboard.change_password') }}</a>
+                                            href="{{ route('user.change-password.edit', ['change_password' => Auth::id()]) }}">{{ __('header_change_password') }}</a>
                                     </li>
                                     <li> <a href="{{ route('user.booking.index') }}">
-                                            {{ __('dashboard.booking_history') }}
+                                            {{ __('header_booking_history') }}
                                         </a> </li>
 
-                                    <li><a data-toggle="modal" data-target="#logoutModal">Logout</a></li>
+                                    <li><a data-toggle="modal" data-target="#logoutModal"> {{ __('header_logout') }} </a>
+                                    </li>
 
                                 </ul>
                             </li>

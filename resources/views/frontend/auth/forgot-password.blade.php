@@ -16,9 +16,8 @@
                                 <div class="col-lg-12">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
-                                            <p class="mb-4"> Just enter your email address below
-                                                and we'll send you a link to reset your password!</p>
+                                            <h1 class="h4 text-gray-900 mb-2"> {{__('forgot_password_header')}} </h1>
+                                            <p class="mb-4"> {{__('forgot_password_instruction')}} </p>
                                         </div>
                                         <form class="user" action="{{route('forgot-password.store')}}" method="POST">
                                             @csrf
@@ -31,15 +30,15 @@
                                                 <span class="text-danger">{{$message}}</span>
                                             @enderror
                                             <button type="submit" name="submit" id="submit"  class="btn btn-primary btn-user btn-block">
-                                                Reset Password
+                                                {{__('forgot_password_reset_password')}}
                                             </button>
                                         </form>
                                         <hr>
                                         <div class="text-center">
-                                            <a class="small" href="{{route('register')}}">Create an Account!</a>
+                                            <a class="small" href="{{route('register')}}"> {{__('forgot_password_create_account')}} </a>
                                         </div>
                                         <div class="text-center">
-                                            <a class="small" href="{{route('signIn')}}">Already have an account? Login!</a>
+                                            <a class="small" href="{{route('signIn')}}"> {{__('forgot_password_already_account')}} </a>
                                         </div>
                                     </div>
                                 </div>

@@ -49,9 +49,7 @@ class DashboardController extends Controller
                 ->orderBy('event_count', 'desc')
                 ->limit(10)
                 ->get();
-
-                // dd($topCompanies->toArray());
-
+               
             return view('backend.pages.dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'topCompanies'));
         } else {
 

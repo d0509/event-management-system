@@ -11,7 +11,7 @@
                         <option value="{{ $city->id }}" {{ $city_id == $city->id ? 'selected' : '' }}>
                             {{ $city->name }} </option>
                     @empty
-                        <option>No cities to show!</option>
+                        <option>{{ __('home_no_cities') }}</option>
                     @endforelse
                 </select>
 
@@ -20,7 +20,7 @@
                     value="{{ request('search') }}" placeholder="search" class="form-control" />
 
                 <button type="submit" class="btn btn-primary">
-                    Search
+                    {{ __('home_search') }}
                 </button>
             </form>
         </div>
@@ -70,10 +70,8 @@
 
                 </div>
             @empty
-                <p class="fs-3 text-center">No events to show!</p>
+                <p class="fs-3 text-center"> {{ __('home_no_events') }} </p>
             @endforelse
-            {{-- {{dd($events[0]->toArray())}} --}}
-
         </div>
     </div>
 
