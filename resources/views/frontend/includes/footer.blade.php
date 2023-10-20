@@ -39,17 +39,17 @@
                         <a href="#" class="footer-logo"><img src="{{asset('user_assets/img/footer-logo.png')}}" alt=""></a>
                     </div>
                     <ul>
-                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('home') }}"> {{__('footer_home')}} </a></li>
 
-                        <li><a href="{{ route('user.contact-us.index') }}">Contact</a></li>
+                        <li><a href="{{ route('user.contact-us.index') }}"> {{__('footer_contact')}} </a></li>
                     </ul>
                     <div class="copyright-text">
                         <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
+                            {{__('footer_copyright')}} &copy;
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
-                            All rights reserved
+                            {{__('footer_rights_reserved')}}
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>

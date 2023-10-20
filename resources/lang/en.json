@@ -65,6 +65,7 @@
     "header_change_password":"Change Password",
     "header_booking_history":"Booking History",
     "header_logout":"Logout",
+    "header_login":"Login",
     "forget_password_link_new_password":"New Password",
     "forget_password_link_confirm_password":"Confirm Password",
     "forget_password_link_update_password":"Update Password",
@@ -91,5 +92,10 @@
     "register_password":"Password",
     "register_password_confirmation":"Password Confirmation",
     "register_register":"Register",
-    "register_already_account":"Already have an account? Login!"
+    "register_already_account":"Already have an account? Login!",
+    "header_select_lang":"Select Language: ",
+    "lang_en":"English",
+    "lang_gu":"Gujarati"
+    
+
 }

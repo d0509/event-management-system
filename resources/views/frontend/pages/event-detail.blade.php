@@ -45,7 +45,7 @@
                             $currentDateTime = \Carbon\Carbon::now();
                         @endphp
                         @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') > date('Y-m-d'))
-                            <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}" class="booking"
+                            <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}" class="booking"
                                 method="post">
                                 @csrf
                                 <div>
@@ -59,7 +59,7 @@
 
                             </form>
                         @elseif (\Carbon\Carbon::parse($event_date)->format('Y-m-d') == date('Y-m-d') && $start_time > $currentDateTime)
-                            <form id="form1" action="{{ route('book_ticket', ['event' => $event]) }}" class="booking"
+                            <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}" class="booking"
                                 method="post">
                                 @csrf
                                 <div>

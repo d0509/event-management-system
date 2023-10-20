@@ -65,6 +65,7 @@
     "header_change_password": "પાસવર્ડ બદલો",
     "header_booking_history": "બુકિંગ ઇતિહાસ",
     "header_logout": "લોગઆઉટ",
+    "header_login":"લૉગિન",
     "forget_password_link_new_password": "નવો પાસવર્ડ",
     "forget_password_link_confirm_password": "પાસવર્ડ પુષ્ટિ કરો",
     "forget_password_link_update_password": "પાસવર્ડ અપડેટ કરો",
@@ -91,5 +92,9 @@
     "register_password": "પાસવર્ડ",
     "register_password_confirmation": "પાસવર્ડ પુષ્ટિકરણ",
     "register_register": "રજિસ્ટર",
-    "register_already_account": "પહેલેથી એક એકાઉન્ટ છે? લોગઇન કરો!"
+    "register_already_account": "પહેલેથી એકાઉન્ટ છે? લોગઇન કરો!",
+    "header_select_lang":"ભાષા પસંદ કરો: ",
+    "lang_en":"અંગ્રેજી",
+    "lang_gu":"ગુજરાતી"
+
 }

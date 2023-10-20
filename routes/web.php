@@ -53,7 +53,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('reset-password/{token}', [AuthController::class, 'ResetPasswordForm'])->name('reset.password.get');
     Route::post('reset-password', [AuthController::class, 'submitReset'])->name('reset.password.post');
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->middleware('setlocale')->name('home');
+    Route::get('change', [HomeController::class, 'change'])->name('changeLang');
     Route::get('event/{event}', [UserEventController::class, 'show'])->name('user.event.show');
     Route::get('company-register', [AuthCompanyController::class, 'create'])->name('guest.company.create');
     Route::post('company-register', [AuthCompanyController::class, 'store'])->name('guest.company.store');
@@ -67,11 +68,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('contact-us',ContactUsController::class)->only('index','store');
         Route::resource('profile',UserProfileController::class)->only('index','update');        
         Route::resource('change-password',UserPasswordController::class)->only('edit','update');
+        Route::get('booking-history', [BookingController::class, 'index'])->name('booking.index');
+        Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
+        Route::get('booking/{booking}', [BookingController::class, 'show'])->name('booking.show');
     });
     
-    Route::get('user/booking-history', [BookingController::class, 'index'])->name('user.booking.index');
-    Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
-    Route::get('booking/{booking}', [BookingController::class, 'show'])->name('user.booking.show');
     Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {

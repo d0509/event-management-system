@@ -15,12 +15,11 @@ class SetLocale
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        if (Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
+        if (session()->has('locale')) {
+            App::setLocale(session()->get('locale'));
         }
         return $next($request);
     }
-
 }
