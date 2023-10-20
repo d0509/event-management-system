@@ -206,13 +206,11 @@
                 </div>
             </div>
     </div>
-    
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-    @if (Auth::user()->role_id == config('site.roles.admin'))
-        
+        @if (Auth::user()->role_id == config('site.roles.admin'))
             var data = @json($data); // Convert PHP array to JSON
             var ctx = document.getElementById('lineChart').getContext('2d');
             var datasets = [];
@@ -327,11 +325,7 @@
 
                 }
             });
-        
-    
-    @elseif (Auth::user()->role_id == config('site.roles.company'))
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
+        @elseif (Auth::user()->role_id == config('site.roles.company'))
             var cityData = @json($cityWiseEvents);
 
             var ctx = document.getElementById('cityWiseEvents').getContext('2d');
@@ -357,7 +351,7 @@
                     }]
                 },
             });
-        
-    @endif
+        @endif
     </script>
+  
 @endsection
