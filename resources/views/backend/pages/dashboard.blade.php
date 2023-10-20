@@ -239,7 +239,7 @@
                     label: label,
                     data: Object.values(data[roleId]),
                     fill: false,
-                    borderColor: lineColor, // Set the color based on the index
+                    borderColor: lineColor, 
                 };
 
                 datasets.push(dataset);
