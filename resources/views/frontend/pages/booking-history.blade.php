@@ -3,22 +3,22 @@
 @section('title', 'User Booking History')
 @section('content')
     <div class="container mt-5">
-        <h3 class="text-center mb-5" >Booking History</h3>
+        <h3 class="text-center mb-5" > {{__('booking_history_title')}} </h3>
         <table class="table" id="data-table">
             <thead>
                 <tr>
-                    <th>Sr. No</th>
-                    <th>Event Name</th>
-                    <th>Booking Number</th>
-                    <th>Attended or not</th>
-                    <th>Event Type</th>
-                    <th>No. of tickets booked</th>
-                    <th>Price per ticket</th>
-                    <th>Sub total</th>
-                    <th>Discount</th>
-                    <th>Total</th>
-                    <th>Type of Booking</th>
-                    <th>Action</th>
+                    <th> {{__('sr_no')}} </th>
+                    <th> {{__('booking_history_event_name')}} </th>
+                    <th> {{__('booking_history_booking_number')}} </th>
+                    <th> {{__('booking_history_attendance')}} </th>
+                    <th> {{__('booking_history_event_type')}} </th>
+                    <th> {{__('booking_history_no_of_tickets_booked')}} </th>
+                    <th> {{__('booking_history_price_per_ticket')}} </th>
+                    <th> {{__('booking_history_sub_total')}} </th>
+                    <th> {{__('booking_history_discount')}} </th>
+                    <th> {{__('booking_history_total')}} </th>
+                    <th> {{__('booking_history_type_of_booking')}} </th>
+                    <th> {{__('booking_history_action')}} </th>
                 </tr>
             </thead>
             <tbody>

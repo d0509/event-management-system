@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-   
+
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -64,6 +64,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -102,6 +104,11 @@ return [
     */
 
     'fallback_locale' => 'en',
+
+    'available_locales' => [
+        'English' => 'en',
+        'Gujarati' => 'gu',
+    ],
 
     /*
     |--------------------------------------------------------------------------

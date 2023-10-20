@@ -17,7 +17,8 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        if (Auth::user()->role->name == config('site.role_names.admin')) {
+        // dd(Auth::user()->role_id);
+        if (Auth::user()->role_id == config('site.roles.admin')) {
             $companyCount = User::where('role_id', 2)->count();
             $userCount = User::where('role_id', 3)->count();
             $totalEvent =  Event::count();
@@ -49,9 +50,7 @@ class DashboardController extends Controller
                 ->orderBy('event_count', 'desc')
                 ->limit(10)
                 ->get();
-
-                // dd($topCompanies->toArray());
-
+               
             return view('backend.pages.dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'topCompanies'));
         } else {
 

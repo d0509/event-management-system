@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    
+
     protected $cityService;
     protected $profileService;
 
-    public function __construct(ProfileService $profileService){
+    public function __construct(ProfileService $profileService)
+    {
         $this->cityService = new CityService();
         $this->profileService = $profileService;
     }
@@ -28,7 +29,7 @@ class ProfileController extends Controller
     public function edit(string $id)
     {
         $cities = $this->cityService->collection();
-        return view('backend.pages.profile.edit',[
+        return view('backend.pages.profile.edit', [
             'cities' => $cities,
             'user' => Auth::user()
         ]);
@@ -36,9 +37,7 @@ class ProfileController extends Controller
 
     public function update(Update $request, User $user)
     {
-        
-        $this->profileService->update($request,$user);
-        return redirect()->route('profile.index');
+        $this->profileService->update($request, $user);
+        return redirect()->route('admin.profile.index');
     }
-
 }

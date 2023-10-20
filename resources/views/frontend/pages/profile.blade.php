@@ -15,20 +15,20 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <p class="text-dark"> Name</p>
+                            <p class="text-dark"> {{__('profile_name')}} </p>
                             <p class="text-dark">{{ ucwords(Auth::user()->name) }} </p>
                         </div>
         
                         <div class="d-flex justify-content-between">
-                            <p class="text-dark"> Email</p>
+                            <p class="text-dark"> {{__('profile_email')}} </p>
                             <p class="text-dark">{{ Auth::user()->email }} </p>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <p class="text-dark"> Mobile No.</p>
+                            <p class="text-dark"> {{__('profile_mobile_no')}} </p>
                             <p class="text-dark">{{ Auth::user()->mobile_no }}</p>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <p class="text-dark"> City</p>
+                            <p class="text-dark"> {{__('profile_city')}} </p>
                             <p class="text-dark">{{ Auth::user()->city->name }}</p>
                         </div>
                         </p>

@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Events</h1>
-                @if (request()->route()->getName() == 'company.event.index')
+                @if (Auth::user()->role_id == config('site.roles.company'))
                     <a href="{{ route('company.event.create') }}"
                         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             class="fa-solid fa-user-plus mr-2"></i>Create Event</a>
@@ -20,11 +20,11 @@
                 <thead>
                     <tr>
                         <th>Sr. No.</th>
-                        @if (request()->route()->getName() == 'admin.event.index')
+                        @if (Auth::user()->role_id == config('site.roles.admin'))
                             <th>Status</th>
                         @endif
                         <th> Name</th>
-                        @if (request()->route()->getName() == 'admin.event.index')
+                        @if (Auth::user()->role_id == config('site.roles.admin'))
                             <th>Company</th>
                         @endif
                         <th>City</th>

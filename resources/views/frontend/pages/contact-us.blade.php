@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Contact Us By Email!</h2>
-                        <p>Fill out the form below to recieve a free and confidential intial consultation.</p>
+                        <h2> {{__('contact_us_send_message')}} </h2>
+                        <p> {{__('contact_us_fill_form_intro')}} </p>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,9 @@
                                 <span class="text-danger" > {{$message}} </span>
                                 @enderror
                             </div>
-                            <button type="submit" class="site-btn">Send Message</button>
+                            <button type="submit" class="site-btn">
+                                {{__('contact_us_send_message')}}
+                            </button>
                         </div>
                     </form>
                 </div>

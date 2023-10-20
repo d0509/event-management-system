@@ -8,6 +8,7 @@
         </script>
     @endauth
     @guest
+
         <body class="bg-gradient-primary">
             <div class="container ">
 
@@ -30,53 +31,54 @@
                                                 @if (session('success'))
                                                     <div class="text-success text-center">{{ session('success') }}</div>
                                                 @endif
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('auth.welcome') }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4"> Welcome Again! </h1>
                                             </div>
-                                            @if (request()->route()->getName() == 'admin.login')
-                                                <form action="{{ route('signIn') }}" class="user" method="POST">
-                                                @elseif(request()->route()->getName() == 'login')
-                                                    <form action="{{ route('signIn') }}" class="user" method="POST">
-                                            @endif
-                                            @csrf
-                                            <div class="form-group">
-                                                <label class="form-label" for="form7Example2">{{ __('auth.email') }}</label>
-                                                <input type="email" name="email" class="form-control form-control-user"
-                                                    id="exampleInputEmail" aria-describedby="emailHelp"
-                                                    placeholder="Enter Email Address..." value="admin@mailinator.com">
-                                                @error('email')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
 
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label" for="form7Example2">{{ __('auth.password') }}</label>
-                                                <input type="password" name="password" class="form-control form-control-user"
-                                                    id="exampleInputPassword" placeholder="Password" value='74108520'>
-                                                @error('password')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label"
-                                                        for="customCheck">{{ __('auth.remember') }}</label>
+                                            <form action="{{ route('signIn') }}" class="user" method="POST">
+
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label class="form-label" for="form7Example2">Email</label>
+                                                    <input type="email" name="email" class="form-control form-control-user"
+                                                        id="exampleInputEmail" aria-describedby="emailHelp"
+                                                        placeholder="Enter Email Address..." value="admin@mailinator.com">
+                                                    @error('email')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+
                                                 </div>
-                                            </div>
-                                            <button type="submit" name="submit" class="btn btn-primary btn-user btn-block">
-                                                {{ __('auth.login') }}
-                                            </button>
+                                                <div class="form-group">
+                                                    <label class="form-label"
+                                                        for="form7Example2">Password</label>
+                                                    <input type="password" name="password"
+                                                        class="form-control form-control-user" id="exampleInputPassword"
+                                                        placeholder="Password" value='74108520'>
+                                                    @error('password')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox small">
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck">Remember Me</label>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" name="submit"
+                                                    class="btn btn-primary btn-user btn-block">
+                                                    Login
+                                                </button>
 
 
                                             </form>
                                             <hr>
                                             <div class="text-center">
                                                 <a class="small"
-                                                    href="{{ route('forgot-password.create') }}">{{ __('auth.forgot') }}</a>
+                                                    href="{{ route('forgot-password.create') }}">Forgot Password?</a>
                                             </div>
                                             <div class="text-center">
                                                 <a class="small"
-                                                    href="{{ route('guest.company.create') }}">{{ __('auth.company_create') }}</a>
+                                                    href="{{ route('guest.company.create') }}"> Create Account as Company! </a>
                                             </div>
                                         </div>
 

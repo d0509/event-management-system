@@ -9,26 +9,23 @@
                             <a href="#" class="footer-logo"><img src="img/footer-logo.png" alt=""></a>
                         </div>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Speakers</a></li>
-                            <li><a href="#">Schedule</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="{{ route('home') }}"> {{ __('footer_home') }} </a></li>
+
+                            <li><a href="{{ route('user.contact-us.index') }}"> {{ __('footer_contact') }} </a></li>
                         </ul>
                         <div class="copyright-text">
-                            Copyright &copy;
+                            {{ __('footer_copyright') }} &copy;
                             <script>
                                 document.write(new Date().getFullYear());
-                            </script> All rights reserved | This template is made with <i class="fa fa-heart"
-                                aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
-                            </p>
+                            </script>
+                            {{ __('footer_rights_reserved') }}
                         </div>
                         <div class="ft-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                            <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                            <a href="https://www.linkedin.com/in/"><i class="fa fa-linkedin"></i></a>
+                            <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/"><i class="fa fa-youtube-play"></i></a>
                         </div>
                     </div>
                 </div>
