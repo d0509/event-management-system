@@ -1,13 +1,12 @@
 {{-- @extends('layouts.admin-layout') --}}
 @extends('backend.master.layout')
-@if (request()->route()->getName() == 'admin.company.edit')
+@if (isset($company) == true)
     @section('title', 'Edit Company')
-@elseif(request()->route()->getName() == 'admin.company.create')
+@elseif(isset($company) == false)
     @section('title', 'Add Company')
 @endif
 
 
-@section('title', 'Edit Company')
 @section('content')
 
     <body class="bg-gradient-primary">
@@ -19,23 +18,23 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-center">
-                                    @if (request()->route()->getName() == 'admin.company.edit')
+                                    @if (isset($company) == true)
                                         <h1 class="h4 text-gray-900 mb-4">Update Company!</h1>
-                                    @elseif(request()->route()->getName() == 'admin.company.create')
+                                    @elseif(isset($company) == false)
                                         <h1 class="h4 text-gray-900 mb-4">Add Company</h1>
                                     @endif
 
                                 </div>
 
-                                @if (request()->route()->getName() == 'admin.company.edit')
+                                @if (isset($company) == true)
                                     <form action="{{ route('admin.company.update', ['company' => $company]) }}"
                                         method="post" enctype="multipart/form-data">
-                                    @elseif(request()->route()->getName() == 'admin.company.create')
+                                    @elseif(isset($company) == false)
                                         <form action="{{ route('admin.company.store') }}" method="post"
                                             enctype="multipart/form-data">
                                 @endif
                                 @csrf
-                                @if (request()->route()->getName() == 'admin.company.edit')
+                                @if (isset($company) == true)
                                     @method('PATCH')
                                 @endif
 
@@ -149,7 +148,7 @@
                                                             @enderror
                                                         </div>
 
-                                                        @if (request()->route()->getName() == 'admin.company.create')
+                                                        @if (isset($company) == false)
                                                             <div class="form-group">
                                                                 <label class="form-label"
                                                                     for="form7Example2">Password</label>
@@ -202,9 +201,9 @@
                                                         <div class="row d-flex justify-content-center">
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-user text-center rounded-pill">
-                                                                @if (request()->route()->getName() == 'admin.company.create')
+                                                                @if (isset($company) == false)
                                                                     Add Company
-                                                                @elseif(request()->route()->getName() == 'admin.company.edit')
+                                                                @elseif(isset($company) == true)
                                                                     Update Company
                                                                 @endif
                                                             </button>

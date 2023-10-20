@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\AttendEvent;
 use App\Http\Controllers\Company\BookingController as CompanyBookingController;
 use App\Http\Controllers\Company\EventController;
+use App\Http\Controllers\Company\ProfileController as CompanyProfileController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\ContactUsController;
 use App\Http\Controllers\User\EventController as UserEventController;
@@ -39,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['guest']], function () {
+Route::group(['middleware' => ['guest', 'setlocale']], function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('login', [AuthController::class, 'signIn'])->name('signIn');
     Route::get('admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
@@ -62,25 +63,24 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::resource('profile', ProfileController::class)->except('create', 'store', 'delete', 'show');
-    
-    Route::prefix('user')->name('user.')->middleware('setlocale')->group(function(){
-        Route::resource('contact-us',ContactUsController::class)->only('index','store');
-        Route::resource('profile',UserProfileController::class)->only('index','update');        
-        Route::resource('change-password',UserPasswordController::class)->only('edit','update');
+    // Route::resource('profile', ProfileController::class)->only('index', 'edit', 'update');
+
+    Route::prefix('user')->name('user.')->middleware('setlocale')->group(function () {
+        Route::resource('contact-us', ContactUsController::class)->only('index', 'store');
+        Route::resource('profile', UserProfileController::class)->only('index', 'update');
+        Route::resource('change-password', UserPasswordController::class)->only('edit', 'update');
         Route::get('booking-history', [BookingController::class, 'index'])->name('booking.index');
         Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
         Route::get('booking/{booking}', [BookingController::class, 'show'])->name('booking.show');
     });
-    
+
     Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
-        // Route::get('dashboard', [AuthController::class, 'adminDashboard'])->name('dashboard');
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('user', UserController::class)->only('index', 'show');
         Route::resource('contact-us', AdminContactUsController::class);
-        // Route::post('user/status', UserStatusController::class);
+        Route::resource('profile', ProfileController::class)->only('index', 'edit', 'update');
         Route::resource('change-password', PasswordController::class)->only('edit', 'update');
         Route::post('event/status', EventStatusController::class)->name('event.status');
         Route::resource('company', CompanyController::class)->except('show');
@@ -91,10 +91,8 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-
-
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
-    // Route::resource('attend-event',AttendEvent::class);
+    Route::resource('profile', CompanyProfileController::class)->only('index', 'edit', 'update');
     Route::get('event/attend', [AttendEvent::class, 'create'])->name('attend-event.create');
     Route::get('event/attend/list', [AttendEvent::class, 'index'])->name('attend-event.index');
     Route::resource('event', EventController::class);

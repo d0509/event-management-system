@@ -95,7 +95,8 @@
     "register_already_account":"Already have an account? Login!",
     "header_select_lang":"Select Language: ",
     "lang_en":"English",
-    "lang_gu":"Gujarati"
+    "lang_gu":"Gujarati",
+    "home_select_default_city":"Please select a city"
     
 
 }

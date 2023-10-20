@@ -95,6 +95,7 @@
     "register_already_account": "પહેલેથી એકાઉન્ટ છે? લોગઇન કરો!",
     "header_select_lang":"ભાષા પસંદ કરો: ",
     "lang_en":"અંગ્રેજી",
-    "lang_gu":"ગુજરાતી"
+    "lang_gu":"ગુજરાતી",
+    "home_select_default_city":"કૃપા કરીને શહેર પસંદ કરો"
 
 }

@@ -75,7 +75,8 @@ class EventService
                     $events = Event::latest()->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->get();
                     return $events;
                 } else {
-                    $events = Event::latest()->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->get();
+                    // dd(Auth::user()->city_id);
+                    $events = Event::latest()->where('is_approved', 1)->where('city_id',Auth::user()->city_id )->where('event_date', '>=', Carbon::now()->toDateString())->get();
                     // dd()
                     return $events;
                 }

@@ -17,7 +17,8 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        if (Auth::user()->role->name == config('site.role_names.admin')) {
+        // dd(Auth::user()->role_id);
+        if (Auth::user()->role_id == config('site.roles.admin')) {
             $companyCount = User::where('role_id', 2)->count();
             $userCount = User::where('role_id', 3)->count();
             $totalEvent =  Event::count();

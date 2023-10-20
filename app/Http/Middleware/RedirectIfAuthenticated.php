@@ -22,10 +22,10 @@ class RedirectIfAuthenticated
         // dd(Auth::user()->role->name);
         foreach ($guards as $guard) {
             if (Auth::guard()->check()) {
-                if (Auth::user()->role->name == config('site.role_names.admin')) {
+                if (Auth::user()->role_id == config('site.roles.admin')) {
                     return redirect()->route('admin.dashboard');
                    
-                } else if (Auth::user()->role->name == config('site.role_names.company')) {
+                } else if (Auth::user()->role_id == config('site.roles.company')) {
                     return redirect()->route('company.dashboard');
                 } 
             }

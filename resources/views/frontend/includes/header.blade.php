@@ -5,22 +5,7 @@
                     <img src="{{ asset('user_assets/img/logo.png') }}" alt="">
                 </a>
             </div>
-            <div class="row mt-5 ml-0">
-                <div class="col-md-2 col-md-offset-6 text-right">
-                    <strong> {{__('header_select_lang')}} </strong>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-control changeLang">
-                        <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>
-                            {{__('lang_en')}}
-                        </option>
-                        <option value="gu" {{ session()->get('locale') == 'gu' ? 'selected' : '' }}>
-                            {{__('lang_gu')}}
-                        </option>
 
-                    </select>
-                </div>
-            </div>
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
@@ -43,9 +28,28 @@
                             </div> --}}
 
                         </li>
+
                         @auth
                             <li><a href="{{ route('user.contact-us.index') }}">{{ __('header_contact_us') }}</a></li>
 
+                        @endauth
+                        {{-- <div class="col-4 ml-0"> --}}
+                            {{-- <div class="col-md-2 col-md-offset-6 text-right"> --}}
+                                <strong> {{ __('header_select_lang') }} </strong>
+                            {{-- </div> --}}
+                            {{-- <div class="col-md-4"> --}}
+                                <select class="mr-2 changeLang">
+                                    <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>
+                                        {{ __('lang_en') }}
+                                    </option>
+                                    <option value="gu" {{ session()->get('locale') == 'gu' ? 'selected' : '' }}>
+                                        {{ __('lang_gu') }}
+                                    </option>
+                                </select>
+                            {{-- </div> --}}
+                        {{-- </div> --}}
+
+                        @auth
 
                             <li> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -76,7 +80,7 @@
                         @endauth
                         @guest
                             <a style="padding: 12px" href="{{ route('login') }}" class="primary-btn top-btn"><i
-                                    class="fa fa-ticket"></i> {{__('header_login')}} </a>
+                                    class="fa fa-ticket"></i> {{ __('header_login') }} </a>
                         @endguest
                     </ul>
 
@@ -88,16 +92,19 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> {{__('dashboard_logout_modal_header')}}  </h5>
+                            <h5 class="modal-title" id="exampleModalLabel"> {{ __('dashboard_logout_modal_header') }}
+                            </h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body"> {{__('dashboard_logout_modal_body')}}
+                        <div class="modal-body"> {{ __('dashboard_logout_modal_body') }}
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal"> {{__('dashboard_logout_modal_cancel')}} </button>
-                            <a class="btn btn-primary" href="{{ route('logout') }}">  {{__('dashboard_logout_modal_logout')}}</a>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                                {{ __('dashboard_logout_modal_cancel') }} </button>
+                            <a class="btn btn-primary" href="{{ route('logout') }}">
+                                {{ __('dashboard_logout_modal_logout') }}</a>
                         </div>
                     </div>
                 </div>

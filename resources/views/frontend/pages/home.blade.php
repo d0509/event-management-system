@@ -2,11 +2,10 @@
 @section('title', 'Events')
 @section('content')
     <div class="container">
-
-        <div class="row d-flex">
+        <div class="row ">
             <form action="{{ route('home') }}" method="get" class="mb-5 d-flex ">
                 <select class="form-control col-3 ml-2  mr-4 " type="text" id="form3" name="city">
-                    <option> </option>
+                    <option value="empty" > {{ __('home_select_default_city') }} </option>
                     @forelse ($cities as $city)
                         <option value="{{ $city->id }}" {{ $city_id == $city->id ? 'selected' : '' }}>
                             {{ $city->name }} </option>
@@ -19,12 +18,13 @@
                 <input type="search" class="form-control col-3" id="form1" name="search"
                     value="{{ request('search') }}" placeholder="search" class="form-control" />
 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary ml-2 col-1">
                     {{ __('home_search') }}
                 </button>
             </form>
         </div>
 
+      
         <div class="row row-cols-3 g-3">
             @forelse ($events as $event)
                 <div class="col">
@@ -74,5 +74,5 @@
             @endforelse
         </div>
     </div>
-
+    
 @endsection
