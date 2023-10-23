@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\AttendEvent;
 use App\Http\Controllers\Company\BookingController as CompanyBookingController;
 use App\Http\Controllers\Company\EventController;
+use App\Http\Controllers\Company\NotificationSendController;
 use App\Http\Controllers\Company\ProfileController as CompanyProfileController;
 use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\User\ContactUsController;
@@ -63,6 +64,8 @@ Route::group(['middleware' => ['guest', 'setlocale']], function () {
 
 Route::middleware('auth')->group(function () {
 
+    Route::post('save-device-token', [NotificationSendController::class, 'update'])->name('store.token');
+    Route::post('send-push', [NotificationSendController::class, 'create'])->name('send.web-notification');
     // Route::resource('profile', ProfileController::class)->only('index', 'edit', 'update');
 
     Route::prefix('user')->name('user.')->middleware('setlocale')->group(function () {

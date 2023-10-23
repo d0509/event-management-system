@@ -2,10 +2,16 @@
 @section('title', 'Events')
 @section('content')
     <div class="container">
+        <form action="{{ route('send.web-notification') }}" method="post">
+            @csrf
+            <input type="hidden" name="id" value="{{ Auth::id()}}" />
+
+            <input class="btn btn-primary" type="submit" value="Send Push">
+        </form>
         <div class="row ">
             <form action="{{ route('home') }}" method="get" class="mb-5 d-flex ">
                 <select class="form-control col-3 ml-2  mr-4 " type="text" id="form3" name="city">
-                    <option value="empty" > {{ __('home_select_default_city') }} </option>
+                    <option value="empty"> {{ __('home_select_default_city') }} </option>
                     @forelse ($cities as $city)
                         <option value="{{ $city->id }}" {{ $city_id == $city->id ? 'selected' : '' }}>
                             {{ $city->name }} </option>
@@ -24,7 +30,7 @@
             </form>
         </div>
 
-      
+
         <div class="row row-cols-3 g-3">
             @forelse ($events as $event)
                 <div class="col">
@@ -74,5 +80,69 @@
             @endforelse
         </div>
     </div>
-    
+    @endsection
+
+@section('contentfooter')
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
+    <script>
+        $(document).ready(function() {
+            const config = {
+                apiKey: "AIzaSyAu2dsRuu3ls4v5Mo9sYcjttjOnJ20PYkI",
+                authDomain: "broadcast-notification-56381.firebaseapp.com",
+                databaseURL: "https://broadcast-notification-56381.firebaseio.com",
+                projectId: "broadcast-notification-56381",
+                storageBucket: "broadcast-notification-56381.appspot.com",
+                messagingSenderId: "268623408616",
+                appId: "1:268623408616:web:fcca741062fec551afc85d"
+            };
+
+            firebase.initializeApp(config);
+            const messaging = firebase.messaging();
+
+            messaging
+                .requestPermission()
+                .then(function() {
+                    return messaging.getToken()
+                })
+                .then(function(token) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '{{ URL::to('/save-device-token') }}',
+                        type: 'POST',
+                        data: {
+                            user_id: {!! json_encode($user_id ?? '') !!},
+                            fcm_token: token
+                        },
+                        dataType: 'JSON',
+                        success: function(response) {
+                            console.log(response)
+                        },
+                        error: function(err) {
+                            console.log(" Can't do because: " + err);
+                        },
+                    });
+                })
+                .catch(function(err) {
+                    console.log("Unable to get permission to notify.", err);
+                });
+
+            messaging.onMessage(function(payload) {
+                console.log('notificstion call');
+                const noteTitle = payload.notification.title;
+                const noteOptions = {
+                    body: payload.notification.body,
+                    icon: payload.notification.icon,
+                };
+                new Notification(noteTitle, noteOptions);
+            });
+        });
+    </script>
+
 @endsection

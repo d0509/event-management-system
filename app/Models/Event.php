@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Notifications\EventApprovedNotification;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +15,8 @@ use Plank\Mediable\Mediable as MediableMediable;
 
 class Event extends Model 
 {
-    use HasFactory,SoftDeletes,MediableMediable;
+    use HasFactory,SoftDeletes,MediableMediable,BroadcastsEvents;
+    
     
     protected $fillable = [
         'city_id',
@@ -67,9 +70,14 @@ class Event extends Model
                 fn ($query) =>
                 $query->where('', $city)
             )
-        );
+        );       
+    }
 
-       
+    public function sendUpdatedNotification()
+    {
+        $notification = new EventApprovedNotification($this);
+
+        $this->notify($notification);
     }
 
    

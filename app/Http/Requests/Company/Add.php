@@ -30,7 +30,7 @@ class Add extends FormRequest
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
             'city_id' => 'required',
-            'mobile_no' => 'required|numeric|digits:10|unique:users,mobile_no',
+            'mobile_no' => 'required|numeric|digits:10|unique:users,mobile_no|regex:^(?!0)\d{10}$',
             'status' => 'required'
         ];
     }

@@ -228,6 +228,31 @@
 
                 }
 
+                $(document).on('click', '#flexSwitchCheckChecked', function(e) {
+                e.preventDefault();
+                var id = $(this).attr('data-eventId');
+                var url = "{{ route('admin.event.status') }}";
+                // url = url.replace(':id', id);
+                var token = "{{ csrf_token() }}";
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    data: {
+                        id: id,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function() {
+                        console.log('updated successfuly');
+                        $('#dataTable').DataTable().ajax.reload();
+                    }
+                });
+
+            });
+
                 function deleteEvent(id) {
                     var id = id;
                     // alert(id);

@@ -83,5 +83,9 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(ContactUs::class);
     }
 
+    public function deviceUser(){
+        return $this->hasMany(DeviceUser::class);
+    }
+
     
 }
