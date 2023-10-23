@@ -66,6 +66,8 @@ class NotificationSendController extends Controller
 
     public function update(Request $request)
     {
+       $ifExists =  DeviceUser::where('user_id',Auth::id())->where('token',$request->fcm_token);
+       dd($ifExists);
         $deviceUser = DeviceUser::create([
             'user_id' => Auth::id(),
             'token' => $request->fcm_token,

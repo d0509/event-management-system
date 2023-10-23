@@ -103,6 +103,7 @@ class BookingService
                 'is_free_event' => $event->is_free,
                 'no_of_attendees' => 0,
             ]);
+            
             try {
                 GenerateBookingTicket::dispatchSync($booking);
             } catch (Exception $e) {
