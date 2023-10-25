@@ -96,7 +96,8 @@
     "header_select_lang":"Select Language: ",
     "lang_en":"English",
     "lang_gu":"Gujarati",
-    "home_select_default_city":"Please select a city"
+    "home_select_default_city":"Please select a city",
+    "event_detail_coupon_code":"Coupon Code"
     
 
 }

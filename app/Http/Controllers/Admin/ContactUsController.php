@@ -25,12 +25,5 @@ class ContactUsController extends Controller
         return view('backend.pages.contact-us.index');
     }
 
-    public function destroy(string $id)
-    {
-       $delete = $this->contactUsService->destroy($id);
-        if ($delete) {
-            session()->flash('success','Inquiry deleted successfully');
-            return response()->json(['success' => true]);
-        } 
-    }
+   
 }

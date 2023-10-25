@@ -16,6 +16,8 @@ use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\AttendEvent;
 use App\Http\Controllers\Company\BookingController as CompanyBookingController;
+use App\Http\Controllers\Company\CouponCodeController;
+use App\Http\Controllers\Company\CouponCodeStatusController;
 use App\Http\Controllers\Company\EventController;
 use App\Http\Controllers\Company\ProfileController as CompanyProfileController;
 use App\Http\Controllers\User\BookingController;
@@ -71,6 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('change-password', UserPasswordController::class)->only('edit', 'update');
         Route::get('booking-history', [BookingController::class, 'index'])->name('booking.index');
         Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
+        Route::post('apply-coupon',[BookingController::class,'verifyCouponCode'])->name('apply-coupon');
         Route::get('booking/{booking}', [BookingController::class, 'show'])->name('booking.show');
     });
 
@@ -92,6 +95,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
+    Route::resource('coupon-code',CouponCodeController::class);
+    Route::post('coupon/status',CouponCodeStatusController::class)->name('coupon-code.status');
     Route::resource('profile', CompanyProfileController::class)->only('index', 'edit', 'update');
     Route::get('event/attend', [AttendEvent::class, 'create'])->name('attend-event.create');
     Route::get('event/attend/list', [AttendEvent::class, 'index'])->name('attend-event.index');

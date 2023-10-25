@@ -16,7 +16,6 @@ class ContactUsService
     {
 
         $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message', 'created_at'])->with(['user']);
-        // dd($data);
 
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
@@ -60,7 +59,5 @@ class ContactUsService
     public function destroy(String $id)
     {
         return ContactUs::where('id', $id)->delete();
-       
-       
     }
 }

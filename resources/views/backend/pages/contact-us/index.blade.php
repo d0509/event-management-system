@@ -3,8 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{{ __('dashboard.inquiries') }}</h1>
-            
+            <h1 class="h3 mb-0 text-gray-800">Inquiries</h1>            
         </div>
 
         <table class="table" id="data-table">

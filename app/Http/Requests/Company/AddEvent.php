@@ -22,9 +22,7 @@ class AddEvent extends FormRequest
      */
     public function rules(): array
     {
-        // dd(1);
-        //    dd($this->event->toArray());
-
+    
         $rules = [
             'city_id' => 'required',
             'category_id' => 'required',
@@ -42,13 +40,10 @@ class AddEvent extends FormRequest
 
         if ($this->event) {
             $rules['banner'] = 'nullable|image';
-            // $rules['is_approved'] = 'required';
         } else {
             $rules['banner'] = 'image|required';
-            // $rules['is_approved'] = 0;
         }
 
-        // dd($this->event);
         return $rules;
        
     }

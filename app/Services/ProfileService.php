@@ -16,9 +16,7 @@ class ProfileService
 
     public function update(Update $request, User $user)
     {
-        // dd(3);   
-        // dd($request);
-        // dd($validated);
+        
         $user = Auth::user();
         $user->update([
             'name' => $request->name,

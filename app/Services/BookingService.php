@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Jobs\GenerateBookingTicket;
 use App\Models\Booking;
+use App\Models\CouponCode;
 use App\Models\Event;
 use Carbon\Carbon;
 use Exception;
@@ -73,7 +74,6 @@ class BookingService
 
     public function store($event, $inputs)
     {
-        // dd($inputs);
         $quantity = $inputs['quantity'];
 
         $last_booking = Booking::latest()->first();
@@ -103,6 +103,7 @@ class BookingService
                 'is_free_event' => $event->is_free,
                 'no_of_attendees' => 0,
             ]);
+
             try {
                 GenerateBookingTicket::dispatchSync($booking);
             } catch (Exception $e) {
@@ -115,5 +116,34 @@ class BookingService
     {
         $booking = Booking::where('id', $id)->first();
         return $booking;
+    }
+
+    public function verifyCouponCode($request)
+    {
+        $event = Event::where('id', $request->event)->first();
+        $couponCode = CouponCode::where('name', $request->name)->where('company_id', $event->company_id)->first();
+        $data = [];
+
+        if (!$couponCode) {
+            $data['error']['message'] = 'Coupon code not found';
+        } elseif ($couponCode->is_active != 1) {
+            $data['error']['message'] = 'Coupon code is currently not active';
+        } elseif ($couponCode->usable_count < 1) {
+            $data['error']['message'] = "You can't use this coupon code";
+        } elseif ($couponCode->start_date > date('Y-m-d')) {
+            $data['error']['message'] = "Invalid coupon code";
+        } elseif ($couponCode->end_date < date('Y-m-d')) {
+            $data['error']['message'] = "Invalid coupon code";
+        } elseif ($event->company_id != $couponCode->company_id) {
+            $data['error']['message'] = "You cannot use the given coupon code for booking this event";
+        } else {
+            $discountPercentage = $couponCode->percentage;
+            $discountAmount = $event->ticket * ($discountPercentage / 100);
+            $data['message'] = "Coupon code applied successfully.";
+            
+            // $data['price'] = $event->ticket - $discountAmount;
+        }   
+        
+        return $data;
     }
 }

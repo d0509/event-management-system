@@ -200,8 +200,6 @@ class EventService
 
         ]);
 
-
-
         if ($request->hasFile('banner')) {
             $bannerMedia = $event->getMedia('banner')->first();
 

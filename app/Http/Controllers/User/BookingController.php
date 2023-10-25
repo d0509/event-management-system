@@ -3,6 +3,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Create;
+use App\Http\Requests\CouponCode\Apply;
 use App\Models\Event;
 use App\Services\BookingService;
 use App\Services\PDFService;
@@ -52,5 +53,10 @@ class BookingController extends Controller
         return view('frontend.pages.booking', [
             'booking' => $booking,
         ]);
-    }    
+    } 
+    
+    public function verifyCouponCode(Apply $request){
+      $response = $this->bookingService->verifyCouponCode($request);
+       return response()->json($response);
+    }
 }
