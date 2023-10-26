@@ -31,6 +31,9 @@ class CouponCodeService
                 </div>';
                 return $switch;
             })
+            ->orderColumn('name',function($query,$order){
+                $query->orderBy('id',$order);
+            })
             ->rawColumns(['action','is_active'])
             ->setRowId('id')
             ->addIndexColumn()

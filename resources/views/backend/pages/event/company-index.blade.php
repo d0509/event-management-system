@@ -29,7 +29,7 @@
                         @endif
                         <th>City</th>
                         <th>Category</th>
-                        <th>Description</th>
+                        {{-- <th>Description</th> --}}
                         <th>Available Seat</th>
                         <th>Venue</th>
                         <th>Date</th>
@@ -100,11 +100,11 @@
                                 data: 'category.name',
                                 name: 'category.name',
                             },
-                            {
-                                data: 'description',
-                                name: "description",
-                                orderable: false,
-                            },
+                            // {
+                            //     data: 'description',
+                            //     name: "description",
+                            //     orderable: false,
+                            // },
                             {
                                 data: 'available_seat',
                                 name: 'available_seat',

@@ -79,7 +79,7 @@ class BookingService
         $last_booking = Booking::latest()->first();
         $booking_number = Carbon::now()->format('ymd') . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
 
-        $totalSeats = Event::where('id', '=', $event->id)->select('available_seat')->first();
+        $totalSeats = Event::where('id', $event->id)->select('available_seat')->first();
 
         $bookedTickets = Booking::where('event_id', $event->id)->sum('quantity');
 

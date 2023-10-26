@@ -63,20 +63,21 @@ class EventService
                 $events = Event::latest()->where('company_id', Auth::user()->company->id)->get();
                 return $events;
             } elseif (Auth::user()->role->name == config('site.role_names.user')) {
-                // dd(request('city'));
+                // dd(request('search'));
                 if (request('city') && request('search')) {
-                    $events = Event::latest()->where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->get();
+                    $events = Event::where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->latest()->get();
+                    // dd($events);
                     return $events;
                 } elseif (request('search')) {
-                    $events = Event::latest()->where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->get();
+                    $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
                     return $events;
                 } elseif (request('city')) {
                     // dd(request('city'));
-                    $events = Event::latest()->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->get();
+                    $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->latest()->get();
                     return $events;
                 } else {
                     // dd(Auth::user()->city_id);
-                    $events = Event::latest()->where('is_approved', 1)->where('city_id',Auth::user()->city_id )->where('event_date', '>=', Carbon::now()->toDateString())->get();
+                    $events = Event::where('is_approved', 1)->where('city_id',Auth::user()->city_id )->where( 'event_date', '>=', Carbon::now()->toDateString())->latest()->get();
                     // dd()
                     return $events;
                 }

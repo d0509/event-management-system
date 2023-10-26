@@ -35,7 +35,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $cities = $this->companyService->collection();
+        $cities = $this->cityService->collection();
 
         return view('backend.pages.company.edit', [
             'cities' => $cities,

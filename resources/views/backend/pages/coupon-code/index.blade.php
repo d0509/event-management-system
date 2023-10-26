@@ -40,6 +40,9 @@
             var table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
+                order: [
+                    [1, 'desc']
+                ],
                 ajax: {
                     'type': 'GET',
                     url: "{{ route('company.coupon-code.index') }}",
@@ -109,45 +112,45 @@
                 });
 
             });
-          
+
         });
 
         function deleteCoupons(id) {
-                var id = id;
-                // alert(id);
-                var url = "{{ route('company.coupon-code.destroy', ':id') }}";
-                url = url.replace(':id', id);
-                // alert(url);
-                var token = "{{ csrf_token() }}";
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You want to delete this company?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            dataType: "JSON",
-                            data: {
-                                id: id,
-                                "_token": "{{ csrf_token() }}",
+            var id = id;
+            // alert(id);
+            var url = "{{ route('company.coupon-code.destroy', ':id') }}";
+            url = url.replace(':id', id);
+            // alert(url);
+            var token = "{{ csrf_token() }}";
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to delete this company?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: "JSON",
+                        data: {
+                            id: id,
+                            "_token": "{{ csrf_token() }}",
 
-                            },
-                            success: function() {
-                                console.log('coupon deleted successfully');
-                                $('#dataTable').DataTable().ajax.reload();
-                            }
-                        });
-                    }
-                })
-            }
+                        },
+                        success: function() {
+                            console.log('coupon deleted successfully');
+                            $('#dataTable').DataTable().ajax.reload();
+                        }
+                    });
+                }
+            })
+        }
     </script>
 @endsection

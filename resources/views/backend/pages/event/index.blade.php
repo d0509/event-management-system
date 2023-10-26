@@ -15,7 +15,7 @@
                     <th>Category</th>
                     <th>Company</th>
                     <th>City</th>
-                    <th>Description</th>
+                    {{-- <th>Description</th> --}}
                     <th>Available Seat</th>
                     <th>Venue</th>
                     <th>Date</th>
@@ -78,12 +78,12 @@
                             name: 'city.name',
                             orderable: true,
                         },
-                        {
-                            data: 'description',
-                            name: 'description',
-                            orderable: false,
-                            searchable: true,
-                        },
+                        // {
+                        //     data: 'description',
+                        //     name: 'description',
+                        //     orderable: false,
+                        //     searchable: true,
+                        // },
                         {
                             data: 'available_seat',
                             name: 'available_seat',
