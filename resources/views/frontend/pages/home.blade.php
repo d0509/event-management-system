@@ -45,7 +45,7 @@
                                 <p class="col-1 text-dark"><i class="fa-solid fa-city"></i></p>
                                 <p class="col-10 text-dark">{{ $event->city->name }}</p>
                             </div>
-                            <div class "row">
+                            <div class="row">
                                 <p class="col-1 text-dark"><i class="fas fa-industry"></i></p>
                                 <p class="col-10 text-dark">{{ $event->company->name }}</p>
                             </div>
