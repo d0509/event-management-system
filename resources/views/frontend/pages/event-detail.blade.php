@@ -3,7 +3,6 @@
 @section('content')
 
     <div class="container">
-        {{-- {{dd($event)}} --}}
         <div class="row">
             <div class="col-8">
                 @foreach ($event->media as $item)
@@ -63,27 +62,37 @@
                                     <label class="form-label"
                                         for="form7Example2">{{ __('event_detail_coupon_code') }}</label>
                                     <div class="d-flex">
-                                        <input type="text" name="name" id="name" class="form-control mr-2" />
+                                        <input type="text" name="code" id="code" class="form-control mr-2" />
 
-                                        @error('name')
+                                        @error('code')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                        <button type="submit" id="verify_coupon" data-eventId= "{{ $event->id }}"
+                                        <button id="verify_coupon" data-eventId= "{{ $event->id }}"
                                             class="btn btn-primary">Verify</button>
                                     </div>
                                     <p class="coupon_error text-danger"></p>
 
                                 </div>
 
-
-                                <div class="sub_total d-flex  justify-content-between">
-                                    <div id="price ">Price / Ticket</div>
+                                <p class="fw-bold">Price Details</p>
+                                <div class="quantity d-flex  justify-content-between">
+                                    <div id="quantity_heading"> Quantity </div>
+                                    <div id="quantity_val"> 1 </div>
+                                </div>
+                                <div class="sub_total mt-2 d-flex  justify-content-between">
+                                    <div id="price_heading"> Ticket Price </div>
                                     <div class="price_val">{{ $event->ticket }}</div>
                                 </div>
-                                <div class="discount">
+                                <div class="discount mt-2 d-flex justify-content-between ">
                                     <div id="discount_heading"> Discount </div>
-                                </div>
 
+                                    <div id="discount_value">- 0 </div>
+                                </div>
+                                <hr>
+                                <div class="total mt-2 d-flex justify-content-between ">
+                                    <div id="total_heading"> Total </div>
+                                    <div id="total_value"> {{ $event->ticket }} </div>
+                                </div>
 
                                 <button class="btn btn-primary mt-2"
                                     type="submit">{{ __('event_detail_book_ticket') }}</button>
@@ -96,7 +105,7 @@
                                 <div>
                                     <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
                                     <input type="number" name="quantity" id="quantity" class="form-control" />
-                                    <button type="submit" class="btn btn-primary">Verify</button>
+                                    <button class="btn btn-primary" id="verify_coupon">Verify</button>
                                     @error('quantity')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -106,12 +115,12 @@
                                     <label class="form-label"
                                         for="form7Example2">{{ __('event_detail_coupon_code') }}</label>
                                     <div class="d-flex">
-                                        <input type="text" name="name" id="name" class="form-control mr-2" />
+                                        <input type="text" name="code" id="code" class="form-control mr-2" />
 
-                                        @error('name')
+                                        @error('code')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                        <button type="submit" id="verify_coupon" data-eventId= "{{ $event->id }}"
+                                        <button id="verify_coupon" data-eventId= "{{ $event->id }}"
                                             class="btn btn-primary">Verify</button>
                                     </div>
                                     <p class="coupon_error text-danger"></p>
@@ -130,8 +139,9 @@
 
                 </div>
                 <div class="google-map">
-                    <iframe class="mt-5" src="{{ $event->location }}" width="450" height="450" style="border:0;"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe class="mt-5" src="{{ $event->location }}" width="450" height="450"
+                        style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -141,24 +151,32 @@
 
 @section('contentfooter')
 
-    <script>
-        //    import toastr from 'toastr';
+    {{-- <script>
         $(document).ready(function() {
+            // Function to update discount and total values
+            function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice) {
+                var discountAmount = quantity * res.discountAmount;
+                var totalAmount = quantity * res.totalAmount;
 
+                $('#price_val').text(ticketPrice);
+                $('#quantity_val').text(quantity);
+                $('#discount_value').html('-' + discountAmount);
+                $('#total_value').text(totalAmount);
+            }
+
+            // Verify Coupon button click event
             $(document).on('click', '#verify_coupon', function(e) {
                 e.preventDefault();
-
-                var action = $('#verify_coupon').html();
-                // console.log(action);
-
-                var input = document.getElementById("name");
+                var input = document.getElementById("code");
+                var quantity = $('#quantity').val();
+                if (quantity) {
+                    var quantity = quantity;
+                } else {
+                    var quantity = 1;
+                }
                 var eventId = $(this).attr('data-eventId');
-                // alert(eventId);
                 var value = input.value;
-                // console.log(value);
                 var url = "{{ route('user.apply-coupon') }}";
-
-                var token = "{{ csrf_token() }}";
 
                 $.ajax({
                     url: url,
@@ -167,47 +185,132 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     },
                     data: {
-                        name: value,
+                        code: value,
                         event: eventId,
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(res) {
-                        // console.log(res.message);
+                        $('#verify_coupon').html('Remove');
+                        input.readOnly = true;
+                        $('#verify_coupon').attr('id', 'coupon_verified');
+                        updatePriceDetails(quantity, res.discountAmount, quantity * res
+                            .totalAmount, res.ticket);
 
-                        if (action == 'Verify') {
-                            $('#verify_coupon').html('Remove');
-                            $("#name").attr('readonly');
-                            if (res.error) {
-                                toastr.error(res.error.message);
-                            } else {
-                                toastr.success(res.message);
-                                $('.total').html('price/Ticket');
-                            }
-                        } else if (action == 'Remove') {
-                            $('#verify_coupon').html('Verify');
-                            $("#name").removeAttr('readonly');
-                            $("#form1")[0].reset();
+                        if (res.error) {
+                            toastr.error(res.error.message);
+                        } else {
+                            toastr.success(res.message);
                         }
-
                     },
                     error: function(xhr, status, error) {
                         console.log('Error:', xhr);
-                        var responseText = xhr.responseText; // Get the response text
-                        console.log(responseText);
+                        var responseText = xhr.responseText;
+                        // console.log(responseText);
                         var errorData = JSON.parse(responseText);
                         if (errorData && errorData.message) {
-                            // $(".coupon_error").html(errorData.message);
-                            toastr.error(errorData.message);
-                        } else {
-                            console.log('No error message found in the response');
+                            // toastr.error(errorData.message);
                         }
                     }
                 });
+            });
 
+            // Quantity input change event
+            // Quantity input change event
+            $(document).on('change', '#quantity', function(e) {
+                var quantity = parseInt($(this).val()); // Parse the input as an integer
+                var ticketPrice = parseFloat('{{ $event->ticket }}');
 
+                // Check if quantity and ticketPrice are valid numbers
+                if (!isNaN(quantity) && !isNaN(ticketPrice)) {
+                    var discountAmount = quantity * parseFloat($('#discount_value').text());
+                    var totalAmount = ticketPrice - discountAmount;
+                    updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice);
+                } else {
+                    // Handle the case where the values are not valid numbers (e.g., display an error message)
+                    console.log('Invalid quantity or ticket price');
+                }
             });
 
         });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            // Function to update discount and total values
+            function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice) {
+                $('#price_val').text(ticketPrice);
+                $('#quantity_val').text(quantity);
+                $('#discount_value').html('-' + discountAmount);
+                $('#total_value').text(totalAmount);
+            }
+
+            // Verify Coupon button click event
+            $(document).on('click', '#verify_coupon', function(e) {
+                e.preventDefault();
+                var input = document.getElementById("code");
+                var quantity = $('#quantity').val();
+                quantity = quantity ? parseInt(quantity) : 1; // Parse as an integer
+                var eventId = $(this).attr('data-eventId');
+                var value = input.value;
+                var url = "{{ route('user.apply-coupon') }}";
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    data: {
+                        code: value,
+                        event: eventId,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(res) {
+                        $('#verify_coupon').html('Remove');
+                        input.readOnly = true;
+                        $('#verify_coupon').attr('id', 'coupon_verified');
+                        var discountAmount = quantity * res.discountAmount;
+                        var totalAmount = quantity * res.totalAmount;
+                        var ticket = quantity * res.ticket;
+                        updatePriceDetails(quantity, discountAmount, totalAmount, ticket);
+
+                        if (res.error) {
+                            toastr.error(res.error.message);
+                        } else {
+                            toastr.success(res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', xhr);
+                        var responseText = xhr.responseText;
+                        // console.log(responseText);
+                        var errorData = JSON.parse(responseText);
+                        if (errorData && errorData.message) {
+                            // toastr.error(errorData.message);
+                        }
+                    }
+                });
+            });
+
+            // Quantity input change event
+            $(document).on('change', '#quantity', function(e) {
+                var quantity = parseInt($(this).val()); // Parse the input as an integer
+                var ticketPrice = parseFloat('{{ $event->ticket }}');
+
+                // Check if quantity and ticketPrice are valid numbers
+                if (!isNaN(quantity) && !isNaN(ticketPrice)) {
+                    var discountAmount = quantity * parseFloat($('#discount_value').text());
+                    var totalAmount = ticketPrice - discountAmount;
+                    updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice);
+                } else {
+                    // Handle the case where the values are not valid numbers (e.g., display an error message)
+                    console.log('Invalid quantity or ticket price');
+                }
+            });
+        });
     </script>
+
+
+
 
 @endsection

@@ -121,7 +121,10 @@ class BookingService
     public function verifyCouponCode($request)
     {
         $event = Event::where('id', $request->event)->first();
-        $couponCode = CouponCode::where('name', $request->name)->where('company_id', $event->company_id)->first();
+        $couponCode = CouponCode::where('name', $request->code)->where('company_id', $event->company_id)->first();
+        $couponCodeId = CouponCode::where('name', $request->code)->where('company_id', $event->company_id)->first('id');
+        // dd($couponCodeId->toArray());
+
         $data = [];
 
         if (!$couponCode) {
@@ -137,11 +140,11 @@ class BookingService
         } elseif ($event->company_id != $couponCode->company_id) {
             $data['error']['message'] = "You cannot use the given coupon code for booking this event";
         } else {
-            $discountPercentage = $couponCode->percentage;
-            $discountAmount = $event->ticket * ($discountPercentage / 100);
-            $data['message'] = "Coupon code applied successfully.";
-            
-            // $data['price'] = $event->ticket - $discountAmount;
+                $discountPercentage = $couponCode->percentage;
+                $data['discountAmount'] = $event->ticket * ($discountPercentage / 100);
+                $data['message'] = "Coupon code applied successfully.";
+                $data['totalAmount'] = $event->ticket - $data['discountAmount'];
+                $data['ticket'] = $event->ticket;
         }   
         
         return $data;

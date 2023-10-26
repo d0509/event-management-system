@@ -22,7 +22,7 @@ class Apply extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|regex:/^[A-Z0-9]*$/|exists:coupon_codes,name'
+            'code' => 'required|regex:/^[A-Z0-9]*$/|exists:coupon_codes,name'
         ];
     }
 }
