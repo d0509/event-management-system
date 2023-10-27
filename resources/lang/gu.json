@@ -18,7 +18,7 @@
     "booking_event": "ઇવેન્ટ",
     "booking_event_date": "ઇવેન્ટની તારીખ",
     "booking_price_per_ticket": "પ્રતિ ટિકિટ ની કિંમત",
-    "booking_no_of_ticket": "ટિકિટ નંબર",
+    "booking_no_of_ticket": "ટિકિટ સંખ્યા",
     "booking_amount": "રકમ",
     "booking_back": "પાછા જાઓ ",
     "contact_us_by_email": "ઇમેલ દ્વારા સંપર્ક કરો!",
@@ -96,6 +96,13 @@
     "header_select_lang":"ભાષા પસંદ કરો: ",
     "lang_en":"અંગ્રેજી",
     "lang_gu":"ગુજરાતી",
-    "home_select_default_city":"કૃપા કરીને શહેર પસંદ કરો"
+    "home_select_default_city":"કૃપા કરીને શહેર પસંદ કરો",
+    "event_detail_coupon_code":"કુપન કોડ",
+    "event_details_price_detail":"કિંમત વિગતો",
+    "event_details_verify":"ચકાસો",
+    "event_details_quantity":"જથ્થો",
+    "event_details_ticket_price":"ટિકિટની કિંમત",
+    "event_details_discount":"ડિસ્કાઉન્ટ",
+    "event_details_total":"કુલ"
 
 }

@@ -41,7 +41,7 @@
                                                     <label class="form-label" for="form7Example2">Email</label>
                                                     <input type="email" name="email" class="form-control form-control-user"
                                                         id="exampleInputEmail" aria-describedby="emailHelp"
-                                                        placeholder="Enter Email Address..." value="admin@mailinator.com">
+                                                        placeholder="Enter Email Address..." >
                                                     @error('email')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
@@ -52,7 +52,7 @@
                                                         for="form7Example2">Password</label>
                                                     <input type="password" name="password"
                                                         class="form-control form-control-user" id="exampleInputPassword"
-                                                        placeholder="Password" value='74108520'>
+                                                        placeholder="Password">
                                                     @error('password')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror

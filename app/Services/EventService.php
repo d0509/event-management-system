@@ -74,14 +74,12 @@ class EventService
                     ->orderColumn('name', function ($query, $order) {
                         $query->orderBy('id', $order);
                     })
-
                     ->addColumn('category_id', function ($row) {
                         return $row->category->name;
                     })
                     ->addColumn('event_date', function ($row) {
                         return Carbon::parse($row->event_date)->format(config('site.date_format'));
                     })
-
                     ->addColumn('start_time', function ($row) {
                         return Carbon::parse($row->start_time)->format(config('site.time_format'));
                     })
@@ -157,6 +155,8 @@ class EventService
                     ->setRowId('id')
                     ->addIndexColumn()
                     ->make(true);
+                    
+                    return true;
             }
         } else {
             if (request('city') && request('search')) {
