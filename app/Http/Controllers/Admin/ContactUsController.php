@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContactUs;
 use App\Services\ContactUsService;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ContactUsController extends Controller
     {
         $this->contactUsService = $contactUsService;
     }
-   
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -25,5 +26,19 @@ class ContactUsController extends Controller
         return view('backend.pages.contact-us.index');
     }
 
-   
+    public function destroy(String $id)    {
+        $contactUs = ContactUs::find($id);
+
+        if (!$contactUs) {
+            return response()->json(['error' => 'Record not found']);
+        }
+
+        $delete = $contactUs->delete();
+
+        if ($delete) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Failed to delete record']);
+        }
+    }
 }

@@ -21,8 +21,8 @@ class HomeController extends Controller
 
     public function __construct()
     {
-        $this->eventService = new EventService;
-        $this->cityService = new CityService;
+        $this->eventService = new EventService();
+        $this->cityService = new CityService();
     }
 
     public function index()

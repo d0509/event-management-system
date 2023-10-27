@@ -10,6 +10,7 @@ use App\Http\Requests\Auth\ResetPasswordPost;
 use App\Models\PasswordResetToken;
 use App\Models\RoleUser;
 use App\Models\User;
+use App\Notifications\ResetPassword as AppNotificationsResetPassword;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Notifications\ResetPassword as NotificationsResetPassword;
 use Illuminate\Support\Facades\Alert;
@@ -42,7 +43,7 @@ class AuthService
                 session()->flash('danger', 'You are not approved by the Admin. To login please contact admin');
             }
         } else {
-            session()->flash('danger','User with such credential does not exist!');
+            session()->flash('danger', 'User with such credential does not exist!');
         }
     }
 
@@ -69,7 +70,7 @@ class AuthService
 
             $user->attachMedia($media, 'profile');
         }
-        $user->save();       
+        $user->save();
         Auth::login($user);
         session()->flash('success', ' You have been logged in successfully.');
     }
@@ -93,7 +94,7 @@ class AuthService
                 'created_at' => Carbon::now(),
             ]);
         }
-        $mail =  $user->notify(new NotificationsResetPassword($token));
+        $mail =  $user->notify(new AppNotificationsResetPassword($token, $request->email));
 
         if ($mail) {
             session()->flash('success', 'We have e-mailed your password reset link!');
@@ -102,14 +103,24 @@ class AuthService
 
     public function submitReset(ResetPasswordPost $request)
     {
-        $user = PasswordResetToken::where('token', '=', $request->token)->first();
-        $password = Hash::make($request->password);
-        $user_update = User::where('email', '=', $user->email)->update(['password' => $password]);
+        // dd($request->toArray());
+        $user = PasswordResetToken::where('email', $request->token)->first();
 
-        if ($user_update == '1') {
-            session()->flash('success', 'Password changed successfully');
-        } else {
-            session()->flash('danger', 'There are some issues in changing password');
+        $password = Hash::make($request->password);
+        if ($user) {
+            $user_update = User::where('email', $user->email)->update(['password' => $password]);
+
+            if ($user_update == '1') {
+                session()->flash('success', 'Password changed successfully');
+            } else {
+                session()->flash('danger', 'There are some issues in changing password');
+            }
         }
+
+        else {
+            session()->flash('error','User not found');
+        }
+
+       
     }
 }

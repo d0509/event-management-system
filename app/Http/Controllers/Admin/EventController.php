@@ -30,7 +30,7 @@ class EventController extends Controller
             $events  = $this->eventService->collection();
             return $events;
         }
-        return view('backend.pages.event.company-index');
+        return view('backend.pages.event.index');
     }
 
     public function show(string $id)

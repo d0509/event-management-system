@@ -59,26 +59,65 @@ class EventService
     {
         $user = Auth::user();
         if (isset($user)) {
-            if (Auth::user()->role->name == config('site.role_names.company')) {
-                $events = Event::latest()->where('company_id', Auth::user()->company->id)->get();
-                return $events;
-            } elseif (Auth::user()->role->name == config('site.role_names.user')) {
-                // dd(request('search'));
+            if (Auth::user()->role_id == config('site.roles.company')) {
+                $data = Event::with(['category:id,name', 'city:id,name'])->select(['events.*'])
+                    ->where('company_id', Auth::user()->company->id);
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $showURL = route('company.event.show', ['event' => $row->id]);
+                        $editURL = route('company.event.edit', ['event' => $row->id]);
+                        $deleteURL = route('company.event.destroy', ['event' => $row->id]);
+                        $btn = '<div class="d-flex"><a href="' . $showURL . '" class="text-white w-3 btn btn-primary delete_event mr-2"> <i class="fa-solid fa-eye"></i></a><a data-eventId="' . $row->id . '" onclick="deleteEvent(' . $row->id . ')" class="text-white w-3 btn btn-danger delete_event mr-2"> <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
+                        return $btn;
+                    })
+                    ->orderColumn('name', function ($query, $order) {
+                        $query->orderBy('id', $order);
+                    })
+
+                    ->addColumn('category_id', function ($row) {
+                        return $row->category->name;
+                    })
+                    ->addColumn('event_date', function ($row) {
+                        return Carbon::parse($row->event_date)->format(config('site.date_format'));
+                    })
+
+                    ->addColumn('start_time', function ($row) {
+                        return Carbon::parse($row->start_time)->format(config('site.time_format'));
+                    })
+                    ->addColumn('end_time', function ($row) {
+                        return Carbon::parse($row->end_time)->format(config('site.time_format'));
+                    })
+                    ->rawColumns(['category_id', 'event_date', 'start_time', 'end_time', 'action', 'category_id'])
+                    ->setRowId('id')
+                    ->addIndexColumn()
+                    ->make(true);
+
+                return true;
+            } elseif (Auth::user()->role_id == config('site.roles.user')) {
                 if (request('city') && request('search')) {
-                    $events = Event::where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->latest()->get();
-                    // dd($events);
-                    return $events;
+                    if (request('city') == 'empty') {
+                        $events = Event::where('is_approved', 1)->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                        return $events;
+                    } else {
+                        $events = Event::latest()->where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->get();
+                        return $events;
+                    }
                 } elseif (request('search')) {
                     $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
                     return $events;
                 } elseif (request('city')) {
-                    // dd(request('city'));
-                    $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->latest()->get();
-                    return $events;
+                    if (request('city') == 'empty') {
+                        $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                        return $events;
+                    } else {
+                        $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->latest()->get();
+                        return $events;
+                    }
                 } else {
                     // dd(Auth::user()->city_id);
-                    $events = Event::where('is_approved', 1)->where('city_id',Auth::user()->city_id )->where( 'event_date', '>=', Carbon::now()->toDateString())->latest()->get();
-                    // dd()
+                    $events = Event::where('is_approved', 1)->where('city_id', Auth::user()->city_id)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                    // dd($events);
                     return $events;
                 }
             } else {
@@ -121,16 +160,28 @@ class EventService
             }
         } else {
             if (request('city') && request('search')) {
-                $events = Event::latest()->where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->get();
-                return $events;
+                if (request('city') == 'empty') {
+                    $events = Event::where('is_approved', 1)->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                    return $events;
+                } else {
+                    $events = Event::latest()->where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->get();
+                    return $events;
+                }
             } elseif (request('search')) {
-                $events = Event::latest()->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->get();
+                $events = Event::where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
                 return $events;
             } elseif (request('city')) {
-                $events = Event::latest()->where('is_approved', 1)->where('city_id', request('city'))->where('event_date', '>=', Carbon::now()->toDateString())->get();
-                return $events;
-            } else {                
-                $events = Event::latest()->where('is_approved', 1)->whereDate('event_date', '>=', Carbon::now())->get();                
+                if (request('city') == 'empty') {
+                    $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                    return $events;
+                } else {
+                    $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->latest()->get();
+                    return $events;
+                }
+            } else {
+                // dd(Auth::user()->city_id);
+                $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                // dd($events);
                 return $events;
             }
         }

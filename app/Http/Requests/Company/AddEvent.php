@@ -26,7 +26,7 @@ class AddEvent extends FormRequest
         $rules = [
             'city_id' => 'required',
             'category_id' => 'required',
-            'name' => 'required',
+            'name' => 'required|regex:/^(?=.*[a-zA-Z])[a-zA-Z\d ]*$/',
             'description' => 'required',
             'available_seat' => 'required|integer|min:10',
             'venue' => 'required',

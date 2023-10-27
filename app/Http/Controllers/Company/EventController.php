@@ -28,7 +28,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->eventService->companyCollection();
+            $user_bookings =  $this->eventService->collection();
             return $user_bookings;
         }
 

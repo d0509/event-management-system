@@ -56,9 +56,9 @@ class DashboardController extends Controller
 
             $company_id = Auth::user()->company->id;
             $totalEvent =  Event::where('company_id', '=', $company_id)->count();
-            $todayEvent =  Event::where('company_id', '=', $company_id)->where('event_date', '=', Carbon::now())->count();
-            $pastEvent = Event::where('company_id', '=', $company_id)->where('event_date', '<', Carbon::now())->count();
-            $upcomingEvent = Event::where('company_id', '=', $company_id)->where('event_date', '>', Carbon::now())->count();
+            $todayEvent =  Event::where('company_id', '=', $company_id)->where('event_date', '=', Carbon::now()->toDateString())->count();
+            $pastEvent = Event::where('company_id', '=', $company_id)->where('event_date', '<', Carbon::now()->toDateString())->count();
+            $upcomingEvent = Event::where('company_id', '=', $company_id)->where('event_date', '>', Carbon::now()->toDateString())->count();
             // dd(Auth::user()->company->id);
             $cityWiseEvents = Event::select('cities.name as city_name')
                 ->selectRaw('count(*) as count')

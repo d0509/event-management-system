@@ -73,9 +73,6 @@
 
                         processing: true,
                         serverSide: true,
-                        order: [
-                            [1, 'desc']
-                        ],
                         ajax: {
                             'type': 'GET',
                             url: "{{ route('company.event.index') }}",
@@ -228,7 +225,9 @@
 
                 }
 
-                function deleteEvent(id) {
+                
+            });
+            function deleteEvent(id) {
                     var id = id;
                     // alert(id);
                     var url = "{{ route('company.event.destroy', ':id') }}";
@@ -267,7 +266,6 @@
 
                     })
                 }
-            });
         </script>
 
     </body>

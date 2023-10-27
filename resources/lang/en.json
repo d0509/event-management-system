@@ -97,7 +97,13 @@
     "lang_en":"English",
     "lang_gu":"Gujarati",
     "home_select_default_city":"Please select a city",
-    "event_detail_coupon_code":"Coupon Code"
+    "event_detail_coupon_code":"Coupon Code",
+    "event_details_price_detail":"Price Details",
+    "event_details_verify":"Verify",
+    "event_details_quantity":"Quantity",
+    "event_details_ticket_price":"Ticket Price",
+    "event_details_discount":"Discount",
+    "event_details_total":"Total"
     
 
 }
