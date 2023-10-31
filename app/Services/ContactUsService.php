@@ -15,17 +15,13 @@ class ContactUsService
     public function collection()
     {
 
-        $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message', 'created_at'])->with(['user']);
+        $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message', 'created_at'])->with(['user'])->latest();
 
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
-
-                $ShowUrl = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
                $btn = '<a class="delete_contact" id="delete_target_'.$row->id.'" data-id="'.$row->id.'" onclick="deleteInquiries('.$row->id.')" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
                 return $btn;
             })
-
-
             ->rawColumns(['action'])
             ->setRowId('id')
             ->addIndexColumn()

@@ -103,7 +103,8 @@
     "event_details_quantity":"Quantity",
     "event_details_ticket_price":"Ticket Price",
     "event_details_discount":"Discount",
-    "event_details_total":"Total"
+    "event_details_total":"Total",
+    "event_details_remove":"Remove"
     
 
 }

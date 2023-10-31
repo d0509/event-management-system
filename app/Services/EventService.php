@@ -20,7 +20,7 @@ class EventService
     {
 
         $data = Event::with(['category:id,name', 'city:id,name'])->select(['events.*'])
-            ->where('company_id', Auth::user()->company->id);
+            ->where('company_id', Auth::user()->company->id)->latest();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -61,7 +61,7 @@ class EventService
         if (isset($user)) {
             if (Auth::user()->role_id == config('site.roles.company')) {
                 $data = Event::with(['category:id,name', 'city:id,name'])->select(['events.*'])
-                    ->where('company_id', Auth::user()->company->id);
+                    ->where('company_id', Auth::user()->company->id)->latest();
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function ($row) {
@@ -113,13 +113,11 @@ class EventService
                         return $events;
                     }
                 } else {
-                    // dd(Auth::user()->city_id);
                     $events = Event::where('is_approved', 1)->where('city_id', Auth::user()->city_id)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
-                    // dd($events);
                     return $events;
                 }
             } else {
-                $data = Event::select('events.*')->with(['city:id,name', 'company:id,name', 'category:id,name']);
+                $data = Event::select('events.*')->with(['city:id,name', 'company:id,name', 'category:id,name'])->latest();
                 return DataTables::of($data)
                     ->setRowId('id')
                     ->orderColumn('name', function ($query, $order) {
@@ -179,8 +177,8 @@ class EventService
                     return $events;
                 }
             } else {
-                // dd(Auth::user()->city_id);
                 $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
+                // $events = Event::with('company')->get();
                 // dd($events);
                 return $events;
             }

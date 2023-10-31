@@ -43,9 +43,9 @@
                     processing: true,
                     serverSide: true,
                     ajax: "{{ route('admin.event.index') }}",
-                    order: [
-                        [1, 'desc']
-                    ],
+                        order: [
+                            [1, 'desc']
+                        ],
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',

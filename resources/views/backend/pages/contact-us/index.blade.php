@@ -38,6 +38,9 @@
                         url: "{{ route('admin.contact-us.index') }}",
                         dataType: "JSON",
                     },
+                    order: [
+                        [1, 'desc']
+                    ],
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',

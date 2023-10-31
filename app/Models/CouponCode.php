@@ -23,4 +23,12 @@ class CouponCode extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function event(){
+        return $this->belongsToMany(Event::class);
+    }
+
+    public function booking(){
+        return $this->belongsToMany(Booking::class);
+    }
+
 }

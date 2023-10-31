@@ -10,7 +10,7 @@ class UserService
 
     public function collection()
     {
-         $data = User::select(['id','name', 'email', 'mobile_no', 'city_id', 'status'])->whereHas('role', function($q){
+         $data = User::select(['id','name', 'email', 'mobile_no', 'city_id', 'status'])->latest()->whereHas('role', function($q){
             return $q->where('name', 'user');
          });
         // dd($data);

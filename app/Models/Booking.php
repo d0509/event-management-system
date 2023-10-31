@@ -13,6 +13,7 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'event_id',
+        'coupon_code_id',
         'booking_number',
         'is_attended',
         'pdf_name',
@@ -36,5 +37,9 @@ class Booking extends Model
 
     public function company(){
         return $this->belongsTo(Company::class);
+    }
+
+    public function couponCode(){
+        return $this->hasOne(CouponCode::class);
     }
 }

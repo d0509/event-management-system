@@ -76,7 +76,6 @@ class EventController extends Controller
 
     public function update(AddEvent $request, Event $event)
     {
-        // dd(3);
         $this->eventService->update($request, $event);
         return redirect()->route('company.event.index');
     }
@@ -86,7 +85,6 @@ class EventController extends Controller
         $delete = $event->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);
-            // session()->flash('success', 'Event deleted successfully');
         } else {
             return response()->json('error');
         }

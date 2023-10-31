@@ -47,17 +47,15 @@
                             $currentDate = \Carbon\Carbon::now()->toDateString();
                             $currentDateTime = \Carbon\Carbon::now()->toTimeString();
                         @endphp
-                        {{-- {{dd($event_date)}} --}}
-                        {{-- {{dd($currentDateTime)}} --}}
-                        {{-- {{dd($event_date == $currentDate)}} --}}
-                        {{-- {{dd($currentDate)}} --}}
+
                         @if ($event_date > $currentDate)
                             <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}"
                                 class="booking" method="post">
                                 @csrf
                                 <div>
                                     <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
-                                    <input type="number" name="quantity" id="quantity" class="form-control" />
+                                    <input type="number" min="1" name="quantity" id="quantity"
+                                        class="qty form-control" />
                                     @error('quantity')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -69,13 +67,14 @@
                                     <div class="d-flex">
                                         <input type="text" name="code" id="code" class="form-control mr-2" />
 
-                                        @error('code')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                        <button id="verify_coupon" data-eventId= "{{ $event->id }}"
-                                            class="btn btn-primary"> {{ __('event_details_verify') }} </button>
+                                        <a id="verify_coupon" data-eventId= "{{ $event->id }}"
+                                            class="btn btn-primary text-light"> {{ __('event_details_verify') }} </a>
                                     </div>
                                     <p class="coupon_error text-danger"></p>
+
+                                    @error('code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
 
                                 </div>
 
@@ -85,18 +84,17 @@
                                     <div id="quantity_val"> 1 </div>
                                 </div>
                                 <div class="sub_total mt-2 d-flex  justify-content-between">
-                                    <div id="price_heading"> {{__('event_details_ticket_price') }} </div>
-                                    <div class="price_val">{{ $event->ticket }}</div>
+                                    <div id="price_heading"> {{ __('event_details_ticket_price') }} </div>
+                                    <div class="price_val" id="totalPrice">{{ $event->ticket }}</div>
                                 </div>
-                                <div class="discount mt-2 d-flex justify-content-between ">
+                                <div class="discount mt-2 d-flex justify-content-between" style="display: none !important">
                                     <div id="discount_heading"> {{ __('event_details_discount') }} </div>
-
-                                    <div id="discount_value">- 0 </div>
+                                    <div>- <span id="discount_value">0</span> </div>
                                 </div>
                                 <hr>
                                 <div class="total mt-2 d-flex justify-content-between ">
                                     <div id="total_heading"> {{ __('event_details_total') }} </div>
-                                    <div id="total_value"> {{ $event->ticket }} </div>
+                                    <div id="discountTotalPrice"> {{ $event->ticket }} </div>
                                 </div>
 
                                 <button class="btn btn-primary mt-2"
@@ -104,57 +102,57 @@
 
                             </form>
                         @elseif ($event_date == $currentDate && $start_time > $currentDateTime)
-                        <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}"
-                            class="booking" method="post">
-                            @csrf
-                            <div>
-                                <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
-                                <input type="number" name="quantity" id="quantity" class="form-control" />
-                                @error('quantity')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}"
+                                class="booking" method="post">
+                                @csrf
+                                <div>
+                                    <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
+                                    <input type="number" min="1" name="quantity" id="quantity"
+                                        class="qty form-control" />
+                                    @error('quantity')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-                            <div>
-                                <label class="form-label"
-                                    for="form7Example2">{{ __('event_detail_coupon_code') }}</label>
-                                <div class="d-flex">
-                                    <input type="text" name="code" id="code" class="form-control mr-2" />
-
+                                <div>
+                                    <label class="form-label"
+                                        for="form7Example2">{{ __('event_detail_coupon_code') }}</label>
+                                    <div class="d-flex">
+                                        <input type="text" name="code" id="code" class="form-control mr-2" />
+                                        <button id="verify_coupon" data-eventId= "{{ $event->id }}"
+                                            class="btn btn-primary text-light"> {{ __('event_details_verify') }} </button>
+                                    </div>
+                                    <p class="coupon_error text-danger"></p>
                                     @error('code')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
-                                    <button id="verify_coupon" data-eventId= "{{ $event->id }}"
-                                        class="btn btn-primary"> {{ __('event_details_verify') }} </button>
+
                                 </div>
-                                <p class="coupon_error text-danger"></p>
 
-                            </div>
+                                <p class="fw-bold"> {{ __('event_details_price_detail') }} </p>
+                                <div class="quantity d-flex  justify-content-between">
+                                    <div id="quantity_heading"> {{ __('event_details_quantity') }} </div>
+                                    <div id="quantity_val"> 1 </div>
+                                </div>
+                                <div class="sub_total mt-2 d-flex  justify-content-between">
+                                    <div id="price_heading"> {{ __('event_details_ticket_price') }} </div>
+                                    <div class="price_val" id="totalPrice">{{ $event->ticket }}</div>
+                                </div>
+                                <div class="discount mt-2 d-flex justify-content-between"
+                                    style="display: none !important">
+                                    <div id="discount_heading"> {{ __('event_details_discount') }} </div>
+                                    <div>- <span id="discount_value">0</span> </div>
+                                </div>
+                                <hr>
+                                <div class="total mt-2 d-flex justify-content-between ">
+                                    <div id="total_heading"> {{ __('event_details_total') }} </div>
+                                    <div id="discountTotalPrice"> {{ $event->ticket }} </div>
+                                </div>
 
-                            <p class="fw-bold"> {{ __('event_details_price_detail') }} </p>
-                            <div class="quantity d-flex  justify-content-between">
-                                <div id="quantity_heading"> {{ __('event_details_quantity') }} </div>
-                                <div id="quantity_val"> 1 </div>
-                            </div>
-                            <div class="sub_total mt-2 d-flex  justify-content-between">
-                                <div id="price_heading"> {{__('event_details_ticket_price') }} </div>
-                                <div class="price_val">{{ $event->ticket }}</div>
-                            </div>
-                            <div class="discount mt-2 d-flex justify-content-between ">
-                                <div id="discount_heading"> {{ __('event_details_discount') }} </div>
+                                <button class="btn btn-primary mt-2"
+                                    type="submit">{{ __('event_detail_book_ticket') }}</button>
 
-                                <div id="discount_value">- 0 </div>
-                            </div>
-                            <hr>
-                            <div class="total mt-2 d-flex justify-content-between ">
-                                <div id="total_heading"> {{ __('event_details_total') }} </div>
-                                <div id="total_value"> {{ $event->ticket }} </div>
-                            </div>
-
-                            <button class="btn btn-primary mt-2"
-                                type="submit">{{ __('event_detail_book_ticket') }}</button>
-
-                        </form>
+                            </form>
                         @endif
                     </div>
 
@@ -174,15 +172,13 @@
 
     <script>
         $(document).ready(function() {
-            // Function to update discount and total values
             function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice) {
                 $('#price_val').text(ticketPrice);
                 $('#quantity_val').text(quantity);
-                $('#discount_value').html('-' + discountAmount);
-                $('#total_value').text(totalAmount);
+                $('#discount_value').html(discountAmount);
+                $('#discountTotalPrice').text(totalAmount);
             }
 
-            // Verify Coupon button click event
             $(document).on('click', '#verify_coupon', function(e) {
                 e.preventDefault();
                 var input = document.getElementById("code");
@@ -191,6 +187,7 @@
                 var eventId = $(this).attr('data-eventId');
                 var value = input.value;
                 var url = "{{ route('user.apply-coupon') }}";
+
 
                 $.ajax({
                     url: url,
@@ -204,19 +201,27 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(res) {
-                        $('#verify_coupon').html('Remove');
+                        $('#verify_coupon').html({{ __('') }});
+                        // console.log(res);
                         input.readOnly = true;
-                        $('#verify_coupon').attr('id', 'coupon_verified');
+                        // $("#verify_coupon").prop('disabled',true);
+                        // $('#verify_coupon').attr('id', 'coupon_verified');
                         var discountAmount = quantity * res.discountAmount;
                         var totalAmount = quantity * res.totalAmount;
                         var ticket = quantity * res.ticket;
                         updatePriceDetails(quantity, discountAmount, totalAmount, ticket);
-
+                        $(".discount").css("display", "");
                         if (res.error) {
                             toastr.error(res.error.message);
                         } else {
                             toastr.success(res.message);
                         }
+
+                        $("#verify_coupon").removeAttr('id');
+                        console.log($(this).attr('id'));
+                        $("#quantity").attr('readonly', 'readonly');
+
+
                     },
                     error: function(xhr, status, error) {
                         console.log('Error:', xhr);
@@ -224,27 +229,40 @@
                         // console.log(responseText);
                         var errorData = JSON.parse(responseText);
                         if (errorData && errorData.message) {
-                            // toastr.error(errorData.message);
+                            toastr.error(errorData.message);
                         }
                     }
                 });
             });
 
-            // Quantity input change event
-            $(document).on('change', '#quantity', function(e) {
-                var quantity = parseInt($(this).val()); // Parse the input as an integer
-                var ticketPrice = parseFloat('{{ $event->ticket }}');
+            $(document).on('input change', '.qty', function(e) {
 
-                // Check if quantity and ticketPrice are valid numbers
-                if (!isNaN(quantity) && !isNaN(ticketPrice)) {
-                    var discountAmount = quantity * parseFloat($('#discount_value').text());
-                    var totalAmount = ticketPrice - discountAmount;
-                    updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice);
-                } else {
-                    // Handle the case where the values are not valid numbers (e.g., display an error message)
-                    console.log('Invalid quantity or ticket price');
+                var quantity = parseInt($(this).val());
+
+                if (isNaN(quantity)) {
+                    quantity = 1; 
                 }
+
+                var ticketPrice = parseFloat('{{ $event->ticket }}');
+                var totalTicketPrice = quantity * ticketPrice;
+                let total = quantity * ticketPrice;
+                let discountPrice = $('#discount_value').html();
+                let totalDiscount = quantity * discountPrice;
+                // console.log(totalDiscount);
+                if (!total) {
+                    $('#totalPrice').html(ticketPrice.toFixed(2));
+                } else {
+                    $('#totalPrice').html(total.toFixed(2));
+                }
+
+                let grandTotal = totalTicketPrice - totalDiscount;
+                $("#discountTotalPrice").html(grandTotal.toFixed(2));
+                $("#totalPrice").text(totalTicketPrice.toFixed(2));
+                $("#quantity_val").text(quantity);
+                $("#discount_value").text(totalDiscount.toFixed(2));
             });
+
+
         });
     </script>
 

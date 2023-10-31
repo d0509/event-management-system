@@ -42,7 +42,8 @@ class BookingController extends Controller
 
     public function store(Event $event, Create $request)
     {
-        $this->bookingService->store($event, $request->all());
+
+        $this->bookingService->store($event, $request);
         return redirect()->route('home');
     }
 

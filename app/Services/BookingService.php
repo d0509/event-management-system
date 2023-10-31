@@ -18,7 +18,7 @@ class BookingService
 
     public function collection()
     {
-        $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
+        $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event'])->latest();
         // dd($data);
 
         return Datatables::of($data)
@@ -51,7 +51,7 @@ class BookingService
         // dd(Auth::user()->company->id);
         $data = Booking::select(['bookings.*'])
             ->with(['user', 'event'])
-            ->where('company_id', Auth::user()->company->id);
+            ->where('company_id', Auth::user()->company->id)->latest();
 
         return Datatables::of($data)
             ->orderColumn('user_id', function ($query, $order) {
@@ -74,35 +74,68 @@ class BookingService
 
     public function store($event, $inputs)
     {
+        // dd('in store method for booking');
         $quantity = $inputs['quantity'];
-
+        // dd($quantity);        
+        // dd($inputs->toArray());
+        $couponCodeId = null ;
+        $discount = null;
+        if ($inputs['code'] != null ) {
+            $couponCode = $inputs['code'];
+            $coupon = CouponCode::where('company_id', $event->company->id)->where('name', $couponCode)->first();
+            // dd($coupon->usable_count);
+            $couponCodeId = CouponCode::where('company_id', $event->company->id)->where('name', $couponCode)->first()->id;
+            // dd($couponCodeId);
+            $discount = CouponCode::where('company_id', $event->company->id)->where('name', $couponCode)->first()->percentage;
+            $couponUsableCount = Booking::where('coupon_code_id',$couponCodeId)->where('user_id',Auth::id())->count();
+            if($couponUsableCount >= $coupon->usable_count){
+                session()->flash('danger','The coupon code has reached its maximum usage limit.');
+            }
+            
+            // dd($couponUsableCount);
+        }
         $last_booking = Booking::latest()->first();
         $booking_number = Carbon::now()->format('ymd') . sprintf('%03s', ((isset($last_booking) ? intval(substr($last_booking, 6)) : 0) + 1));
-
         $totalSeats = Event::where('id', $event->id)->select('available_seat')->first();
-
         $bookedTickets = Booking::where('event_id', $event->id)->sum('quantity');
-
         $remainingSeats  = $totalSeats->available_seat - $bookedTickets;
-
         if ($remainingSeats < $quantity) {
-
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
         } else {
-            $booking = Booking::create([
-                'user_id' => Auth::id(),
-                'event_id' => $event->id,
-                'company_id' => $event->company_id,
-                'booking_number' => $booking_number,
-                'ticket_price' => $event->ticket,
-                'sub_total' => $event->ticket * $quantity,
-                'quantity' => $quantity,
-                'discount' => 0,
-                'total' => $event->ticket * $quantity,
-                'type' => $quantity > 1 ? 'multiple' : 'single',
-                'is_free_event' => $event->is_free,
-                'no_of_attendees' => 0,
-            ]);
+            // dd($couponCodeId);
+            if(!$couponCodeId){
+                $booking = Booking::create([
+                    'user_id' => Auth::id(),
+                    'event_id' => $event->id,
+                    'company_id' => $event->company_id,
+                    'booking_number' => $booking_number,
+                    'ticket_price' => $event->ticket,
+                    'sub_total' => $event->ticket * $quantity,
+                    'quantity' => $quantity,
+                    'discount' => 0,
+                    'total' => $event->ticket * $quantity,
+                    'type' => $quantity > 1 ? 'multiple' : 'single',
+                    'is_free_event' => $event->is_free,
+                    'no_of_attendees' => 0,
+                ]);
+            } else {
+                $booking = Booking::create([
+                    'user_id' => Auth::id(),
+                    'event_id' => $event->id,
+                    'company_id' => $event->company_id,
+                    'booking_number' => $booking_number,
+                    'ticket_price' => $event->ticket,
+                    'sub_total' => $event->ticket * $quantity,
+                    'quantity' => $quantity,
+                    'discount' => ( $event->ticket * $discount * $quantity) / 100,
+                    'type' => $quantity > 1 ? 'multiple' : 'single',
+                    'is_free_event' => $event->is_free,
+                    'no_of_attendees' => 0,
+                    'coupon_code_id' => $couponCodeId,
+                    'total' => ($event->ticket * $quantity) -(( $event->ticket * $discount * $quantity) / 100),
+                ]);
+            }
+            
 
             try {
                 GenerateBookingTicket::dispatchSync($booking);
@@ -140,13 +173,13 @@ class BookingService
         } elseif ($event->company_id != $couponCode->company_id) {
             $data['error']['message'] = "You cannot use the given coupon code for booking this event";
         } else {
-                $discountPercentage = $couponCode->percentage;
-                $data['discountAmount'] = $event->ticket * ($discountPercentage / 100);
-                $data['message'] = "Coupon code applied successfully.";
-                $data['totalAmount'] = $event->ticket - $data['discountAmount'];
-                $data['ticket'] = $event->ticket;
-        }   
-        
+            $discountPercentage = $couponCode->percentage;
+            $data['discountAmount'] = $event->ticket * ($discountPercentage / 100);
+            $data['message'] = "Coupon code applied successfully.";
+            $data['totalAmount'] = $event->ticket - $data['discountAmount'];
+            $data['ticket'] = $event->ticket;
+        }
+
         return $data;
     }
 }

@@ -103,6 +103,7 @@
     "event_details_quantity":"જથ્થો",
     "event_details_ticket_price":"ટિકિટની કિંમત",
     "event_details_discount":"ડિસ્કાઉન્ટ",
-    "event_details_total":"કુલ"
+    "event_details_total":"કુલ",
+    "event_details_remove":"દૂર કરો"
 
 }

@@ -79,7 +79,7 @@
             <label class="form-label" for="form7Example2">Event Category</label>
             <select name="category_id" id="category_id" value="{{ old('category_id') }}"
                 class="form-control form-select-lg">
-
+                <option value="default"> Please select category </option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}"
                         @if (isset($event)) {{ $category->id == $event->category_id ? 'selected' : '' }} @endif>
@@ -95,7 +95,7 @@
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Event City</label>
             <select name="city_id" id="city_id" class="form-control form-select-lg">
-
+                <option value="default"> Please select city </option>
                 @foreach ($cities as $city)
                     <option value={{ $city->id }}
                         @if (isset($event)) {{ $city->id == $event->city_id ? 'selected' : '' }} @endif>

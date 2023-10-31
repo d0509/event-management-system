@@ -11,7 +11,7 @@ class CouponCodeService
 {
     public function collection()
     {
-        $data = CouponCode::select('id', 'name', 'usable_count', 'percentage', 'start_date', 'end_date','company_id','is_active')->with(['company'])->where('company_id',Auth::user()->company->id);
+        $data = CouponCode::select('id', 'name', 'usable_count', 'percentage', 'start_date', 'end_date','company_id','is_active')->with(['company'])->where('company_id',Auth::user()->company->id)->latest();
 
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
