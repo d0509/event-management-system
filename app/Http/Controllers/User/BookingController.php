@@ -44,7 +44,7 @@ class BookingController extends Controller
     {
 
         $this->bookingService->store($event, $request);
-        return redirect()->route('home');
+        return redirect()->back();
     }
 
     public function show(string $id)

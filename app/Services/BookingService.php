@@ -76,6 +76,8 @@ class BookingService
     {
         // dd('in store method for booking');
         $quantity = $inputs['quantity'];
+        $couponUsableCount = null;
+        $coupon = null;
         // dd($quantity);        
         // dd($inputs->toArray());
         $couponCodeId = null ;
@@ -88,9 +90,7 @@ class BookingService
             // dd($couponCodeId);
             $discount = CouponCode::where('company_id', $event->company->id)->where('name', $couponCode)->first()->percentage;
             $couponUsableCount = Booking::where('coupon_code_id',$couponCodeId)->where('user_id',Auth::id())->count();
-            if($couponUsableCount >= $coupon->usable_count){
-                session()->flash('danger','The coupon code has reached its maximum usage limit.');
-            }
+            
             
             // dd($couponUsableCount);
         }
@@ -101,6 +101,9 @@ class BookingService
         $remainingSeats  = $totalSeats->available_seat - $bookedTickets;
         if ($remainingSeats < $quantity) {
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
+        } 
+        elseif($couponUsableCount >= $coupon->usable_count){
+            session()->flash('danger','The coupon code has reached its maximum usage limit.');
         } else {
             // dd($couponCodeId);
             if(!$couponCodeId){
@@ -174,6 +177,7 @@ class BookingService
             $data['error']['message'] = "You cannot use the given coupon code for booking this event";
         } else {
             $discountPercentage = $couponCode->percentage;
+            $data['discountPercentage'] = $discountPercentage;
             $data['discountAmount'] = $event->ticket * ($discountPercentage / 100);
             $data['message'] = "Coupon code applied successfully.";
             $data['totalAmount'] = $event->ticket - $data['discountAmount'];

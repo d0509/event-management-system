@@ -88,7 +88,7 @@
                                     <div class="price_val" id="totalPrice">{{ $event->ticket }}</div>
                                 </div>
                                 <div class="discount mt-2 d-flex justify-content-between" style="display: none !important">
-                                    <div id="discount_heading"> {{ __('event_details_discount') }} </div>
+                                    <div id="discount_heading"> {{ __('event_details_discount') }} (<span id="discount_percentage" ></span>%) </div>
                                     <div>- <span id="discount_value">0</span> </div>
                                 </div>
                                 <hr>
@@ -172,11 +172,12 @@
 
     <script>
         $(document).ready(function() {
-            function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice) {
-                $('#price_val').text(ticketPrice);
+            function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice , discountPercentage) {
+                $('#price_val').text(ticketPrice.toFixed(2));
                 $('#quantity_val').text(quantity);
-                $('#discount_value').html(discountAmount);
-                $('#discountTotalPrice').text(totalAmount);
+                $('#discount_value').html(discountAmount.toFixed(2));
+                $('#discountTotalPrice').text(totalAmount.toFixed(2));
+                $("#discount_percentage").text(discountPercentage);
             }
 
             $(document).on('click', '#verify_coupon', function(e) {
@@ -201,16 +202,19 @@
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(res) {
-                        $('#verify_coupon').html({{ __('') }});
-                        // console.log(res);
+                        $('#verify_coupon').html('Remove');
+                        console.log(res);
                         input.readOnly = true;
-                        // $("#verify_coupon").prop('disabled',true);
-                        // $('#verify_coupon').attr('id', 'coupon_verified');
+                        $('#verify_coupon').attr('id', 'coupon_verified');
+                        $('.discount').children().show();
+                        var discountPercentage = res.discountPercentage;
                         var discountAmount = quantity * res.discountAmount;
+                        console.log(discountPercentage);
                         var totalAmount = quantity * res.totalAmount;
                         var ticket = quantity * res.ticket;
-                        updatePriceDetails(quantity, discountAmount, totalAmount, ticket);
+                        updatePriceDetails(quantity, discountAmount, totalAmount, ticket,discountPercentage);
                         $(".discount").css("display", "");
+                        $(".discount").show();
                         if (res.error) {
                             toastr.error(res.error.message);
                         } else {
@@ -233,6 +237,24 @@
                         }
                     }
                 });
+            });
+
+            $(document).on('click','#coupon_verified',function(e){
+                e.preventDefault();
+                $('#coupon_verified').text('Verify');
+                $(".discount").children().hide();
+                $("#code").val('');
+                $('#code').removeAttr('readonly');
+                $("#quantity").removeAttr('readonly');
+                $("#coupon_verified").attr('id','verify_coupon');
+                var quantity = parseInt($('#quantity').val());
+                if (isNaN(quantity)) {
+                    quantity = 1; 
+                }
+                var ticketPrice = parseFloat('{{ $event->ticket }}');
+                var discountTotalPrice = quantity * ticketPrice; 
+                console.log(discountTotalPrice);
+                $("#discountTotalPrice").text(discountTotalPrice);                
             });
 
             $(document).on('input change', '.qty', function(e) {
