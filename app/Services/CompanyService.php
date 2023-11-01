@@ -2,23 +2,23 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Auth\CompanyRegister;
-use App\Http\Requests\Company\Add;
-use App\Http\Requests\Company\EditCompany;
-use App\Models\Company;
-use App\Models\User;
-use App\Notifications\CompanyRegistered;
 use Exception;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Company;
+use App\Http\Requests\Company\Add;
 use Illuminate\Support\Facades\Log;
-use Plank\Mediable\Facades\MediaUploader;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use App\Notifications\CompanyRegistered;
+use Plank\Mediable\Facades\MediaUploader;
+use App\Http\Requests\Company\EditCompany;
+use App\Http\Requests\Auth\CompanyRegister;
 
 class CompanyService
 {
     public function collection()
     {
-        $data = Company::with(['user:id,name,status'])->select(['id', 'user_id', 'name', 'description', 'address']);
+        $data = Company::with(['user:id,name,status'])->select(['id', 'user_id', 'name', 'description', 'address'])->latest();
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $editURL = route('admin.company.edit', ['company' => $row->id]);
@@ -48,7 +48,6 @@ class CompanyService
 
     public function storeByAdmin(Add $request)
     {
-        // dd($request->toArray());
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
@@ -84,10 +83,7 @@ class CompanyService
 
         try {
             $user->notify(new CompanyRegistered($request));
-            // session()->flash('success','Company is notified about their registeration by the admin');
         } catch (Exception $e) {
-            // dd($e->message);
-            // session()->flash('danger','Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
             Log::info($e);
         }
     }
@@ -113,10 +109,6 @@ class CompanyService
             'description' => $validated['description'],
             'name' => $validated['company_name']
         ]);
-
-        // dd($user->toArray());
-
-        // $user->notify(new CompanyUpdated($company, $user));
     }
 
     public function registeredByCompany(CompanyRegister $request)
@@ -152,5 +144,15 @@ class CompanyService
         ]);
 
         session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
+    }
+
+    public function changeStatus($request){
+        $company = Company::find($request->id)->with('user')->first();
+        $updatedStatus = ($company->user->status == config('site.status.pending')) ? config('site.status.approved') : config('site.status.pending');
+        $company->user->update([
+            'status' => $updatedStatus,
+        ]);
+
+        return response()->json(['success' => true]);
     }
 }

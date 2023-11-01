@@ -29,7 +29,7 @@
                         @endif
                         <th>City</th>
                         <th>Category</th>
-                        <th>Description</th>
+                        {{-- <th>Description</th> --}}
                         <th>Available Seat</th>
                         <th>Venue</th>
                         <th>Date</th>
@@ -73,9 +73,6 @@
 
                         processing: true,
                         serverSide: true,
-                        order: [
-                            [1, 'desc']
-                        ],
                         ajax: {
                             'type': 'GET',
                             url: "{{ route('company.event.index') }}",
@@ -100,11 +97,11 @@
                                 data: 'category.name',
                                 name: 'category.name',
                             },
-                            {
-                                data: 'description',
-                                name: "description",
-                                orderable: false,
-                            },
+                            // {
+                            //     data: 'description',
+                            //     name: "description",
+                            //     orderable: false,
+                            // },
                             {
                                 data: 'available_seat',
                                 name: 'available_seat',
@@ -228,7 +225,9 @@
 
                 }
 
-                function deleteEvent(id) {
+                
+            });
+            function deleteEvent(id) {
                     var id = id;
                     // alert(id);
                     var url = "{{ route('company.event.destroy', ':id') }}";
@@ -267,7 +266,6 @@
 
                     })
                 }
-            });
         </script>
 
     </body>

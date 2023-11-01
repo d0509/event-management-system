@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('events');
-            // $table->unsignedBigInteger('coupon_code_id')->nullable();
             $table->string('booking_number');
             $table->boolean('is_attended')->default('0');
             $table->double('total',8,2);

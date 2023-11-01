@@ -28,13 +28,11 @@ class CompanyController extends Controller
             ]);
         } else {
             return redirect()->back();
-        }
-       
+        }       
     }
 
     public function store(CompanyRegister $request): RedirectResponse
-    {
-        
+    {        
         $this->companyService->registeredByCompany($request);
         return redirect()->route('guest.company.create');
     }

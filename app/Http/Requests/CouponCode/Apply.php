@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Booking;
+namespace App\Http\Requests\CouponCode;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Create extends FormRequest
+class Apply extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,14 +17,12 @@ class Create extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        // dd($this);
         return [
-            'quantity' => 'required|min:1',  
-            'code' => 'nullable|exists:coupon_codes,name'
+            'code' => 'required|regex:/^[A-Z0-9]*$/|exists:coupon_codes,name'
         ];
     }
 }

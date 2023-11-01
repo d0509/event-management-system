@@ -6,8 +6,7 @@
             <video id="preview" class="p-1 border" style="width:50%;"></video>
         </div>
     </div> --}}
-    <div class="modal fade" id="qr_code_modal" 
-        aria-hidden="true">
+    <div class="modal fade" id="qr_code_modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -34,11 +33,10 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Attend Event</h1>
             <a href="{{ route('company.attend-event.index') }}"
-                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i
-                    class="fas fa-users mr-2"></i> Atendee List</a>
+                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i class="fas fa-users mr-2"></i> Atendee
+                List</a>
 
         </div>
-{{-- {{$todayEvents}} --}}
         <form action="{{ route('company.attend-event.store') }}" method="post">
             @csrf
             <div class="form-outline mb-4">
@@ -78,7 +76,7 @@
 
     <script>
         $(document).ready(function() {
-           
+
             // $(".text-gray").click(function() {
             //     $("#qr_code_modal").modal('show');
             // });
@@ -93,8 +91,6 @@
                     mirror: false
                 });
                 scanner.addListener('scan', function(content) {
-                    // console.log("cslll");
-                    // alert(content);
                     $('#booking_number').val(content);
                     $('#qr_code_modal').modal('hide');
                     scanner.stop();

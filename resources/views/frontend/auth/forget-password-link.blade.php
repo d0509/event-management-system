@@ -1,4 +1,3 @@
-
 @extends('backend.includes.head')
 @section('title', 'Reset Password')
 @section('auth-content')
@@ -18,13 +17,13 @@
                                     <div class="p-5">
 
                                         <form method="POST" action="{{ route('reset.password.post') }}">
-                                            @csrf                                            
+                                            @csrf
                                             <input type="hidden" name="token" value="{{ $token }}">
 
                                             <div class="form-outline mb-4">
-                                                <label class="form-label" for="form1Example2"> {{__('forget_password_link_new_password')}} </label>
-                                                <input type="password" name="password"
-                                                    id="password"
+                                                <label class="form-label" for="form1Example2">
+                                                    {{ __('forget_password_link_new_password') }} </label>
+                                                <input type="password" name="password" id="password"
                                                     value="{{ old('password') }}" class="form-control" />
                                                 @error('password')
                                                     <span class="text-danger">{{ $message }}</span>
@@ -33,7 +32,8 @@
 
                                             <!-- Password input -->
                                             <div class="form-outline mb-4">
-                                                <label class="form-label" for="form1Example2"> {{__('forget_password_link_confirm_password')}} </label>
+                                                <label class="form-label" for="form1Example2">
+                                                    {{ __('forget_password_link_confirm_password') }} </label>
                                                 <input type="password" name="password_confirmation"
                                                     id="password_confirmation" class="form-control"
                                                     value="{{ old('password_confirmation') }}" />
@@ -41,12 +41,8 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-
-                                            
-
-
-
-                                            <button type="submit" class="btn btn-primary btn-block"> {{__('forget_password_link_update_password')}} </button>
+                                            <button type="submit" class="btn btn-primary btn-block">
+                                                {{ __('forget_password_link_update_password') }} </button>
                                         </form>
 
                                     </div>

@@ -99,6 +99,13 @@
                             <span>Bookings</span>
                         </a>
                     </li>
+
+                    <li class="nav-item {{ Route::currentRouteName() == 'company.coupon-code.index' ? 'active' : '' }}">
+                        <a class="nav-link collapsed" href="{{ route('company.coupon-code.index') }}">
+                            <i class="fa fa-gift mr-2"  aria-hidden="true"></i>
+                            <span>Coupon Code</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
             <!-- End of Sidebar -->

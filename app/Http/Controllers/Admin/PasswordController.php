@@ -8,9 +8,8 @@ use App\Services\PasswordService;
 
 class PasswordController extends Controller
 {
-
     protected $passwordService;
-
+    
     public function __construct(PasswordService $passwordService)
     {
         $this->passwordService = $passwordService;

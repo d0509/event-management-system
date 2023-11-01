@@ -28,7 +28,7 @@
                     <p class="col-10 text-dark">{{ $booking->ticket_price}}</p>
                 </div>
                 <div class="row">
-                    <p class="col-2 text-dark"> {{_('booking_no_of_ticket')}} </p>
+                    <p class="col-2 text-dark"> {{__('booking_no_of_ticket')}} </p>
                     <p class="col-10 text-dark">{{ $booking->quantity}}</p>
                 </div>
                 <div class="row">
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Card footer -->
-            <a href="{{url()->previous()}}" class="card-footer text-muted text-center">
+            <a href="{{ route('user.booking.index') }}" class="card-footer text-muted text-center">
                {{__('booking_back')}}
             </a>
 

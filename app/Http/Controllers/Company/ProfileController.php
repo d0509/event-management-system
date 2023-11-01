@@ -7,7 +7,6 @@ use App\Http\Requests\Profile\Update;
 use App\Models\User;
 use App\Services\CityService;
 use App\Services\ProfileService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller

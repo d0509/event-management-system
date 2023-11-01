@@ -35,7 +35,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $cities = $this->companyService->collection();
+        $cities = $this->cityService->collection();
 
         return view('backend.pages.company.edit', [
             'cities' => $cities,
@@ -66,15 +66,11 @@ class CompanyController extends Controller
 
     public function destroy(Company $company)
     {
-        // dd($company->toArray());
         $delete = $company->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);
-            session()->flash('success', 'Event deleted successfully');
         } else {
             return response()->json('error');
-            session()->flash('danger', 'There are some issues deleting company');
         }
-        // return redirect()->route('admin.company.index');
     }
 }

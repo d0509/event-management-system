@@ -28,27 +28,23 @@ class EventController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->eventService->companyCollection();
+            $user_bookings =  $this->eventService->collection();
             return $user_bookings;
         }
-
         return view('backend.pages.event.company-index');
     }
 
     public function create()
     {
-        $event = $this->cityService->collection();
-
         return view('backend.pages.event.create', [
             'cities' => $this->cityService->collection(),
-            'categories' => $this->categoryService->index()
+            'categories' => $this->categoryService->collection()
         ]);
     }
 
     public function store(AddEvent $request)
     {
         $this->eventService->store($request);
-
         return redirect()->route('company.event.index');
     }
 
@@ -67,7 +63,7 @@ class EventController extends Controller
             return view('backend.pages.event.create', [
                 'event' => $event,
                 'cities' => $this->cityService->collection(),
-                'categories' => $this->categoryService->index(),
+                'categories' => $this->categoryService->collection(),
             ]);
         } else {
             abort(404);
@@ -76,7 +72,6 @@ class EventController extends Controller
 
     public function update(AddEvent $request, Event $event)
     {
-        // dd(3);
         $this->eventService->update($request, $event);
         return redirect()->route('company.event.index');
     }
@@ -86,7 +81,6 @@ class EventController extends Controller
         $delete = $event->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);
-            // session()->flash('success', 'Event deleted successfully');
         } else {
             return response()->json('error');
         }

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
@@ -29,5 +29,9 @@ class Company extends Model
 
     public function booking(){
         return $this->hasMany(Booking::class);
+    }
+
+    public function couponCode(){
+        return $this->hasMany(couponCode::class);
     }
 }

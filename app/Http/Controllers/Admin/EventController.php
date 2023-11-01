@@ -30,14 +30,12 @@ class EventController extends Controller
             $events  = $this->eventService->collection();
             return $events;
         }
-        return view('backend.pages.event.company-index');
+        return view('backend.pages.event.index');
     }
 
     public function show(string $id)
     {
-        // dd($id);
         $event =  $this->eventService->resource($id);
-        //    dd($event->toArray());
         return view('backend.pages.event.show', [
             'event' => $event
         ]);
@@ -45,10 +43,12 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
+        $cities = $this->cityService->collection();
+        $categories = $this->categoryService->collection();
         return view('backend.pages.event.edit', [
             'event' => $event,
-            'cities' => $this->cityService->collection(),
-            'categories' => $this->categoryService->index(),
+            'cities' => $cities,
+            'categories' => $categories,
         ]);
     }
 

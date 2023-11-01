@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\Models\Category;
-
 class CategoryService{
-    public function index(){
+    public function collection(){
       return Category::all();        
     }
 }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Create;
+use App\Http\Requests\CouponCode\Apply;
 use App\Models\Event;
 use App\Services\BookingService;
 use App\Services\PDFService;
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-
     protected $bookingService;
     protected $PDFservice;
 
@@ -41,8 +41,9 @@ class BookingController extends Controller
 
     public function store(Event $event, Create $request)
     {
-        $this->bookingService->store($event, $request->all());
-        return redirect()->route('home');
+
+        $this->bookingService->store($event, $request);
+        return redirect()->back();
     }
 
     public function show(string $id)
@@ -52,5 +53,10 @@ class BookingController extends Controller
         return view('frontend.pages.booking', [
             'booking' => $booking,
         ]);
-    }    
+    } 
+    
+    public function verifyCouponCode(Apply $request){
+      $response = $this->bookingService->verifyCouponCode($request);
+       return response()->json($response);
+    }
 }

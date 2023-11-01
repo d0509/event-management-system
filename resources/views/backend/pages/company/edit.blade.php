@@ -128,6 +128,7 @@
 
 
                                                                 @foreach ($cities as $city)
+                                                                {{-- {{dd($cities)}} --}}
                                                                     <option value="{{ $city->id }}"
                                                                         @if (isset($company)) {{ $city->id == $company->user->city_id ? 'selected' : '' }} @endif>
                                                                         {{ $city->name }} </option>

@@ -27,13 +27,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        // dd('hello');
-
         $events = $this->eventService->collection();
         $cities = $this->cityService->collection();
         $city_id = request('city');
-        // dd($city_id);
-        // dd($cities);
         return view('frontend.pages.home', [
             'events' => $events,
             'cities' => $cities,
@@ -46,7 +42,6 @@ class HomeController extends Controller
     {
         App::setLocale($request->lang);
         session()->put('locale', $request->lang);
-
         return redirect()->back();
     }
 }
