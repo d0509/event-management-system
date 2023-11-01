@@ -85,12 +85,15 @@ class BookingService
         $totalSeats = Event::where('id', $event->id)->select('available_seat')->first();
         $bookedTickets = Booking::where('event_id', $event->id)->sum('quantity');
         $remainingSeats  = $totalSeats->available_seat - $bookedTickets;
+        if ($coupon != null) {
+            if($couponUsableCount >= $coupon->usable_count){
+                session()->flash('danger','The coupon code has reached its maximum usage limit.');
+            } 
+        }
         if ($remainingSeats < $quantity) {
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
-        } 
-        elseif($couponUsableCount >= $coupon->usable_count){
-            session()->flash('danger','The coupon code has reached its maximum usage limit.');
-        } else {
+        }         
+        else {
             if(!$couponCodeId){
                 $booking = Booking::create([
                     'user_id' => Auth::id(),
