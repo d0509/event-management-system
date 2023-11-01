@@ -47,8 +47,19 @@ class ContactUsService
         }
     }
 
-    public function destroy(String $id)
+    public function destroy($id)
     {
-        return ContactUs::where('id', $id)->delete();
+        $contactUs = ContactUs::find($id);
+        if (!$contactUs) {
+            return response()->json(['error' => 'Record not found']);
+        }
+
+        $delete = $contactUs->delete();
+
+        if ($delete) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Failed to delete record']);
+        }
     }
 }

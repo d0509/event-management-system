@@ -22,23 +22,11 @@ class ContactUsController extends Controller
             $user_bookings =  $this->contactUsService->collection();
             return $user_bookings;
         }
-
         return view('backend.pages.contact-us.index');
     }
 
-    public function destroy(String $id)    {
-        $contactUs = ContactUs::find($id);
-
-        if (!$contactUs) {
-            return response()->json(['error' => 'Record not found']);
-        }
-
-        $delete = $contactUs->delete();
-
-        if ($delete) {
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['error' => 'Failed to delete record']);
-        }
+    public function destroy(String $id)
+    {
+        return $this->contactUsService->destroy($id);
     }
 }

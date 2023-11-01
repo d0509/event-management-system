@@ -145,4 +145,14 @@ class CompanyService
 
         session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
     }
+
+    public function changeStatus($request){
+        $company = Company::find($request->id)->with('user')->first();
+        $updatedStatus = ($company->user->status == config('site.status.pending')) ? config('site.status.approved') : config('site.status.pending');
+        $company->user->update([
+            'status' => $updatedStatus,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 }

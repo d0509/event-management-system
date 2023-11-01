@@ -77,4 +77,15 @@ class CouponCodeService
         ]);
         session()->flash('success','Coupon updated successfully');
     }
+
+    public function changeStatus($request){
+        $coupon  = CouponCode::find($request->id);
+        $updated_status  = $coupon->is_active == '1' ? '0' : '1';
+
+        $coupon->update([
+            'is_active' => $updated_status,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 }

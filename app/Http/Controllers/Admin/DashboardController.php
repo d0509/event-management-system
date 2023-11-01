@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\User;
+use App\Services\DashboardService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    protected $dashboardService;
+
+    public function __construct(DashboardService $dashboardService)
+    {
+         $this->dashboardService = $dashboardService;
+    }
     public function index(Request $request)
     {
-        // dd(Auth::user()->role_id);
         if (Auth::user()->role_id == config('site.roles.admin')) {
             $companyCount = User::where('role_id', 2)->count();
             $userCount = User::where('role_id', 3)->count();
@@ -33,7 +39,7 @@ class DashboardController extends Controller
 
             $allMonths = range(1, 12);
 
-            foreach ($users as $user) {
+            foreach($users as $user) {
                 if (!isset($data[$user->role_id])) {
                     $data[$user->role_id] = array_fill_keys($allMonths, 0);
                 }

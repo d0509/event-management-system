@@ -43,10 +43,12 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
+        $cities = $this->cityService->collection();
+        $categories = $this->categoryService->collection();
         return view('backend.pages.event.edit', [
             'event' => $event,
-            'cities' => $this->cityService->collection(),
-            'categories' => $this->categoryService->collection(),
+            'cities' => $cities,
+            'categories' => $categories,
         ]);
     }
 

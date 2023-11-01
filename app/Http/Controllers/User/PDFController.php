@@ -19,8 +19,8 @@ class PDFController extends Controller
           $this->PDFservice = $PDFservice;
      }
 
-     public function generatePDF(String $id)
-     {
+     public function downloadPDF(String $id)
+     {          
           $file = Booking::where('id', $id)->select('pdf_name')->first();
           
           $fileName = $file['pdf_name'];

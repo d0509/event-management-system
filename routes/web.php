@@ -77,7 +77,7 @@ Route::middleware('auth')->group(function () {
         Route::get('booking/{booking}', [BookingController::class, 'show'])->name('booking.show');
     });
 
-    Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
+    Route::get('pdf/generate/{booking}', [PDFController::class, 'downloadPDF'])->name('download-ticket');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

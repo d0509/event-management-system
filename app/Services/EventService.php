@@ -278,4 +278,20 @@ class EventService
         // dd($event);
         return $event;
     }
+
+
+    public function changeEventStatus($request){
+        $event = Event::find($request->id);
+        $updatedStatus = ($event->is_approved == 1 ) ? 0 : 1;
+       
+        $event->update([
+            'is_approved' => $updatedStatus,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function attend(){
+        
+    }
 }
