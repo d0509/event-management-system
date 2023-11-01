@@ -42,13 +42,10 @@
                             <p class="col-10 text-dark">{{ $event->ticket }}</p>
                         </div>
                         @php
-                            $event_date = $event->event_date;
-                            $start_time = $event->start_time;
-                            $currentDate = \Carbon\Carbon::now()->toDateString();
-                            $currentDateTime = \Carbon\Carbon::now()->toTimeString();
+                            $eventDateTime = \Carbon\Carbon::parse($event->event_date . ' ' . $event->start_time)->toDateTimeString();
+                            $currentDateTime = \Carbon\Carbon::now()->toDateTimeString();
                         @endphp
-
-                        @if ($event_date > $currentDate)
+                        @if ($eventDateTime > $currentDateTime)
                             <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}"
                                 class="booking" method="post">
                                 @csrf
@@ -88,59 +85,8 @@
                                     <div class="price_val" id="totalPrice">{{ $event->ticket }}</div>
                                 </div>
                                 <div class="discount mt-2 d-flex justify-content-between" style="display: none !important">
-                                    <div id="discount_heading"> {{ __('event_details_discount') }} (<span id="discount_percentage" ></span>%) </div>
-                                    <div>- <span id="discount_value">0</span> </div>
-                                </div>
-                                <hr>
-                                <div class="total mt-2 d-flex justify-content-between ">
-                                    <div id="total_heading"> {{ __('event_details_total') }} </div>
-                                    <div id="discountTotalPrice"> {{ $event->ticket }} </div>
-                                </div>
-
-                                <button class="btn btn-primary mt-2"
-                                    type="submit">{{ __('event_detail_book_ticket') }}</button>
-
-                            </form>
-                        @elseif ($event_date == $currentDate && $start_time > $currentDateTime)
-                            <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}"
-                                class="booking" method="post">
-                                @csrf
-                                <div>
-                                    <label class="form-label" for="form7Example2">{{ __('event_detail_quantity') }}</label>
-                                    <input type="number" min="1" name="quantity" id="quantity"
-                                        class="qty form-control" />
-                                    @error('quantity')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label class="form-label"
-                                        for="form7Example2">{{ __('event_detail_coupon_code') }}</label>
-                                    <div class="d-flex">
-                                        <input type="text" name="code" id="code" class="form-control mr-2" />
-                                        <button id="verify_coupon" data-eventId= "{{ $event->id }}"
-                                            class="btn btn-primary text-light"> {{ __('event_details_verify') }} </button>
-                                    </div>
-                                    <p class="coupon_error text-danger"></p>
-                                    @error('code')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-
-                                </div>
-
-                                <p class="fw-bold"> {{ __('event_details_price_detail') }} </p>
-                                <div class="quantity d-flex  justify-content-between">
-                                    <div id="quantity_heading"> {{ __('event_details_quantity') }} </div>
-                                    <div id="quantity_val"> 1 </div>
-                                </div>
-                                <div class="sub_total mt-2 d-flex  justify-content-between">
-                                    <div id="price_heading"> {{ __('event_details_ticket_price') }} </div>
-                                    <div class="price_val" id="totalPrice">{{ $event->ticket }}</div>
-                                </div>
-                                <div class="discount mt-2 d-flex justify-content-between"
-                                    style="display: none !important">
-                                    <div id="discount_heading"> {{ __('event_details_discount') }} </div>
+                                    <div id="discount_heading"> {{ __('event_details_discount') }} (<span
+                                            id="discount_percentage"></span>%) </div>
                                     <div>- <span id="discount_value">0</span> </div>
                                 </div>
                                 <hr>
@@ -172,7 +118,7 @@
 
     <script>
         $(document).ready(function() {
-            function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice , discountPercentage) {
+            function updatePriceDetails(quantity, discountAmount, totalAmount, ticketPrice, discountPercentage) {
                 $('#price_val').text(ticketPrice.toFixed(2));
                 $('#quantity_val').text(quantity);
                 $('#discount_value').html(discountAmount.toFixed(2));
@@ -212,7 +158,8 @@
                         console.log(discountPercentage);
                         var totalAmount = quantity * res.totalAmount;
                         var ticket = quantity * res.ticket;
-                        updatePriceDetails(quantity, discountAmount, totalAmount, ticket,discountPercentage);
+                        updatePriceDetails(quantity, discountAmount, totalAmount, ticket,
+                            discountPercentage);
                         $(".discount").css("display", "");
                         $(".discount").show();
                         if (res.error) {
@@ -239,22 +186,22 @@
                 });
             });
 
-            $(document).on('click','#coupon_verified',function(e){
+            $(document).on('click', '#coupon_verified', function(e) {
                 e.preventDefault();
                 $('#coupon_verified').text('Verify');
                 $(".discount").children().hide();
                 $("#code").val('');
                 $('#code').removeAttr('readonly');
                 $("#quantity").removeAttr('readonly');
-                $("#coupon_verified").attr('id','verify_coupon');
+                $("#coupon_verified").attr('id', 'verify_coupon');
                 var quantity = parseInt($('#quantity').val());
                 if (isNaN(quantity)) {
-                    quantity = 1; 
+                    quantity = 1;
                 }
                 var ticketPrice = parseFloat('{{ $event->ticket }}');
-                var discountTotalPrice = quantity * ticketPrice; 
+                var discountTotalPrice = quantity * ticketPrice;
                 console.log(discountTotalPrice);
-                $("#discountTotalPrice").text(discountTotalPrice);                
+                $("#discountTotalPrice").text(discountTotalPrice);
             });
 
             $(document).on('input change', '.qty', function(e) {
@@ -262,7 +209,7 @@
                 var quantity = parseInt($(this).val());
 
                 if (isNaN(quantity)) {
-                    quantity = 1; 
+                    quantity = 1;
                 }
 
                 var ticketPrice = parseFloat('{{ $event->ticket }}');
