@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Response;
 
 class PDFService
 {
@@ -44,4 +45,14 @@ class PDFService
         $pdf = PDF::loadView($view, $data );
         return $pdf;
     }
+
+    public function downloadPDF($id){
+        $file = Booking::where('id', $id)->select('pdf_name')->first();
+          
+        $fileName = $file['pdf_name'];
+        
+        $pdf_location = public_path() . '/storage/tickets/';
+        $headers = array('Content-Type: application/pdf',);
+        return Response::download($pdf_location . $fileName, "$fileName", $headers);
+    } 
 }
