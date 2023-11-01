@@ -4,10 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Admin\Event\Status;
 use App\Http\Requests\Company\AddEvent;
-use Plank\Mediable\Media;
-use Plank\Mediable\Mediable;
 use App\Models\Event;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Plank\Mediable\Facades\MediaUploader;

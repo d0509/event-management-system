@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-
-
     public function index(Request $request)
     {
         // dd(Auth::user()->role_id);
@@ -33,10 +31,8 @@ class DashboardController extends Controller
 
             $data = [];
 
-            // Define the range of months (1 to 12)
             $allMonths = range(1, 12);
 
-            // Loop through each user's data and update the $data array
             foreach ($users as $user) {
                 if (!isset($data[$user->role_id])) {
                     $data[$user->role_id] = array_fill_keys($allMonths, 0);
@@ -59,15 +55,12 @@ class DashboardController extends Controller
             $todayEvent =  Event::where('company_id', '=', $company_id)->where('event_date', '=', Carbon::now()->toDateString())->count();
             $pastEvent = Event::where('company_id', '=', $company_id)->where('event_date', '<', Carbon::now()->toDateString())->count();
             $upcomingEvent = Event::where('company_id', '=', $company_id)->where('event_date', '>', Carbon::now()->toDateString())->count();
-            // dd(Auth::user()->company->id);
             $cityWiseEvents = Event::select('cities.name as city_name')
                 ->selectRaw('count(*) as count')
                 ->where('company_id', Auth::user()->company->id)
                 ->join('cities', 'cities.id', '=', 'events.city_id')
                 ->groupBy('city_name')
                 ->get();
-
-            // dd($cityWiseEvents->toArray());
 
             return view('backend.pages.dashboard', compact('totalEvent', 'todayEvent', 'pastEvent', 'upcomingEvent', 'cityWiseEvents'));
         }

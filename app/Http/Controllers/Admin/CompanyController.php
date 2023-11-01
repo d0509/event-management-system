@@ -66,7 +66,6 @@ class CompanyController extends Controller
 
     public function destroy(Company $company)
     {
-        // dd($company->toArray());
         $delete = $company->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);
@@ -75,6 +74,5 @@ class CompanyController extends Controller
             return response()->json('error');
             session()->flash('danger', 'There are some issues deleting company');
         }
-        // return redirect()->route('admin.company.index');
     }
 }

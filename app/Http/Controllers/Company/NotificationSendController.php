@@ -15,15 +15,12 @@ class NotificationSendController extends Controller
 
     public function create(Request $request)
     {
-        // dd($request->id);
 
         $user = User::find($request->id);
-        // dd($user);
         $deviceUsers = DeviceUser::where('user_id', $request->id)->get();
         $token = $request->_token;
         dd($token);
         $boolean = false;
-        // dd($deviceUsers);
 
         foreach ($deviceUsers as $deviceUser) {
             if ($token == $deviceUser->token) {

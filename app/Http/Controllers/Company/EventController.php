@@ -31,24 +31,20 @@ class EventController extends Controller
             $user_bookings =  $this->eventService->collection();
             return $user_bookings;
         }
-
         return view('backend.pages.event.company-index');
     }
 
     public function create()
     {
-        $event = $this->cityService->collection();
-
         return view('backend.pages.event.create', [
             'cities' => $this->cityService->collection(),
-            'categories' => $this->categoryService->index()
+            'categories' => $this->categoryService->collection()
         ]);
     }
 
     public function store(AddEvent $request)
     {
         $this->eventService->store($request);
-
         return redirect()->route('company.event.index');
     }
 
@@ -67,7 +63,7 @@ class EventController extends Controller
             return view('backend.pages.event.create', [
                 'event' => $event,
                 'cities' => $this->cityService->collection(),
-                'categories' => $this->categoryService->index(),
+                'categories' => $this->categoryService->collection(),
             ]);
         } else {
             abort(404);

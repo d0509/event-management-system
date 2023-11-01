@@ -15,8 +15,7 @@ class ProfileService
     }
 
     public function update(Update $request, User $user)
-    {
-        
+    {        
         $user = Auth::user();
         $user->update([
             'name' => $request->name,
@@ -28,27 +27,20 @@ class ProfileService
         if ($request->hasFile('profile')) {
 
             if (!empty($user->media[0])) {
-                // dd($user->media);
-                // dd('user already have profile picture and i want to update it');
                 $profileMedia = $user->getMedia('profile')->first();
-                // dd($request->files);
                 if ($profileMedia) {
                     
                     MediaUploader::fromSource($request->file('profile'))
                         ->replace($profileMedia);
-
-                    // Optionally, you can also update the media's attributes if needed
                     $user->syncMedia($profileMedia, 'profile');
                 }
             } else {
-                // dd(' i want to set my profile as this photo. it was blank earlier');
                 $media = MediaUploader::fromSource($request->profile)
                     ->toDisk('public')
                     ->toDirectory('profile')
                     ->upload();
 
                 $user->attachMedia($media, 'profile');
-               
             }
         }
 

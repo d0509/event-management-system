@@ -23,12 +23,9 @@ use Plank\Mediable\Facades\MediaUploader;
 
 class AuthService
 {
-
-
     public function signIn(Login $request)
     {
         $validated = $request->safe()->only(['password', 'email']);
-
         $user = User::where('email', $request->email)->exists();
 
         if ($user) {
@@ -79,7 +76,6 @@ class AuthService
     {
         $user = $request->validated();
         $user = User::where('email', $user['email'])->first();
-
         $token = Str::random(64);
         $existingRecord = PasswordResetToken::where('email', $request->email)->first();
         if ($existingRecord) {
@@ -103,7 +99,6 @@ class AuthService
 
     public function submitReset(ResetPasswordPost $request)
     {
-        // dd($request->toArray());
         $user = PasswordResetToken::where('email', $request->token)->first();
 
         $password = Hash::make($request->password);
@@ -116,11 +111,8 @@ class AuthService
                 session()->flash('danger', 'There are some issues in changing password');
             }
         }
-
         else {
             session()->flash('error','User not found');
-        }
-
-       
+        }       
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Coupon;
 use App\Models\CouponCode;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,7 +22,6 @@ class CouponCodeService
             ->addColumn('is_active',function($row){
                 $status  = $row->is_active;
                 $condition = $status == 1 ? 'checked' : '';
-                // dd($condition);
                 $switch = '
                 <div class="form-check form-switch text-center " >
                 <input class="form-check-input" type="checkbox" data-couponId="' . $row->id . '"  role="switch" id="flexSwitchCheckChecked" ' . $condition . '>
@@ -77,8 +75,6 @@ class CouponCodeService
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
-
         session()->flash('success','Coupon updated successfully');
-
     }
 }

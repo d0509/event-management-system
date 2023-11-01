@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-
     protected $bookingService;
     protected $PDFservice;
 

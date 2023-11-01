@@ -48,7 +48,6 @@ class CompanyService
 
     public function storeByAdmin(Add $request)
     {
-        // dd($request->toArray());
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
@@ -84,10 +83,7 @@ class CompanyService
 
         try {
             $user->notify(new CompanyRegistered($request));
-            // session()->flash('success','Company is notified about their registeration by the admin');
         } catch (Exception $e) {
-            // dd($e->message);
-            // session()->flash('danger','Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
             Log::info($e);
         }
     }
@@ -113,10 +109,6 @@ class CompanyService
             'description' => $validated['description'],
             'name' => $validated['company_name']
         ]);
-
-        // dd($user->toArray());
-
-        // $user->notify(new CompanyUpdated($company, $user));
     }
 
     public function registeredByCompany(CompanyRegister $request)

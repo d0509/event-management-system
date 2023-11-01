@@ -9,8 +9,7 @@ use App\Services\CouponCodeService;
 use Illuminate\Http\Request;
 
 class CouponCodeController extends Controller
-{
-    
+{    
     protected $couponCodeService;
 
     public function __construct(CouponCodeService $couponCodeService)
@@ -27,7 +26,6 @@ class CouponCodeController extends Controller
         return view('backend.pages.coupon-code.index');
     }
 
-    
     public function create()
     {
         return view('backend.pages.coupon-code.create');
@@ -36,22 +34,10 @@ class CouponCodeController extends Controller
    
     public function store(Store $request)
     {
-        // dd($request);
         $this->couponCodeService->store($request);
         return redirect()->route('company.coupon-code.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $coupon = CouponCode::where('id',$id)->first();

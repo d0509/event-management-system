@@ -96,7 +96,7 @@
                                 </div>
 
                                 <button class="btn btn-primary mt-2"
-                                    type="submit">{{ __('event_detail_book_ticket') }}</button>
+                                    type="submit">{{ __('event_detail_book_ticket')}}</button>
 
                             </form>
                         @endif

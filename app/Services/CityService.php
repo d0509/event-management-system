@@ -7,7 +7,6 @@ class CityService{
 
     public function collection(){
        return City::all();
-    }
-    
+    }  
 
 }

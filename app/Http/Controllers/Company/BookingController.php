@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-
     protected $bookingService;
 
     public function __construct(BookingService $bookingService)
