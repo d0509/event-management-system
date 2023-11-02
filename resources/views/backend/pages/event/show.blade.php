@@ -9,7 +9,6 @@
         <div class="card mb-3 mx-auto" style="max-width: 1080px;">
             <div class="row g-0">
                 <div class="col-md-7">
-                    {{-- {{dd($event)}} --}}
                     @forelse ($event->media as $media)
                         <img src="{{ asset('storage/banner/' . $media['filename'] . '.' . $media['extension']) }}"
                             alt="Event Banner" width="540px">

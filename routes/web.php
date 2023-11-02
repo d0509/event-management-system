@@ -59,8 +59,8 @@ Route::group(['middleware' => ['guest', 'setlocale']], function () {
     Route::get('/', [HomeController::class, 'index'])->middleware('setlocale')->name('home');
     Route::get('change', [HomeController::class, 'change'])->name('changeLang');
     Route::get('event/{event}', [UserEventController::class, 'show'])->name('user.event.show');
-    Route::get('company-register', [AuthCompanyController::class, 'create'])->name('guest.company.create');
-    Route::post('company-register', [AuthCompanyController::class, 'store'])->name('guest.company.store');
+    Route::get('company-register', [AuthCompanyController::class, 'create'])->name('company.create');
+    Route::post('company-register', [AuthCompanyController::class, 'store'])->name('company.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('contact-us', AdminContactUsController::class);
         Route::resource('profile', ProfileController::class)->only('index', 'edit', 'update');
         Route::resource('change-password', PasswordController::class)->only('edit', 'update');
-        Route::post('event/status', EventStatusController::class)->name('event.status');
+        Route::post('{event}/status', EventStatusController::class)->name('event.status');
         Route::resource('company', CompanyController::class)->except('show');
         Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update', 'show');
         Route::post('status', CompanyStatusController::class)->name('company.status');

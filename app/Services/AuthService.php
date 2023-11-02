@@ -5,19 +5,13 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
-use App\Http\Requests\Auth\ResetPassword;
-use App\Http\Requests\Auth\ResetPasswordPost;
+use App\Http\Requests\Auth\ForgotPassword;
 use App\Models\PasswordResetToken;
-use App\Models\RoleUser;
 use App\Models\User;
 use App\Notifications\ResetPassword as AppNotificationsResetPassword;
 use Illuminate\Support\Str;
-use Illuminate\Auth\Notifications\ResetPassword as NotificationsResetPassword;
-use Illuminate\Support\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Plank\Mediable\Facades\MediaUploader;
 
@@ -72,7 +66,7 @@ class AuthService
         session()->flash('success', ' You have been logged in successfully.');
     }
 
-    public function resetPassword(ResetPassword $request)
+    public function resetPassword(ForgotPassword $request)
     {
         $user = $request->validated();
         $user = User::where('email', $user['email'])->first();
@@ -97,7 +91,7 @@ class AuthService
         }
     }
 
-    public function submitReset(ResetPasswordPost $request)
+    public function submitReset($request)
     {
         $user = PasswordResetToken::where('email', $request->token)->first();
 

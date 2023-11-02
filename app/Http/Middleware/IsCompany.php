@@ -17,7 +17,7 @@ class IsCompany
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (Auth::user()->role->name == config('site.role_names.company')) {
+        if (Auth::check() && Auth::user()->role->name == config('site.role_names.company')) {
             return $next($request);
         } else {
             return redirect()->route('home');

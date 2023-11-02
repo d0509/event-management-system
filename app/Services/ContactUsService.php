@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\ContactUs\Store;
+use App\Http\Requests\ContactUs\Create;
 use App\Models\ContactUs;
 use App\Models\User;
 use App\Notifications\ContactUsNotification;
@@ -17,7 +17,10 @@ class ContactUsService
         $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message', 'created_at'])->with(['user'])->latest();
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
-               $btn = '<a class="delete_contact" id="delete_target_'.$row->id.'" data-id="'.$row->id.'" onclick="deleteInquiries('.$row->id.')" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
+                $deleteURL = route('admin.contact-us.destroy', ['contact_u' => $row->id]);
+
+                $btn = '<a onclick="deleteInquiries(' . $row->id . ')" class="delete_contact text-white w-3 btn btn-danger delete_event mr-2"> <i class="fas fa-trash"></i></a>';
+                //    $btn = '<a class="delete_contact" id="delete_target_'.$row->id.'" data-id="'.$row->id.'" onclick="deleteInquiries('.$row->id.')" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -28,7 +31,7 @@ class ContactUsService
         return true;
     }
 
-    public function store(Store $request)
+    public function store($request)
     {
         $validated = $request->validated();
         $contact_us = ContactUs::create([
@@ -47,19 +50,9 @@ class ContactUsService
         }
     }
 
-    public function destroy($id)
+    public function destroy($contactUs)
     {
-        $contactUs = ContactUs::find($id);
-        if (!$contactUs) {
-            return response()->json(['error' => 'Record not found']);
-        }
-
-        $delete = $contactUs->delete();
-
-        if ($delete) {
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['error' => 'Failed to delete record']);
-        }
+        $contactUs->delete();
+        return response()->json(['success' => true]);
     }
 }

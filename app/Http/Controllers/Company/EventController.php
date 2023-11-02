@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\AddEvent;
+use App\Http\Requests\Event\Create;
 use App\Models\Event;
 use App\Services\CategoryService;
 use App\Services\CityService;
@@ -42,16 +42,14 @@ class EventController extends Controller
         ]);
     }
 
-    public function store(AddEvent $request)
+    public function store(Create $request)
     {
         $this->eventService->store($request);
         return redirect()->route('company.event.index');
     }
 
-    public function show(string $id)
+    public function show(Event $event)
     {
-        $event =  $this->eventService->resource($id);
-        
         return view('backend.pages.event.show', [
             'event' => $event
         ]);
@@ -59,7 +57,7 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
-        if(Auth::user()->company->id == $event->company_id){
+        if (Auth::user()->company->id == $event->company_id) {
             return view('backend.pages.event.create', [
                 'event' => $event,
                 'cities' => $this->cityService->collection(),
@@ -70,7 +68,7 @@ class EventController extends Controller
         }
     }
 
-    public function update(AddEvent $request, Event $event)
+    public function update(Create $request, Event $event)
     {
         $this->eventService->update($request, $event);
         return redirect()->route('company.event.index');
@@ -78,11 +76,7 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
-        $delete = $event->delete();
-        if ($delete == true) {
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json('error');
-        }
+        $event->delete();
+        return response()->json(['success' => true]);
     }
 }

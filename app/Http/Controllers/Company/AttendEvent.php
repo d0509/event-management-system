@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\AttendEvent as CompanyAttendEvent;
-use App\Models\Booking;
+use App\Http\Requests\AttendEvent\Create;
 use App\Models\Event;
 use App\Services\AttendEventService;
 use Carbon\Carbon;
@@ -24,8 +23,8 @@ class AttendEvent extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->attendService->collection();
-            return $user_bookings;
+            $userBookings =  $this->attendService->collection();
+            return $userBookings;
         }
         return view('backend.pages.attend-event.index');
     }
@@ -36,7 +35,7 @@ class AttendEvent extends Controller
         return view('backend.pages.attend-event.create', ['todayEvents' => $todayEvents]);
     }
 
-    public function store(CompanyAttendEvent $request)
+    public function store(Create $request)
     {
         return $this->attendService->attend($request);
     }

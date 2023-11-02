@@ -38,21 +38,13 @@ class TicketMail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // dd($this->data->event->name);
-        // return (new MailMessage)->view(
-        //     'emails.name', ['invoice' => $this->data]
-        // );
         return (new MailMessage)
             ->line('I appreciate you booking your spot at the event. We are excited to share this event with you.We are grateful for your participation in our event.')
             ->line('Event Name: ' . $this->data->event->name)
             ->line('Event Date:' . Carbon::parse($this->data->event->event_date)->format(config('site.date_format')))
-            // ->attachData($this->pdf, $this->pdfName, ['mime' => 'application/pdf',])
             ->line('Name: ' . $this->data->user->name)
             ->line('Event venue: ' . $this->data->event->venue)
-            // ->line('To see location: '. $this->data->event->location)
-            // ->action('See Location',url($this->data->event->location))
             ->action('See Ticket', url('storage/tickets/' . $this->pdfName))
-            // ->action('Notification Action', url({{}}))
             ->line('Thank you for using our website!');
     }
 

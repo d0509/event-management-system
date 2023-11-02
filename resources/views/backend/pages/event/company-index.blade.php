@@ -225,47 +225,48 @@
 
                 }
 
-                
+
             });
+
             function deleteEvent(id) {
-                    var id = id;
-                    // alert(id);
-                    var url = "{{ route('company.event.destroy', ':id') }}";
-                    url = url.replace(':id', id);
-                    // alert(url);
-                    var token = "{{ csrf_token() }}";
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You want to delete this inquiry?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: url,
-                                type: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                dataType: "JSON",
-                                data: {
-                                    id: id,
-                                    "_token": "{{ csrf_token() }}",
+                var id = id;
+                // alert(id);
+                var url = "{{ route('company.event.destroy', ':id') }}";
+                url = url.replace(':id', id);
+                // alert(url);
+                var token = "{{ csrf_token() }}";
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to delete this inquiry?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            dataType: "JSON",
+                            data: {
+                                id: id,
+                                "_token": "{{ csrf_token() }}",
 
-                                },
-                                success: function() {
-                                    console.log('deleted successfully');
+                            },
+                            success: function() {
+                                console.log('deleted successfully');
 
-                                    $('#dataTable').DataTable().ajax.reload();
-                                }
-                            });
-                        }
+                                $('#dataTable').DataTable().ajax.reload();
+                            }
+                        });
+                    }
 
-                    })
-                }
+                })
+            }
         </script>
 
     </body>

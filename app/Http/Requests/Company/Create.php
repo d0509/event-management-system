@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class Add extends FormRequest
+class Create extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +22,7 @@ class Add extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
             'email' => 'required|email|unique:users,email',
             'company_name' => 'required|min:3|max:50',
@@ -31,7 +32,16 @@ class Add extends FormRequest
             'password_confirmation' => 'required',
             'city_id' => 'required',
             'mobile_no' => 'required|numeric|digits:10|unique:users,mobile_no',
-            'status' => 'required'
+            'profile' => 'required|image|mimes:jpeg,jpg,png',
         ];
+        
+        if(Auth::check() == false){
+
+        } elseif (Auth::user()->role->name == config('site.role_names.admin')){
+            $rules['status'] = 'required';
+        }
+
+        return $rules;
+
     }
 }

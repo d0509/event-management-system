@@ -18,8 +18,8 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->bookingService->CompanyCollection($request);
-            return $user_bookings;
+            $userBookings =  $this->bookingService->CompanyCollection($request);
+            return $userBookings;
         }
         return view('backend.pages.booking-history.index');
     }

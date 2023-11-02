@@ -1,6 +1,5 @@
 @extends('backend.includes.head')
 @section('title', 'Login page')
-{{-- {{dd('im afetr title')}} --}}
 @section('auth-content')
     @auth
         <script>
@@ -78,7 +77,7 @@
                                             </div>
                                             <div class="text-center">
                                                 <a class="small"
-                                                    href="{{ route('guest.company.create') }}"> Create Account as Company! </a>
+                                                    href="{{ route('company.create') }}"> Create Account as Company! </a>
                                             </div>
                                         </div>
 

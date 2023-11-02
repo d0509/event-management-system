@@ -9,7 +9,6 @@ use App\Services\PDFService;
 use Illuminate\Support\Facades\Response;
 class PDFController extends Controller
 {
-
      protected $bookingService;
      protected $PDFservice;
 
@@ -21,7 +20,6 @@ class PDFController extends Controller
 
      public function downloadPDF(String $id)
      {          
-          return $this->PDFservice->downloadPDF($id);
-         
+          return $this->PDFservice->downloadPDF($id);         
      }
 }

@@ -1,7 +1,6 @@
 @extends('user.pages.dashboard')
 @section('title', $event->name)
 @section('showEvent')
-
     <div class="container">
         <div class="row">
             <div class="col-8">
@@ -66,17 +65,10 @@
 
                             </form>
                         @endif
-
-
-
-                        {{-- {{$event->event_date}} --}}
-
-
                     </div>
 
                 </div>
                 <div class="google-map">
-                    {{-- {{dd($event->location)}} --}}
                     <iframe class="mt-5" src="{{ $event->location }}" width="450" height="450" style="border:0;"
                         allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>

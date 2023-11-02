@@ -17,6 +17,6 @@ class CompanyStatusController extends Controller
 
     public function __invoke(Request $request)
     {
-        return $this->companyService->changeStatus($request);
+        return $this->companyService->changeStatus($request->id);
     }
 }

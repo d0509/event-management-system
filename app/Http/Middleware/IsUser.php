@@ -16,7 +16,7 @@ class IsUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role->name == config('site.role_names.user')) {
+        if (Auth::check() && Auth::user()->role->name == config('site.role_names.user')) {
             return $next($request);
         } else {
             return redirect()->route('home');

@@ -23,7 +23,6 @@ class AuthController extends Controller
 
     public function signIn(Login $request)
     {
-        // dd($request);
         $this->authService->signIn($request);
         
         if (Auth::user()) {

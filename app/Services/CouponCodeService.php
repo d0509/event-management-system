@@ -40,9 +40,9 @@ class CouponCodeService
         return true;
     }
 
-    public function destroy($id)
+    public function destroy($coupon_code)
     {
-        return CouponCode::where('id', $id)->delete();
+       $coupon_code->delete();
     }
 
     public function store($request)
@@ -64,11 +64,10 @@ class CouponCodeService
         }
     }
 
-    public function update($request,$id){
+    public function update($request,$coupon_code){
 
-        $Coupon = CouponCode::find($id);
 
-        $Coupon->update([
+        $coupon_code->update([
             'name' => $request->name,
             'usable_count' => $request->usable_count,
             'percentage' => $request->percentage,

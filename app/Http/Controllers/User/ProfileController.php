@@ -20,7 +20,6 @@ class ProfileController extends Controller
         $this->cityService = new CityService();
         $this->profileService = $profileService;
     }
-
     
     public function index()
     {

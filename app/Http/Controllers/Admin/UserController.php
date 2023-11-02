@@ -25,9 +25,8 @@ class UserController extends Controller
         return view('backend.pages.user.index');
     }
 
-    public function show(string $id)
+    public function show(User $user)
     {
-        $user = User::where('id', $id)->first();
         return view('backend.pages.user.show', [
             'user' => $user,
         ]);

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Event;
 
-use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddEvent extends FormRequest
+class Create extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,11 +17,10 @@ class AddEvent extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-    
         $rules = [
             'city_id' => 'required|not_in:default',
             'category_id' => 'required|not_in:default',
@@ -45,6 +43,5 @@ class AddEvent extends FormRequest
         }
 
         return $rules;
-       
     }
 }

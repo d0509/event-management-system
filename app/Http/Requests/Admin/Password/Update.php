@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ContactUs;
+namespace App\Http\Requests\Admin\Password;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Store extends FormRequest
+class Update extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,14 +21,10 @@ class Store extends FormRequest
      */
     public function rules(): array
     {
-    //  dd(1)  ;
         return [
-            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
-            'email' =>'required|email',
-            'phone' => ['required','numeric','digits:10'],
-            'message' => 'required|min:3'
+            'password' => 'required',
+            'new_password' => 'required|confirmed',
+            'new_password_confirmation' => 'required',
         ];
-        
     }
- 
 }

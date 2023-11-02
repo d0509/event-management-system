@@ -115,7 +115,6 @@
                 var id = id;
                 var url = "{{ route('admin.contact-us.destroy', ':id') }}";
                 url = url.replace(':id', id);
-                // alert(url);
                 var token = "{{ csrf_token() }}";
                 Swal.fire({
                     title: 'Are you sure?',

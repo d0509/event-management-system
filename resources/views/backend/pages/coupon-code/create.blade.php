@@ -10,35 +10,35 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-center">
-                                    @if (isset($coupon) == true)
+                                    @if (isset($coupon_code) == true)
                                         <h1 class="h4 text-gray-900 mb-4">Update Coupon</h1>
-                                    @elseif(isset($coupon) == false)
+                                    @elseif(isset($coupon_code) == false)
                                         <h1 class="h4 text-gray-900 mb-4">Add Coupon</h1>
                                     @endif
 
                                 </div>
 
-                                @if (isset($coupon) == true)
-                                    <form action="{{ route('company.coupon-code.update', ['coupon_code' => $coupon]) }}"
+                                @if (isset($coupon_code) == true)
+                                    <form action="{{ route('company.coupon-code.update', ['coupon_code' => $coupon_code]) }}"
                                         method="post" enctype="multipart/form-data">
-                                    @elseif(isset($coupon) == false)
+                                    @elseif(isset($coupon_code) == false)
                                         <form action="{{ route('company.coupon-code.store') }}" method="post"
                                             enctype="multipart/form-data">
                                 @endif
                                 @csrf
-                                @if (isset($coupon) == true)
+                                @if (isset($coupon_code) == true)
                                     @method('PATCH')
                                 @endif
 
                                 <input type="hidden" value="{{Auth::user()->company->id}}" id="company_id" name="company_id" >
-                                @if (isset($coupon))
-                                    <input type="hidden" name="coupon_id" id="coupon_id" value="{{$coupon->id}}" >
+                                @if (isset($coupon_code))
+                                    <input type="hidden" name="coupon_id" id="coupon_id" value="{{$coupon_code->id}}" >
                                 @endif
                                 <div class="form-group">
                                     <label class="form-label" for="form7Example2">Coupon</label>
                                     <input type="text" id="name" name="name"
                                         class="form-control form-control-user rounded-pill" placeholder="Coupon Code"
-                                        @if (isset($coupon)) value="{{ old('name', $coupon->name) }}">
+                                        @if (isset($coupon_code)) value="{{ old('name', $coupon_code->name) }}">
                                         @else
                                         value="{{ old('name') }}"> @endif
                                         @error('name')
@@ -52,7 +52,7 @@
                                         <label class="form-label" for="form7Example2">Usable Count</label>
                                         <input type="number" id="usable_count" name="usable_count"
                                             class="form-control form-control-user rounded-pill" placeholder="Usable Count"
-                                            @if (isset($coupon)) value="{{ old('usable_count', $coupon->usable_count) }}">
+                                            @if (isset($coupon_code)) value="{{ old('usable_count', $coupon_code->usable_count) }}">
                                         @else
                                             
                                         value="{{ old('usable_count') }}"> @endif
@@ -64,7 +64,7 @@
                                             <label class="form-label" for="form7Example2">Percentage</label>
                                             <input type="number" step="any" id="percentage" name="percentage"
                                                 class="form-control form-control-user rounded-pill" placeholder="Percentage"
-                                                @if (isset($coupon)) value="{{ old('percentage', $coupon->percentage) }}">
+                                                @if (isset($coupon_code)) value="{{ old('percentage', $coupon_code->percentage) }}">
                                         @else
                                         value="{{ old('percentage') }}"> @endif
                                                 @error('percentage')
@@ -77,7 +77,7 @@
                                                 <input type="date" id="start_date" name="start_date"
                                                     class="form-control form-control-user rounded-pill"
                                                     placeholder="Company Address"
-                                                    @if (isset($coupon)) value="{{ old('start_date', $coupon->start_date) }}"> 
+                                                    @if (isset($coupon_code)) value="{{ old('start_date', $coupon_code->start_date) }}"> 
                                         @else
                                             
                                         value="{{ old('start_date') }}"> @endif
@@ -90,7 +90,7 @@
                                                     <label class="form-label" for="form7Example2">End Date</label>
                                                     <input type="date" name="end_date" id="end_date"
                                                         class="form-control form-control-user rounded-pill"
-                                                        @if (isset($coupon)) value="{{ old('end_date', $coupon->end_date) }}">
+                                                        @if (isset($coupon_code)) value="{{ old('end_date', $coupon_code->end_date) }}">
                                         @else
                                         value="{{ old('end_date') }}"> @endif
                                                         @error('end_date')
@@ -102,9 +102,9 @@
                                                     <div class="row d-flex justify-content-center">
                                                         <button type="submit"
                                                             class="btn btn-primary btn-user text-center rounded-pill">
-                                                            @if (isset($coupon) == false)
+                                                            @if (isset($coupon_code) == false)
                                                                 Add Coupon
-                                                            @elseif(isset($coupon) == true)
+                                                            @elseif(isset($coupon_code) == true)
                                                                 Update Coupon
                                                             @endif
                                                         </button>

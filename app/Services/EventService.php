@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Admin\Event\Status;
-use App\Http\Requests\Company\AddEvent;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -175,15 +173,13 @@ class EventService
                 }
             } else {
                 $events = Event::where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->latest()->get();
-                // $events = Event::with('company')->get();
-                // dd($events);
                 return $events;
             }
         }
     }
 
 
-    public function store(AddEvent $request)
+    public function store($request)
     {
 
         $free = $request->ticket;
@@ -213,23 +209,13 @@ class EventService
             ->toDirectory('banner')
             ->upload();
 
-        // $media->uploadMedia($request->file('banner'), 'public', 'banner');
-        // dd($media->toArray());
-        // $media->event_id = $event->id;
-        // $media->save();
-        // dd($event);
-        // $event = new Event();
         $event->attachMedia($media, 'banner');
         $event->save();
-        // $event->media()->save($media);
-
         return true;
     }
 
-    public function update(AddEvent $request, Event $event)
+    public function update($request, Event $event)
     {
-        // dd( $request);
-
         $validated = $request->validated();
 
         $event->update([
@@ -251,36 +237,15 @@ class EventService
             $bannerMedia = $event->getMedia('banner')->first();
 
             if ($bannerMedia) {
-                // Replace the 'banner' media with the new file
                 MediaUploader::fromSource($request->file('banner'))
                     ->replace($bannerMedia);
 
-                // Optionally, you can also update the media's attributes if needed
                 $event->syncMedia($bannerMedia, 'banner');
             }
         }
-        // dd('event updated by the company');
-
     }
 
-    public function changeStatus(Status $request, Event $event)
-    {
-        $validated = $request->validated();
-
-        $event->update([
-            'is_approved' => $validated['is_approved'],
-        ]);
-    }
-
-    public function resource($id)
-    {
-        $event  = Event::find($id);
-        // dd($event);
-        return $event;
-    }
-
-
-    public function changeEventStatus($request){
+   public function changeEventStatus($request){
         $event = Event::find($request->id);
         $updatedStatus = ($event->is_approved == 1 ) ? 0 : 1;
        
@@ -292,6 +257,6 @@ class EventService
     }
 
     public function attend(){
-        
+
     }
 }

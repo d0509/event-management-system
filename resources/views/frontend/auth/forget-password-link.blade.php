@@ -1,7 +1,6 @@
 @extends('backend.includes.head')
 @section('title', 'Reset Password')
 @section('auth-content')
-    {{-- {{dd('im inside reset password link')}} --}}
 
     <body class="bg-gradient-primary">
         <div class="container">
@@ -12,10 +11,8 @@
                         <div class="card-body p-0">
                             <!-- Nested Row within Card Body -->
                             <div class="row">
-                                {{-- <div class="col-lg-6 d-none d-lg-block bg-password-image"></div> --}}
                                 <div class="col-lg-12">
                                     <div class="p-5">
-
                                         <form method="POST" action="{{ route('reset.password.post') }}">
                                             @csrf
                                             <input type="hidden" name="token" value="{{ $token }}">

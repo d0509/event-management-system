@@ -21,7 +21,6 @@ class Create extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this);
         return [
             'quantity' => 'required|min:1',  
             'code' => 'nullable|exists:coupon_codes,name'

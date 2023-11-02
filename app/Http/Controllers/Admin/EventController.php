@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Event\Status;
 use App\Models\Event;
 use App\Services\CategoryService;
 use App\Services\CityService;
@@ -17,7 +16,7 @@ class EventController extends Controller
     protected $cityService;
     protected $categoryService;
 
-    public function __construct(EventService $eventService, CityService $cityService, CategoryService $categoryService)
+    public function __construct(EventService $eventService)
     {
         $this->eventService = $eventService;
         $this->cityService = new CityService();
@@ -33,9 +32,8 @@ class EventController extends Controller
         return view('backend.pages.event.index');
     }
 
-    public function show(string $id)
+    public function show(Event $event)
     {
-        $event =  $this->eventService->resource($id);
         return view('backend.pages.event.show', [
             'event' => $event
         ]);
@@ -50,12 +48,6 @@ class EventController extends Controller
             'cities' => $cities,
             'categories' => $categories,
         ]);
-    }
-
-    public function update(Status $request, Event $event)
-    {
-        $this->eventService->changeStatus($request, $event);
-        return redirect()->route('admin.event.index');
     }
 
 }

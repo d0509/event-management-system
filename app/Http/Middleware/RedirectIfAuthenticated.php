@@ -18,8 +18,6 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
-        // dd(Auth::check());
-        // dd(Auth::user()->role->name);
         foreach ($guards as $guard) {
             if (Auth::guard()->check()) {
                 if (Auth::user()->role_id == config('site.roles.admin')) {

@@ -25,8 +25,8 @@ class ContactUsController extends Controller
         return view('backend.pages.contact-us.index');
     }
 
-    public function destroy(String $id)
+    public function destroy(ContactUs $contact_u)
     {
-        return $this->contactUsService->destroy($id);
+        return $this->contactUsService->destroy($contact_u);
     }
 }

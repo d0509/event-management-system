@@ -9,7 +9,7 @@ use App\Services\CouponCodeService;
 use Illuminate\Http\Request;
 
 class CouponCodeController extends Controller
-{    
+{
     protected $couponCodeService;
 
     public function __construct(CouponCodeService $couponCodeService)
@@ -31,33 +31,29 @@ class CouponCodeController extends Controller
         return view('backend.pages.coupon-code.create');
     }
 
-   
+
     public function store(Store $request)
     {
         $this->couponCodeService->store($request);
         return redirect()->route('company.coupon-code.index');
     }
 
-    public function edit(string $id)
+    public function edit(CouponCode $coupon_code)
     {
-        $coupon = CouponCode::where('id',$id)->first();
-        return view('backend.pages.coupon-code.create',[
-            'coupon' => $coupon,
+        return view('backend.pages.coupon-code.create', [
+            'coupon_code' => $coupon_code,
         ]);
     }
 
-    public function update(Store $request, string $id)
+    public function update(Store $request, CouponCode $coupon_code)
     {
-        $this->couponCodeService->update($request,$id);
+        $this->couponCodeService->update($request, $coupon_code);
         return redirect()->route('company.coupon-code.index');
     }
 
-    public function destroy(string $id)
+    public function destroy(CouponCode $coupon_code)
     {
-       $delete = $this->couponCodeService->destroy($id);
-        if ($delete) {
-            session()->flash('success','Inquiry deleted successfully');
-            return response()->json(['success' => true]);
-        } 
+        $this->couponCodeService->destroy($coupon_code);
+        return response()->json(['success' => true]);
     }
 }

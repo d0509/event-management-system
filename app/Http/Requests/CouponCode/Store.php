@@ -22,7 +22,6 @@ class Store extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->input('coupon_id'));
         $couponId = $this->input('coupon_id');
         $companyId = $this->input('company_id');
         $rules = [

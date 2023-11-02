@@ -136,12 +136,6 @@ class BookingService
         }
     }
 
-    public function show(string $id)
-    {
-        $booking = Booking::where('id', $id)->first();
-        return $booking;
-    }
-
     public function verifyCouponCode($request)
     {
         $event = Event::where('id', $request->event)->first();

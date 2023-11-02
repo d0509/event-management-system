@@ -1,5 +1,4 @@
 @extends('backend.master.layout')
-{{-- {{dd(isset($event))}} --}}
 @if (isset($event) == false)
     @section('title', 'Add Event')
 @else
@@ -8,14 +7,12 @@
 
 @section('content')
     <div class="container">
-        {{-- {{ dd($event->toArray()) }} --}}
         @if (isset($event))
         <h1 class="text-center fw-bold  ">Update Event</h1>
             
         @else            
         <h1 class="text-center fw-bold  ">Add Event</h1>
         @endif
-        {{-- {{dd(67)}} --}}
         @if (isset($event) == false)
             <form action="{{ route('company.event.store') }}" method="post" enctype="multipart/form-data" class="mt-5 mb-5">
             @elseif(isset($event) == true)
@@ -46,7 +43,6 @@
         {{-- available seat --}}
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Available Seat</label>
-            {{-- {{ dd($event->toArray()) }} --}}
             <input type="number" name="available_seat" id="available_seat" class="form-control"
                 placeholder="Available Seat"
                 value="{{ isset($event) ? old('available_seat', $event->available_seat) : old('available_seat') }}" />
@@ -157,15 +153,11 @@
         </div>
 
         {{-- status --}}
-        {{-- {{dd($event->toArray())}} --}}
         @if (isset($event) == true)
             <div class="form-group">
                 <label class="form-label" for="form7Example2">Event Status</label>
                 <select class="form-control form-select-lg" aria-label="Default select example" name="is_approved"
                     id="is_approved">
-
-                    {{-- {{dd($cities)}} --}}
-
                     <option value="0"
                         @if (isset($event)) {{ $event->is_approved == '0 ' ? 'selected' : '' }} @endif>
                         Pending

@@ -32,7 +32,6 @@ class TicketMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        dd($this->data);
         return new Envelope(
             subject: 'Ticket booked successfully',
         );
