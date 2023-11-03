@@ -37,7 +37,7 @@ class Create extends FormRequest
         
         if(Auth::check() == false){
 
-        } elseif (Auth::user()->role->name == config('site.role_names.admin')){
+        } elseif (Auth::user()->role_id == config('site.roles.admin')){
             $rules['status'] = 'required';
         }
 

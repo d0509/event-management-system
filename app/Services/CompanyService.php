@@ -80,7 +80,7 @@ class CompanyService
 
         if (Auth::check() == false) {
             session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
-        } elseif (Auth::user()->role->name == config('site.role_names.admin')) {
+        } elseif (Auth::user()->role_id == config('site.roles.admin')) {
             try {
                 $user->notify(new CompanyRegistered($request));
             } catch (Exception $e) {

@@ -71,7 +71,7 @@
 
 
 
-                @if (Auth::user()->role->name == config('site.role_names.company'))
+                @if (Auth::user()->role_id == config('site.roles.company'))
                     <li class="nav-item {{ Route::currentRouteName() == 'company.dashboard' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('company.dashboard') }}">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
