@@ -16,6 +16,8 @@ use App\Http\Controllers\Auth\CompanyController as AuthCompanyController;
 use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Company\AttendEvent;
 use App\Http\Controllers\Company\BookingController as CompanyBookingController;
+use App\Http\Controllers\Company\CouponCodeController;
+use App\Http\Controllers\Company\CouponCodeStatusController;
 use App\Http\Controllers\Company\EventController;
 use App\Http\Controllers\Company\ProfileController as CompanyProfileController;
 use App\Http\Controllers\User\BookingController;
@@ -57,8 +59,8 @@ Route::group(['middleware' => ['guest', 'setlocale']], function () {
     Route::get('/', [HomeController::class, 'index'])->middleware('setlocale')->name('home');
     Route::get('change', [HomeController::class, 'change'])->name('changeLang');
     Route::get('event/{event}', [UserEventController::class, 'show'])->name('user.event.show');
-    Route::get('company-register', [AuthCompanyController::class, 'create'])->name('guest.company.create');
-    Route::post('company-register', [AuthCompanyController::class, 'store'])->name('guest.company.store');
+    Route::get('company-register', [AuthCompanyController::class, 'create'])->name('company.create');
+    Route::post('company-register', [AuthCompanyController::class, 'store'])->name('company.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -71,10 +73,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('change-password', UserPasswordController::class)->only('edit', 'update');
         Route::get('booking-history', [BookingController::class, 'index'])->name('booking.index');
         Route::post('book-ticket/{event}', [BookingController::class, 'store'])->name('book_ticket');
+        Route::post('apply-coupon',[BookingController::class,'verifyCouponCode'])->name('apply-coupon');
         Route::get('booking/{booking}', [BookingController::class, 'show'])->name('booking.show');
     });
 
-    Route::get('pdf/generate/{booking}', [PDFController::class, 'generatePDF'])->name('download-ticket');
+    Route::get('pdf/generate/{booking}', [PDFController::class, 'downloadPDF'])->name('download-ticket');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -82,7 +85,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('contact-us', AdminContactUsController::class);
         Route::resource('profile', ProfileController::class)->only('index', 'edit', 'update');
         Route::resource('change-password', PasswordController::class)->only('edit', 'update');
-        Route::post('event/status', EventStatusController::class)->name('event.status');
+        Route::post('{event}/status', EventStatusController::class)->name('event.status');
         Route::resource('company', CompanyController::class)->except('show');
         Route::resource('event', AdminEventController::class)->only('index', 'edit', 'update', 'show');
         Route::post('status', CompanyStatusController::class)->name('company.status');
@@ -92,6 +95,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('company')->prefix('company')->name('company.')->group(function () {
+    Route::resource('coupon-code',CouponCodeController::class);
+    Route::post('coupon/status',CouponCodeStatusController::class)->name('coupon-code.status');
     Route::resource('profile', CompanyProfileController::class)->only('index', 'edit', 'update');
     Route::get('event/attend', [AttendEvent::class, 'create'])->name('attend-event.create');
     Route::get('event/attend/list', [AttendEvent::class, 'index'])->name('attend-event.index');

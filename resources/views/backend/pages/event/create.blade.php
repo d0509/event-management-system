@@ -1,5 +1,4 @@
 @extends('backend.master.layout')
-{{-- {{dd(isset($event))}} --}}
 @if (isset($event) == false)
     @section('title', 'Add Event')
 @else
@@ -8,9 +7,12 @@
 
 @section('content')
     <div class="container">
-        {{-- {{ dd($event->toArray()) }} --}}
+        @if (isset($event))
+        <h1 class="text-center fw-bold  ">Update Event</h1>
+            
+        @else            
         <h1 class="text-center fw-bold  ">Add Event</h1>
-        {{-- {{dd(67)}} --}}
+        @endif
         @if (isset($event) == false)
             <form action="{{ route('company.event.store') }}" method="post" enctype="multipart/form-data" class="mt-5 mb-5">
             @elseif(isset($event) == true)
@@ -33,11 +35,7 @@
 
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Description</label>
-            <textarea {{ old('description') }} name="description" id="description" class="form-control " placeholder="Description">
-@if (isset($event))
-{{ old('description', $event->description) }}@else{{ old('description') }}
-@endif
-</textarea>
+            <textarea {{ old('description') }} name="description" id="description" class="form-control " placeholder="Description">@if (isset($event)){{ old('description', $event->description) }}@else{{ old('description') }}@endif</textarea>
             @error('description')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -45,7 +43,6 @@
         {{-- available seat --}}
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Available Seat</label>
-            {{-- {{ dd($event->toArray()) }} --}}
             <input type="number" name="available_seat" id="available_seat" class="form-control"
                 placeholder="Available Seat"
                 value="{{ isset($event) ? old('available_seat', $event->available_seat) : old('available_seat') }}" />
@@ -78,7 +75,7 @@
             <label class="form-label" for="form7Example2">Event Category</label>
             <select name="category_id" id="category_id" value="{{ old('category_id') }}"
                 class="form-control form-select-lg">
-
+                <option value="default"> Please select category </option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}"
                         @if (isset($event)) {{ $category->id == $event->category_id ? 'selected' : '' }} @endif>
@@ -94,7 +91,7 @@
         <div class="form-outline mb-4">
             <label class="form-label" for="form7Example2">Event City</label>
             <select name="city_id" id="city_id" class="form-control form-select-lg">
-
+                <option value="default"> Please select city </option>
                 @foreach ($cities as $city)
                     <option value={{ $city->id }}
                         @if (isset($event)) {{ $city->id == $event->city_id ? 'selected' : '' }} @endif>
@@ -156,15 +153,11 @@
         </div>
 
         {{-- status --}}
-        {{-- {{dd($event->toArray())}} --}}
         @if (isset($event) == true)
             <div class="form-group">
                 <label class="form-label" for="form7Example2">Event Status</label>
                 <select class="form-control form-select-lg" aria-label="Default select example" name="is_approved"
                     id="is_approved">
-
-                    {{-- {{dd($cities)}} --}}
-
                     <option value="0"
                         @if (isset($event)) {{ $event->is_approved == '0 ' ? 'selected' : '' }} @endif>
                         Pending

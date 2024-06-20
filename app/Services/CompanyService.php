@@ -2,23 +2,21 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Auth\CompanyRegister;
-use App\Http\Requests\Company\Add;
-use App\Http\Requests\Company\EditCompany;
-use App\Models\Company;
-use App\Models\User;
-use App\Notifications\CompanyRegistered;
 use Exception;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Company;
 use Illuminate\Support\Facades\Log;
-use Plank\Mediable\Facades\MediaUploader;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use App\Notifications\CompanyRegistered;
+use Plank\Mediable\Facades\MediaUploader;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyService
 {
     public function collection()
     {
-        $data = Company::with(['user:id,name,status'])->select(['id', 'user_id', 'name', 'description', 'address']);
+        $data = Company::with(['user:id,name,status'])->select(['id', 'user_id', 'name', 'description', 'address'])->latest();
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $editURL = route('admin.company.edit', ['company' => $row->id]);
@@ -46,9 +44,8 @@ class CompanyService
             ->make(true);
     }
 
-    public function storeByAdmin(Add $request)
+    public function store($request)
     {
-        // dd($request->toArray());
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
@@ -59,7 +56,7 @@ class CompanyService
             'email' => $validated['email'],
             'city_id' => $validated['city_id'],
             'mobile_no' => $validated['mobile_no'],
-            'status' =>  $validated['status'],
+            'status' => Auth::check() ? $validated['status'] : config('site.status.pending'),
         ]);
 
         $lastUserId = $user->id;
@@ -71,6 +68,7 @@ class CompanyService
 
             $user->attachMedia($media, 'profile');
         }
+
         $user->save();
 
         $company = Company::create([
@@ -80,24 +78,22 @@ class CompanyService
             'name' => $validated['company_name']
         ]);
 
-
-
-        try {
-            $user->notify(new CompanyRegistered($request));
-            // session()->flash('success','Company is notified about their registeration by the admin');
-        } catch (Exception $e) {
-            // dd($e->message);
-            // session()->flash('danger','Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
-            Log::info($e);
+        if (Auth::check() == false) {
+            session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
+        } elseif (Auth::user()->role_id == config('site.roles.admin')) {
+            try {
+                $user->notify(new CompanyRegistered($request));
+            } catch (Exception $e) {
+                Log::info($e);
+            }
         }
     }
 
-    public function updateByAdmin(EditCompany $request, Company $company)
+
+    public function update($request,$company)
     {
         $validated = $request->validated();
-
         $user = $company->user;
-
         $updated_user = $user->update([
             'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
@@ -107,50 +103,21 @@ class CompanyService
             'status' => $validated['status'],
         ]);
 
-
         $updated_company = $company->update([
             'address' => $validated['address'],
             'description' => $validated['description'],
             'name' => $validated['company_name']
         ]);
-
-        // dd($user->toArray());
-
-        // $user->notify(new CompanyUpdated($company, $user));
     }
 
-    public function registeredByCompany(CompanyRegister $request)
+    public function changeStatus($id)
     {
-        $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
-
-        $user = User::create([
-            'role_id' => config('site.roles.company'),
-            'name' => $validated['name'],
-            'password' => $validated['password'],
-            'email' => $validated['email'],
-            'city_id' => $validated['city_id'],
-            'mobile_no' => $validated['mobile_no'],
-            'status' =>  'pending'
+        $company = Company::where('id', $id)->with('user')->first();
+        $updatedStatus = ($company->user->status == config('site.status.pending')) ? config('site.status.approved') : config('site.status.pending');
+        $company->user->update([
+            'status' => $updatedStatus,
         ]);
 
-        $media = MediaUploader::fromSource($request->profile)
-            ->toDisk('public')
-            ->toDirectory('profile')
-            ->upload();
-
-        $user->attachMedia($media, 'profile');
-        $user->save();
-
-        $lastUserId = $user->id;
-
-        $company = Company::create([
-            'user_id' => $lastUserId,
-            'address' => $validated['address'],
-            'description' => $validated['description'],
-            'name' => $validated['company_name']
-        ]);
-
-        session()->flash('success', 'Your request is sent to the Admin. We will contact you shortly.');
+        return response()->json(['success' => true]);
     }
 }

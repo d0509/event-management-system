@@ -2,7 +2,7 @@
 {{-- @extends('layouts.userlayout') --}}
 @section('title', 'User Booking History')
 @section('content')
-    <div class="container mt-5">
+<div class="container mt-5">
         <h3 class="text-center mb-5" > {{__('booking_history_title')}} </h3>
         <table class="table" id="data-table">
             <thead>

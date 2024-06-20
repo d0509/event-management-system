@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Event;
 
-use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddEvent extends FormRequest
+class Create extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,17 +17,14 @@ class AddEvent extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        // dd(1);
-        //    dd($this->event->toArray());
-
         $rules = [
-            'city_id' => 'required',
-            'category_id' => 'required',
-            'name' => 'required',
+            'city_id' => 'required|not_in:default',
+            'category_id' => 'required|not_in:default',
+            'name' => 'required|regex:/^(?=.*[a-zA-Z])[a-zA-Z\d ]*$/',
             'description' => 'required',
             'available_seat' => 'required|integer|min:10',
             'venue' => 'required',
@@ -42,14 +38,10 @@ class AddEvent extends FormRequest
 
         if ($this->event) {
             $rules['banner'] = 'nullable|image';
-            // $rules['is_approved'] = 'required';
         } else {
             $rules['banner'] = 'image|required';
-            // $rules['is_approved'] = 0;
         }
 
-        // dd($this->event);
         return $rules;
-       
     }
 }

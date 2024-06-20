@@ -89,10 +89,8 @@
             $(document).on('click', '#flexSwitchCheckChecked', function(e) {
                 e.preventDefault();
                 var id = $(this).attr('data-companyId');
-                // alert(id);
                 var url = "{{ route('admin.company.status') }}";
-                // alert(url);
-                // url = url.replace(':id', id);
+                console.log(url);
                 var token = "{{ csrf_token() }}";
 
                 $.ajax({

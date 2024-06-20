@@ -119,8 +119,6 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label" for="form7Example2">City</label>
-                                                            {{-- {{dd($cities)}} --}}
-                                                            {{-- {{dd($company->toArray())}} --}}
                                                             <select style="color: black"
                                                                 class="form-control rounded-pill form-select-lg"
                                                                 aria-label="Default select example" name="city_id"
@@ -182,9 +180,6 @@
                                                             <select class="form-control rounded-pill form-select-lg"
                                                                 aria-label="Default select example" name="status"
                                                                 id="status">
-
-                                                                {{-- {{dd($cities)}} --}}
-
                                                                 <option value="pending"
                                                                     @if (isset($company)) {{ $company->user->status == 'Pending ' ? 'selected' : '' }} @endif>
                                                                     Pending
@@ -197,7 +192,6 @@
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
                                                         </div>
-
                                                         <div class="row d-flex justify-content-center">
                                                             <button type="submit"
                                                                 class="btn btn-primary btn-user text-center rounded-pill">
@@ -208,11 +202,7 @@
                                                                 @endif
                                                             </button>
                                                         </div>
-
-
                                                         </form>
-
-
                                                     </div>
                                                 </div>
                                             </div>

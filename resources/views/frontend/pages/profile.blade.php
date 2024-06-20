@@ -1,13 +1,11 @@
 @extends('frontend.master.layout')
 @section('title', 'Profile')
 @section('content')
-    {{-- {{dd('im inside profile')}} --}}
     <div class="container">
         <div class="row row-cols-3 g-3">
             <div class="col">
                 <div class="card">
                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                        {{-- {{dd(Auth::user()->media)}} --}}
                         <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp" class="img-fluid" />
                         <a href="#!">
                             <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
@@ -32,13 +30,10 @@
                             <p class="text-dark">{{ Auth::user()->city->name }}</p>
                         </div>
                         </p>
-                        {{-- <a href="{{route('profile.edit')}}" class="btn btn-primary">Edit Profile</a> --}}
                         <a href="{{route('profile.edit',['profile'=> Auth::user()])}}" class="btn btn-primary">Edit Profile</a>
                     </div>
                 </div>
             </div>
-            {{-- {{dd(Auth::user()->toArray())}} --}}
-            
         </div>
     </div>
 

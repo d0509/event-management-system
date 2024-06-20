@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Plank\Mediable\Models\MediableModel;
-use Plank\Mediable\Contracts\Mediable;
-use Plank\Mediable\Facades\MediaUploader;
-use Plank\Mediable\Media;
 use Plank\Mediable\Mediable as MediableMediable;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class Event extends Model 
 {
@@ -46,31 +44,15 @@ class Event extends Model
     public function booking(){
         return $this->hasMany(Booking::class);    
     }
-
-    public function scopeFilter($query, array $filters)
+    
+    public function scopeFilter(Builder $query)
     {
-        
-        $query->when(
-            $filters['search'] ??  false,
-            fn ($query, $search) =>
-            $query->where(
-                fn ($query) =>
-                $query->where('name', 'like', '%' . $search . '%')
-                   
-            )
-        );
-        $query->when(
-            $filters['city'] ?? false,
-            fn ($query, $city) =>
-            $query->whereHas(
-                'city',
-                fn ($query) =>
-                $query->where('', $city)
-            )
-        );
-
-       
+        return QueryBuilder::for($query)
+            ->allowedFilters('name', 'email')
+            ->allowedSorts('name', 'created_at');
     }
+
+  
 
    
 }

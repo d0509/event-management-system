@@ -16,9 +16,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {       
-        // dd(Auth::user()->role_id == config('site.roles.admin'));
-        
-        if (Auth::user()->role_id == config('site.roles.admin')) {
+        if (Auth::check() && Auth::user()->role_id == config('site.roles.admin')) {
             return $next($request);
         } else {
             return redirect()->route('home');

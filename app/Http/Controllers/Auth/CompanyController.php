@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\CompanyRegister;
+use App\Http\Requests\Company\Create;
 use App\Services\CityService;
 use App\Services\CompanyService;
 use Illuminate\Http\RedirectResponse;
@@ -23,19 +23,18 @@ class CompanyController extends Controller
     public function create()
     {
         if(!Auth::user()){
+            $cities =  $this->cityService->collection();
             return view('frontend.auth.register', [
-                'cities' => $this->cityService->collection()
+                'cities' =>$cities
             ]);
         } else {
             return redirect()->back();
-        }
-       
+        }       
     }
 
-    public function store(CompanyRegister $request): RedirectResponse
-    {
-        
-        $this->companyService->registeredByCompany($request);
-        return redirect()->route('guest.company.create');
+    public function store(Create $request): RedirectResponse
+    {        
+        $this->companyService->store($request);
+        return redirect()->route('company.create');
     }
 }

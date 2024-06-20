@@ -12,10 +12,8 @@
         @endif
         @csrf
         @method('PATCH')
-        <!-- Email input -->
         <div class="form-outline mb-4">
             <label class="form-label" for="form2Example1">Name</label>
-            {{-- {{dd($user->toArray())}} --}}
             <input type="text" name="name" id="name" class="form-control"
                 value="{{ isset($user) ? old('name', $user->name) : old('name') }}" />
             @error('name')
@@ -23,7 +21,6 @@
             @enderror
         </div>
 
-        <!-- Password input -->
         <div class="form-outline mb-4">
             <label class="form-label" for="form2Example2">Email </label>
             <input type="email" name="email" id="email" class="form-control"
@@ -66,7 +63,6 @@
             @enderror
         </div>
         @if (isset(Auth::user()->media))
-            {{-- {{dd(Auth::user()->media->toArray())}} --}}
             @foreach (Auth::user()->media as $item)
                 Profile Picture: <img class="mb-5"
                     src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}" alt=""
@@ -75,12 +71,7 @@
         @endif
 
         <button type="submit" class="btn btn-primary btn-block mb-4">Update Profile</button>
-
-        <!-- Register buttons -->
-
         </form>
-
-
     </div>
 
 

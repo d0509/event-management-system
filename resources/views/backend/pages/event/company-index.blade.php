@@ -29,7 +29,7 @@
                         @endif
                         <th>City</th>
                         <th>Category</th>
-                        <th>Description</th>
+                        {{-- <th>Description</th> --}}
                         <th>Available Seat</th>
                         <th>Venue</th>
                         <th>Date</th>
@@ -73,9 +73,6 @@
 
                         processing: true,
                         serverSide: true,
-                        order: [
-                            [1, 'desc']
-                        ],
                         ajax: {
                             'type': 'GET',
                             url: "{{ route('company.event.index') }}",
@@ -100,11 +97,11 @@
                                 data: 'category.name',
                                 name: 'category.name',
                             },
-                            {
-                                data: 'description',
-                                name: "description",
-                                orderable: false,
-                            },
+                            // {
+                            //     data: 'description',
+                            //     name: "description",
+                            //     orderable: false,
+                            // },
                             {
                                 data: 'available_seat',
                                 name: 'available_seat',
@@ -228,46 +225,48 @@
 
                 }
 
-                function deleteEvent(id) {
-                    var id = id;
-                    // alert(id);
-                    var url = "{{ route('company.event.destroy', ':id') }}";
-                    url = url.replace(':id', id);
-                    // alert(url);
-                    var token = "{{ csrf_token() }}";
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You want to delete this inquiry?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: url,
-                                type: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                dataType: "JSON",
-                                data: {
-                                    id: id,
-                                    "_token": "{{ csrf_token() }}",
 
-                                },
-                                success: function() {
-                                    console.log('deleted successfully');
-
-                                    $('#dataTable').DataTable().ajax.reload();
-                                }
-                            });
-                        }
-
-                    })
-                }
             });
+
+            function deleteEvent(id) {
+                var id = id;
+                // alert(id);
+                var url = "{{ route('company.event.destroy', ':id') }}";
+                url = url.replace(':id', id);
+                // alert(url);
+                var token = "{{ csrf_token() }}";
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to delete this inquiry?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            dataType: "JSON",
+                            data: {
+                                id: id,
+                                "_token": "{{ csrf_token() }}",
+
+                            },
+                            success: function() {
+                                console.log('deleted successfully');
+
+                                $('#dataTable').DataTable().ajax.reload();
+                            }
+                        });
+                    }
+
+                })
+            }
         </script>
 
     </body>

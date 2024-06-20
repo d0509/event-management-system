@@ -71,7 +71,7 @@
 
 
 
-                @if (Auth::user()->role->name == config('site.role_names.company'))
+                @if (Auth::user()->role_id == config('site.roles.company'))
                     <li class="nav-item {{ Route::currentRouteName() == 'company.dashboard' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('company.dashboard') }}">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -97,6 +97,13 @@
                         <a class="nav-link collapsed" href="{{ route('company.booking.index') }}">
                             <i class="fas fa-ticket-alt"></i>
                             <span>Bookings</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item {{ Route::currentRouteName() == 'company.coupon-code.index' ? 'active' : '' }}">
+                        <a class="nav-link collapsed" href="{{ route('company.coupon-code.index') }}">
+                            <i class="fa fa-gift mr-2"  aria-hidden="true"></i>
+                            <span>Coupon Code</span>
                         </a>
                     </li>
                 @endif

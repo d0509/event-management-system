@@ -15,7 +15,7 @@
                     <th>Category</th>
                     <th>Company</th>
                     <th>City</th>
-                    <th>Description</th>
+                    {{-- <th>Description</th> --}}
                     <th>Available Seat</th>
                     <th>Venue</th>
                     <th>Date</th>
@@ -43,9 +43,9 @@
                     processing: true,
                     serverSide: true,
                     ajax: "{{ route('admin.event.index') }}",
-                    order: [
-                        [1, 'desc']
-                    ],
+                        order: [
+                            [1, 'desc']
+                        ],
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -78,12 +78,12 @@
                             name: 'city.name',
                             orderable: true,
                         },
-                        {
-                            data: 'description',
-                            name: 'description',
-                            orderable: false,
-                            searchable: true,
-                        },
+                        // {
+                        //     data: 'description',
+                        //     name: 'description',
+                        //     orderable: false,
+                        //     searchable: true,
+                        // },
                         {
                             data: 'available_seat',
                             name: 'available_seat',
@@ -127,8 +127,8 @@
             $(document).on('click', '#flexSwitchCheckChecked', function(e) {
                 e.preventDefault();
                 var id = $(this).attr('data-eventId');
-                var url = "{{ route('admin.event.status') }}";
-                // url = url.replace(':id', id);
+                var url = "{{ route('admin.event.status', ':id') }}";
+                url = url.replace(':id', id);
                 var token = "{{ csrf_token() }}";
 
                 $.ajax({

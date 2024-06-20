@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\CouponCode;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class   ResetPasswordPost extends FormRequest
+class Apply extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,14 +17,12 @@ class   ResetPasswordPost extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'token' => 'required',
-            'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required'
+            'code' => 'required|regex:/^[A-Z0-9]*$/|exists:coupon_codes,name'
         ];
     }
 }

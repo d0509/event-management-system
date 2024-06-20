@@ -1,6 +1,6 @@
 @extends('backend.master.layout')
 @section('title', 'Change Password')
-@section('auth-content')
+@section('content')
     <div class="container">
         <h1 class="text-center">Change Password</h1>
 

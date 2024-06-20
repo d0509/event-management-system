@@ -24,7 +24,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">{{ __('register_create') }}</h1>
                                     </div>
                                     @if (request()->is('company-register'))
-                                        <form class="user" action="{{ route('guest.company.store') }}" method="POST"
+                                        <form class="user" action="{{ route('company.store') }}" method="POST"
                                             enctype="multipart/form-data">
                                         @elseif(request()->is('register'))
                                             <form class="user" action="{{ route('signup') }}" method="POST"

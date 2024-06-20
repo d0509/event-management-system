@@ -4,17 +4,13 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Admin\Password\Change;
+use App\Http\Requests\Admin\Password\Update;
 use Illuminate\Validation\ValidationException;
 
 class PasswordService{
 
-    public function update(Change $request){
-        // dd(Hash::make($request->password));
-
+    public function update($request){
         $user = Auth::user();
-        // dd($user->password);
-
         if(!Hash::check($request->password, Auth::user()->password)){
             throw ValidationException::withMessages([
                 'password' => "Old Password Doesn't match!."
@@ -25,8 +21,6 @@ class PasswordService{
             ]);
 
             session()->flash('success', 'Password Changed successfully.');
-        }
-
-        
+        }        
     }
 }

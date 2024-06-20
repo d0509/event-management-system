@@ -37,7 +37,6 @@ class CompanyUpdated extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // dd($company);
         return (new MailMessage)
             ->line('The company has been updated successfully.')
             ->line('Company Name: ' . $this->company->name)

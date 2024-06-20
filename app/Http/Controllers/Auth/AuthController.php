@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPassword;
 use App\Http\Requests\Auth\ResetPassword;
-use App\Http\Requests\Auth\ResetPasswordPost;
 use App\Services\AuthService;
 use App\Services\CityService;
 use App\Services\CompanyService;
@@ -41,8 +41,9 @@ class AuthController extends Controller
     public function register()
     {
         if (!Auth::user()) {
+            $cities = $this->cityService->collection();
             return view('frontend.auth.register', [
-                'cities' => $this->cityService->collection()
+                'cities' => $cities,
             ]);
         } else {
             return redirect()->back();
@@ -63,8 +64,9 @@ class AuthController extends Controller
 
     public function companyRegisterForm()
     {
+        $cities = $this->cityService->collection();
         return view('frontend.auth.register', [
-            'cities' => $this->cityService->collection()
+            'cities' => $cities,
         ]);
     }
 
@@ -89,7 +91,7 @@ class AuthController extends Controller
         }
     }
 
-    public function resetPassword(ResetPassword $request)
+    public function resetPassword(ForgotPassword $request)
     {
         $this->authService->resetPassword($request);
     }
@@ -103,7 +105,7 @@ class AuthController extends Controller
         }
     }
 
-    public function submitReset(ResetPasswordPost $request)
+    public function submitReset(ResetPassword $request)
     {
         $this->authService->submitReset($request);
         return redirect()->route('login');

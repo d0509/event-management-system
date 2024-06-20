@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\AddEvent;
+use App\Http\Requests\Event\Create;
 use App\Models\Event;
 use App\Services\CategoryService;
 use App\Services\CityService;
@@ -28,34 +28,28 @@ class EventController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $user_bookings =  $this->eventService->companyCollection();
+            $user_bookings =  $this->eventService->collection();
             return $user_bookings;
         }
-
         return view('backend.pages.event.company-index');
     }
 
     public function create()
     {
-        $event = $this->cityService->collection();
-
         return view('backend.pages.event.create', [
             'cities' => $this->cityService->collection(),
-            'categories' => $this->categoryService->index()
+            'categories' => $this->categoryService->collection()
         ]);
     }
 
-    public function store(AddEvent $request)
+    public function store(Create $request)
     {
         $this->eventService->store($request);
-
         return redirect()->route('company.event.index');
     }
 
-    public function show(string $id)
+    public function show(Event $event)
     {
-        $event =  $this->eventService->resource($id);
-        
         return view('backend.pages.event.show', [
             'event' => $event
         ]);
@@ -63,32 +57,26 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
-        if(Auth::user()->company->id == $event->company_id){
+        if (Auth::user()->company->id == $event->company_id) {
             return view('backend.pages.event.create', [
                 'event' => $event,
                 'cities' => $this->cityService->collection(),
-                'categories' => $this->categoryService->index(),
+                'categories' => $this->categoryService->collection(),
             ]);
         } else {
             abort(404);
         }
     }
 
-    public function update(AddEvent $request, Event $event)
+    public function update(Create $request, Event $event)
     {
-        // dd(3);
         $this->eventService->update($request, $event);
         return redirect()->route('company.event.index');
     }
 
     public function destroy(Event $event)
     {
-        $delete = $event->delete();
-        if ($delete == true) {
-            return response()->json(['success' => true]);
-            // session()->flash('success', 'Event deleted successfully');
-        } else {
-            return response()->json('error');
-        }
+        $event->delete();
+        return response()->json(['success' => true]);
     }
 }

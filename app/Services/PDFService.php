@@ -7,13 +7,13 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Response;
 
 class PDFService
 {
     public function generatePDF($data)
     {
         $user = $data->user;
-
         $pdfData = [
             'owner_name' => $data->user->name,
             'date' =>  Carbon::parse($data->event->event_date)->format(config('site.date_format')),
@@ -29,13 +29,8 @@ class PDFService
         ];
 
         $pdf = $this->generateQrCodeAndLoadView($data,'my-ticket', $pdfData);
-        
-
         $pdfName = 'booking_' . now()->timestamp . '.pdf';
-        // $pdf = PDF::loadView('my-ticket', $data2);
-
         $pdf->save(public_path() . '/storage/tickets/' . $pdfName);
-        // dd( Booking::where('booking_number', $data->booking_number)->get());
         Booking::where('booking_number', $data->booking_number)->update(['pdf_name' => $pdfName]);
 
         try {
@@ -47,10 +42,17 @@ class PDFService
 
     function generateQrCodeAndLoadView( $data2,$view, $data)
     {
-        // dd($data2);
-        // $simple = \QrCode::size(120)->generate($data2);
-        // dd($simple);
         $pdf = PDF::loadView($view, $data );
         return $pdf;
     }
+
+    public function downloadPDF($id){
+        $file = Booking::where('id', $id)->select('pdf_name')->first();
+          
+        $fileName = $file['pdf_name'];
+        
+        $pdf_location = public_path() . '/storage/tickets/';
+        $headers = array('Content-Type: application/pdf',);
+        return Response::download($pdf_location . $fileName, "$fileName", $headers);
+    } 
 }

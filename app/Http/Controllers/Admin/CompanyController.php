@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\Add;
-use App\Http\Requests\Company\EditCompany;
+use App\Http\Requests\Company\Create;
+use App\Http\Requests\Company\Edit;
 use App\Models\Company;
 use App\Services\CityService;
 use App\Services\CompanyService;
@@ -35,7 +35,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $cities = $this->companyService->collection();
+        $cities = $this->cityService->collection();
 
         return view('backend.pages.company.edit', [
             'cities' => $cities,
@@ -43,38 +43,30 @@ class CompanyController extends Controller
     }
 
 
-    public function store(Add $request): RedirectResponse
+    public function store(Create $request): RedirectResponse
     {
-        $this->companyService->storeByAdmin($request);
+        $this->companyService->store($request);
         return redirect()->route('admin.company.index');
     }
 
     public function edit(Company $company)
     {
-        // dd('admin.company.edit');
+        $cities = $this->cityService->collection();
         return view('backend.pages.company.edit', [
             'company' => $company,
-            'cities' => $this->cityService->collection(),
+            'cities' => $cities,
         ]);
     }
 
-    public function update(EditCompany $request, Company $company)
+    public function update(Edit $request, Company $company)
     {
-        $this->companyService->updateByAdmin($request, $company);
+        $this->companyService->update($request, $company);
         return redirect()->route('admin.company.index');
     }
 
     public function destroy(Company $company)
     {
-        // dd($company->toArray());
-        $delete = $company->delete();
-        if ($delete == true) {
-            return response()->json(['success' => true]);
-            session()->flash('success', 'Event deleted successfully');
-        } else {
-            return response()->json('error');
-            session()->flash('danger', 'There are some issues deleting company');
-        }
-        // return redirect()->route('admin.company.index');
+        $company->delete();
+        return response()->json(['success' => true]);
     }
 }
