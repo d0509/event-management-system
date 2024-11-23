@@ -10,8 +10,6 @@ class PasswordResetToken extends Model
     use HasFactory;
 
     protected $table = 'password_reset_tokens'; // Set the table name if it's different
-   
-
 
     protected $fillable = [
         'email',

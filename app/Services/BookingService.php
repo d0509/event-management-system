@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Jobs\GenerateBookingTicket;
-use App\Models\Booking;
-use App\Models\Event;
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
+use App\Models\Event;
+use App\Models\Booking;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Jobs\GenerateBookingTicket;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class BookingService
@@ -18,11 +18,9 @@ class BookingService
     public function collection()
     {
         $data = Booking::select(['id', 'event_id', 'booking_number', 'is_attended', 'is_free_event', 'quantity', 'ticket_price', 'sub_total', 'discount', 'total', 'type'])->where('user_id', '=', Auth::id())->with(['user', 'event']);
-        // dd($data);
 
         return Datatables::of($data)
             ->addColumn('action', function ($row) {
-                // dd($row->event_id);
                 $ShowUrl = route('user.booking.show', ['booking' => $row->id]);
                 $downloadUrl = route('download-ticket', ['booking' => $row->id]);
                 $btn = '<div class="d-flex"><a href="' . $ShowUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-eye"></i></a><a href="' . $downloadUrl . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fas fa-download"></i></a></div>';
@@ -47,7 +45,6 @@ class BookingService
 
     public function CompanyCollection(Request $request)
     {
-        // dd(Auth::user()->company->id);
         $data = Booking::select(['bookings.*'])
             ->with(['user', 'event'])
             ->where('company_id', Auth::user()->company->id);
@@ -73,7 +70,6 @@ class BookingService
 
     public function store($event, $inputs)
     {
-        // dd($inputs);
         $quantity = $inputs['quantity'];
 
         $last_booking = Booking::latest()->first();
@@ -88,6 +84,7 @@ class BookingService
         if ($remainingSeats < $quantity) {
 
             session()->flash('danger', 'Sorry! Available seats are less than your requested seats');
+            return false;
         } else {
             $booking = Booking::create([
                 'user_id' => Auth::id(),
@@ -108,6 +105,9 @@ class BookingService
             } catch (Exception $e) {
                 Log::info($e);
             }
+            
+            session()->flash('success', 'Booking done successfully!');
+            return true;
         }
     }
 

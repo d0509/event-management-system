@@ -2,17 +2,20 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Auth\CompanyRegister;
-use App\Http\Requests\Company\Add;
-use App\Http\Requests\Company\EditCompany;
-use App\Models\Company;
-use App\Models\User;
-use App\Notifications\CompanyRegistered;
 use Exception;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Company;
+use App\Http\Requests\Company\Add;
 use Illuminate\Support\Facades\Log;
-use Plank\Mediable\Facades\MediaUploader;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\CompanyUpdated;
+use App\Notifications\CompanyRegistered;
 use Yajra\DataTables\Facades\DataTables;
+use Plank\Mediable\Facades\MediaUploader;
+use App\Http\Requests\Company\EditCompany;
+use App\Http\Requests\Auth\CompanyRegister;
+
+// use Plank\Mediable\Facades\MediaUploader;
 
 class CompanyService
 {
@@ -26,9 +29,7 @@ class CompanyService
                 return $btn;
             })
             ->addColumn('user_id', function ($row) {
-
                 $status = $row->user->status;
-
                 $condition = $status == config('site.status.approved') ? 'checked' : '';
                 $switch = '
                 <div class="form-check form-switch text-center " >
@@ -48,10 +49,9 @@ class CompanyService
 
     public function storeByAdmin(Add $request)
     {
-        // dd($request->toArray());
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
-
+        // $user = User::whereId(5)->first();
         $user = User::create([
             'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
@@ -80,14 +80,11 @@ class CompanyService
             'name' => $validated['company_name']
         ]);
 
-
-
         try {
             $user->notify(new CompanyRegistered($request));
-            // session()->flash('success','Company is notified about their registeration by the admin');
+            session()->flash('success', 'Company is notified about their registration by the admin');
         } catch (Exception $e) {
-            // dd($e->message);
-            // session()->flash('danger','Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
+            session()->flash('danger', 'Unfortunately we are not able to send mail to the company to let them know about their confirmation for registeration');
             Log::info($e);
         }
     }
@@ -95,9 +92,7 @@ class CompanyService
     public function updateByAdmin(EditCompany $request, Company $company)
     {
         $validated = $request->validated();
-
         $user = $company->user;
-
         $updated_user = $user->update([
             'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
@@ -107,6 +102,15 @@ class CompanyService
             'status' => $validated['status'],
         ]);
 
+        if ($request->hasFile('profile')) {
+            $media = MediaUploader::fromSource($request->profile)
+                ->toDisk('public')
+                ->toDirectory('profile')
+                ->upload();
+
+            $user->syncMedia($media, 'profile');
+        }
+        $user->save();
 
         $updated_company = $company->update([
             'address' => $validated['address'],
@@ -114,16 +118,13 @@ class CompanyService
             'name' => $validated['company_name']
         ]);
 
-        // dd($user->toArray());
-
-        // $user->notify(new CompanyUpdated($company, $user));
+        $user->notify(new CompanyUpdated($company, $user));
     }
 
     public function registeredByCompany(CompanyRegister $request)
     {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
-
         $user = User::create([
             'role_id' => config('site.roles.company'),
             'name' => $validated['name'],
@@ -134,12 +135,12 @@ class CompanyService
             'status' =>  'pending'
         ]);
 
-        $media = MediaUploader::fromSource($request->profile)
-            ->toDisk('public')
-            ->toDirectory('profile')
-            ->upload();
+        // $media = MediaUploader::fromSource($request->profile)
+        //     ->toDisk('public')
+        //     ->toDirectory('profile')
+        //     ->upload();
 
-        $user->attachMedia($media, 'profile');
+        // $user->attachMedia($media, 'profile');
         $user->save();
 
         $lastUserId = $user->id;

@@ -15,7 +15,6 @@
         <!-- Email input -->
         <div class="form-outline mb-4">
             <label class="form-label" for="form2Example1">Name</label>
-            {{-- {{dd($user->toArray())}} --}}
             <input type="text" name="name" id="name" class="form-control"
                 value="{{ isset($user) ? old('name', $user->name) : old('name') }}" />
             @error('name')
@@ -66,7 +65,6 @@
             @enderror
         </div>
         @if (isset(Auth::user()->media))
-            {{-- {{dd(Auth::user()->media->toArray())}} --}}
             @foreach (Auth::user()->media as $item)
                 Profile Picture: <img class="mb-5"
                     src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}" alt=""

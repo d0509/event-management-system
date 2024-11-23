@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\Event;
+use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\EventService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -27,13 +26,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        // dd('hello');
 
         $events = $this->eventService->collection();
         $cities = $this->cityService->collection();
         $city_id = request('city');
-        // dd($city_id);
-        // dd($cities);
         return view('frontend.pages.home', [
             'events' => $events,
             'cities' => $cities,

@@ -62,9 +62,6 @@
                 @enderror
             </div>
 
-
-            {{-- {{dd(Auth::user()->media)}} --}}
-
             @if (isset(Auth::user()->media))
                 @foreach (Auth::user()->media as $item)
                     {{ __('edit_profile_profile_picture') }} : <img
@@ -78,8 +75,6 @@
                     {{ __('edit_profile_update_button') }}
                 </button>
             </div>
-
-
         </form>
     </div>
 

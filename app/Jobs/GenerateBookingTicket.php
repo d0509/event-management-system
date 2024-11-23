@@ -2,19 +2,18 @@
 
 namespace App\Jobs;
 
-use App\Models\Booking;
-use App\Notifications\TicketMail;
+use Exception;
 use Carbon\Carbon;
+use App\Models\Booking;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Notifications\TicketMail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Exception;
-use Illuminate\Support\Facades\Log;
 
 class GenerateBookingTicket implements ShouldQueue
 {
@@ -47,17 +46,19 @@ class GenerateBookingTicket implements ShouldQueue
         $pdf = FacadePdf::loadView('pdf.booking-ticket', $pdfData);
 
         $pdfName = 'booking_' . now()->timestamp . '.pdf';
-        $pdf->save(public_path() . '/storage/tickets/' . $pdfName);
+        $path = public_path('storage/tickets');
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true); // Create directory with proper permissions
+        }
 
-        Booking::where('booking_number', $this->booking->booking_number)->update(['pdf_name' => $pdfName]);
+        $pdf->save($path . '/' . $pdfName);
 
+            Booking::where('booking_number', $this->booking->booking_number)->update(['pdf_name' => $pdfName]);
         try {
             $this->booking->user->notify(new TicketMail($this->booking, $pdf, $pdfName));
-            session()->flash('success','Ticket Booked successfully');
+            session()->flash('success', 'Ticket Booked successfully');
         } catch (Exception $e) {
             Log::info($e);
         }
-     
-        
     }
 }

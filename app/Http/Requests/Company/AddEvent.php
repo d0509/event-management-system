@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Company;
 
-use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddEvent extends FormRequest
@@ -22,9 +21,6 @@ class AddEvent extends FormRequest
      */
     public function rules(): array
     {
-        // dd(1);
-        //    dd($this->event->toArray());
-
         $rules = [
             'city_id' => 'required',
             'category_id' => 'required',
@@ -37,6 +33,7 @@ class AddEvent extends FormRequest
             'ticket' => 'required',
             'event_date' => 'required| after:now',
             'location' => 'required',
+            'banner' => 'required'
         ];
 
 
@@ -48,8 +45,6 @@ class AddEvent extends FormRequest
             // $rules['is_approved'] = 0;
         }
 
-        // dd($this->event);
         return $rules;
-       
     }
 }

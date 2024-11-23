@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\AddEvent;
 use App\Models\Event;
-use App\Services\CategoryService;
+use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\EventService;
-use Illuminate\Http\Request;
+use App\Services\CategoryService;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Company\AddEvent;
 
 class EventController extends Controller
 {
@@ -55,7 +55,6 @@ class EventController extends Controller
     public function show(string $id)
     {
         $event =  $this->eventService->resource($id);
-        
         return view('backend.pages.event.show', [
             'event' => $event
         ]);
@@ -76,7 +75,6 @@ class EventController extends Controller
 
     public function update(AddEvent $request, Event $event)
     {
-        // dd(3);
         $this->eventService->update($request, $event);
         return redirect()->route('company.event.index');
     }

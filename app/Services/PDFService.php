@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use \PDF;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use App\Models\Booking;
+use App\Notifications\TicketMail as NotificationsTicketMail;
+use Illuminate\Support\Facades\Log;
 
 class PDFService
 {
@@ -28,29 +29,26 @@ class PDFService
             'host_company' => $data->company->name,
         ];
 
-        $pdf = $this->generateQrCodeAndLoadView($data,'my-ticket', $pdfData);
-        
+        $pdf = $this->generateQrCodeAndLoadView($data, 'my-ticket', $pdfData);
+
 
         $pdfName = 'booking_' . now()->timestamp . '.pdf';
         // $pdf = PDF::loadView('my-ticket', $data2);
 
-        $pdf->save(public_path() . '/storage/tickets/' . $pdfName);
-        // dd( Booking::where('booking_number', $data->booking_number)->get());
         Booking::where('booking_number', $data->booking_number)->update(['pdf_name' => $pdfName]);
 
         try {
-            // $user->notify(new TicketMail($data, $pdf, $pdfName));
+            $user->notify(new NotificationsTicketMail($data, $pdf, $pdfName));
         } catch (Exception $e) {
             Log::info($e);
         }
     }
 
-    function generateQrCodeAndLoadView( $data2,$view, $data)
+    function generateQrCodeAndLoadView($data2, $view, $data)
     {
-        // dd($data2);
         // $simple = \QrCode::size(120)->generate($data2);
-        // dd($simple);
-        $pdf = PDF::loadView($view, $data );
+        $pdf = PDF::loadView($view, $data);
+        dd($pdf);
         return $pdf;
     }
 }

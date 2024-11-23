@@ -9,7 +9,6 @@
         <div class="card mb-3 mx-auto" style="max-width: 1080px;">
             <div class="row g-0">
                 <div class="col-md-7">
-                    {{-- {{dd($event)}} --}}
                     @forelse ($event->media as $media)
                         <img src="{{ asset('storage/banner/' . $media['filename'] . '.' . $media['extension']) }}"
                             alt="Event Banner" width="540px">
@@ -20,7 +19,7 @@
                 </div>
                 <div class="col-md-5 ">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $event->name }}</h5>
+                        <h5 class="card-title">{{ ucwords($event->name) }}</h5>
                         <div class="row">
                             <p class="col-1 text-dark"><i class="fas fa-city"></i></p>
                             <p class="col-10 text-dark">{{ $event->city->name }}</p>

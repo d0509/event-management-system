@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'admin',
             'email' => 'admin@mailinator.com',
-            'password' => Hash::make('74108520'),
+            'password' => Hash::make('123'),
             'mobile_no' => 1234567890,
             'city_id' => 1,
             'status'=>config('site.status.approved'),

@@ -1,6 +1,5 @@
 @extends('backend.includes.head')
 @section('title', 'Login page')
-{{-- {{dd('im afetr title')}} --}}
 @section('auth-content')
     @auth
         <script>
@@ -52,18 +51,12 @@
                                                         for="form7Example2">Password</label>
                                                     <input type="password" name="password"
                                                         class="form-control form-control-user" id="exampleInputPassword"
-                                                        placeholder="Password" value='74108520'>
+                                                        placeholder="Password">
                                                     @error('password')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox small">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                        <label class="custom-control-label"
-                                                            for="customCheck">Remember Me</label>
-                                                    </div>
-                                                </div>
+
                                                 <button type="submit" name="submit"
                                                     class="btn btn-primary btn-user btn-block">
                                                     Login

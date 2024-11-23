@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\Add;
-use App\Http\Requests\Company\EditCompany;
 use App\Models\Company;
+use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\CompanyService;
+use App\Http\Requests\Company\Add;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Company\EditCompany;
 
 class CompanyController extends Controller
 {
@@ -35,7 +35,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $cities = $this->companyService->collection();
+        $cities = $this->cityService->collection();
 
         return view('backend.pages.company.edit', [
             'cities' => $cities,
@@ -51,7 +51,6 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
-        // dd('admin.company.edit');
         return view('backend.pages.company.edit', [
             'company' => $company,
             'cities' => $this->cityService->collection(),
@@ -66,7 +65,6 @@ class CompanyController extends Controller
 
     public function destroy(Company $company)
     {
-        // dd($company->toArray());
         $delete = $company->delete();
         if ($delete == true) {
             return response()->json(['success' => true]);

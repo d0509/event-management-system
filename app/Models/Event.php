@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Plank\Mediable\Mediable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Plank\Mediable\Models\MediableModel;
-use Plank\Mediable\Contracts\Mediable;
-use Plank\Mediable\Facades\MediaUploader;
-use Plank\Mediable\Media;
-use Plank\Mediable\Mediable as MediableMediable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Event extends Model 
+class Event extends Model
 {
-    use HasFactory,SoftDeletes,MediableMediable;
-    
+    use HasFactory,SoftDeletes, Mediable;
+
     protected $fillable = [
         'city_id',
         'company_id',
@@ -44,19 +40,19 @@ class Event extends Model
     }
 
     public function booking(){
-        return $this->hasMany(Booking::class);    
+        return $this->hasMany(Booking::class);
     }
 
     public function scopeFilter($query, array $filters)
     {
-        
+
         $query->when(
             $filters['search'] ??  false,
             fn ($query, $search) =>
             $query->where(
                 fn ($query) =>
                 $query->where('name', 'like', '%' . $search . '%')
-                   
+
             )
         );
         $query->when(
@@ -68,9 +64,6 @@ class Event extends Model
                 $query->where('', $city)
             )
         );
-
-       
     }
 
-   
 }

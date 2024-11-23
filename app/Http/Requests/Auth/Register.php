@@ -21,7 +21,6 @@ class Register extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->profile);
             return [
                 'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
                 'email'=>'required|email|unique:users,email',

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Event\Status;
 use App\Models\Event;
-use App\Services\CategoryService;
+use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\EventService;
-use Illuminate\Http\Request;
+use App\Services\CategoryService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Event\Status;
 
 class EventController extends Controller
 {
@@ -35,9 +35,7 @@ class EventController extends Controller
 
     public function show(string $id)
     {
-        // dd($id);
         $event =  $this->eventService->resource($id);
-        //    dd($event->toArray());
         return view('backend.pages.event.show', [
             'event' => $event
         ]);

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\AttendEvent as CompanyAttendEvent;
-use App\Models\Booking;
-use App\Models\Event;
-use App\Services\AttendEventService;
 use Carbon\Carbon;
+use App\Models\Event;
+use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\AttendEventService;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Company\AttendEvent as CompanyAttendEvent;
 
 class AttendEvent extends Controller
 {
@@ -45,20 +45,16 @@ class AttendEvent extends Controller
      */
     public function store(CompanyAttendEvent $request)
     {
-        // dd($request);
         $eventId  = $request->event_id;
         $bookingNumber  = $request->booking_number;
         $noOfAttendee = $request->no_of_attendee;
 
-        // dd($noOfAttendee);
         $booking = Booking::where('booking_number', $bookingNumber)->first();
-        // dd($booking->toArray());
 
         $bookingEventId  = $booking->event_id;
         $bookingAttendee = $booking->no_of_attendees;
         $bookingQuantity = $booking->quantity;
         $sum = $bookingAttendee  +  $noOfAttendee;
-        // dd(config('site.is_attended.attended'));
 
         if ($bookingEventId != $eventId) {
             session()->flash('danger', 'Booking number or your selected event is incorrect');

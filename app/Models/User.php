@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
+use Plank\Mediable\Mediable;
+use Laravel\Sanctum\HasApiTokens;
+use Plank\Mediable\MediableInterface;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\CanResetPassword;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Plank\Mediable\Mediable;
 
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,Mediable;
-    
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Mediable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -75,13 +76,13 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasOne(PasswordResetToken::class);
     }
 
-    public function booking(){
+    public function booking()
+    {
         return $this->belongsToMany(Booking::class);
     }
 
-    public function contactus(){
+    public function contactus()
+    {
         return $this->hasMany(ContactUs::class);
     }
-
-    
 }

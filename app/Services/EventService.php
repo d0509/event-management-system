@@ -2,58 +2,58 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Admin\Event\Status;
-use App\Http\Requests\Company\AddEvent;
-use Plank\Mediable\Media;
-use Plank\Mediable\Mediable;
-use App\Models\Event;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
-use Plank\Mediable\Facades\MediaUploader;
+use App\Http\Requests\Company\AddEvent;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\Admin\Event\Status;
+use Plank\Mediable\Facades\MediaUploader;
+
+// use Plank\Mediable\Facades\MediaUploader;
 
 class EventService
 {
 
     public function companyCollection()
     {
-
-        $data = Event::with(['category:id,name', 'city:id,name'])->select(['events.*'])
+        $data = Event::with(['category:id,name', 'city:id,name'])
+            ->select(['events.*'])
             ->where('company_id', Auth::user()->company->id);
+
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $showURL = route('company.event.show', ['event' => $row->id]);
                 $editURL = route('company.event.edit', ['event' => $row->id]);
                 $deleteURL = route('company.event.destroy', ['event' => $row->id]);
-                $btn = '<div class="d-flex"><a href="' . $showURL . '" class="text-white w-3 btn btn-primary delete_event mr-2"> <i class="fa-solid fa-eye"></i></a><a data-eventId="' . $row->id . '" onclick="deleteEvent(' . $row->id . ')" class="text-white w-3 btn btn-danger delete_event mr-2"> <i class="fas fa-trash"></i></a><a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2"> <i class="fa-solid fa-pen-to-square"></i></a></div>';
+
+                $btn = '<div class="d-flex">
+                        <a href="' . $showURL . '" class="text-white w-3 btn btn-primary delete_event mr-2">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                        <a data-eventId="' . $row->id . '" onclick="deleteEvent(' . $row->id . ')" class="text-white w-3 btn btn-danger delete_event mr-2">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a href="' . $editURL . '" class="text-white w-3 btn btn-primary mr-2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </div>';
                 return $btn;
             })
-            ->orderColumn('name', function ($query, $order) {
-                $query->orderBy('id', $order);
-            })
 
+            ->addColumn('city_id', function ($row) {
+                return optional($row->city)->name ?: 'N/A'; // Null-safe handling
+            })
             ->addColumn('category_id', function ($row) {
-                return $row->category->name;
+                return optional($row->category)->name ?: 'N/A'; // Null-safe handling
             })
-            ->addColumn('event_date', function ($row) {
-                return Carbon::parse($row->event_date)->format(config('site.date_format'));
-            })
-
-            ->addColumn('start_time', function ($row) {
-                return Carbon::parse($row->start_time)->format(config('site.time_format'));
-            })
-            ->addColumn('end_time', function ($row) {
-                return Carbon::parse($row->end_time)->format(config('site.time_format'));
-            })
-            ->rawColumns(['category_id', 'event_date', 'start_time', 'end_time', 'action', 'category_id'])
+            ->rawColumns(['category_id', 'city_id', 'end_time', 'action'])
             ->setRowId('id')
             ->addIndexColumn()
             ->make(true);
-
-        return true;
     }
+
 
     public function collection()
     {
@@ -63,7 +63,6 @@ class EventService
                 $events = Event::latest()->where('company_id', Auth::user()->company->id)->get();
                 return $events;
             } elseif (Auth::user()->role->name == config('site.role_names.user')) {
-                // dd(request('city'));
                 if (request('city') && request('search')) {
                     $events = Event::latest()->where('city_id', request('city'))->where('name', 'like', '%' . request('search') . '%')->where('event_date', '>=', Carbon::now()->toDateString())->where('is_approved', 1)->get();
                     return $events;
@@ -71,13 +70,10 @@ class EventService
                     $events = Event::latest()->where('name', 'like', '%' . request('search') . '%')->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->get();
                     return $events;
                 } elseif (request('city')) {
-                    // dd(request('city'));
                     $events = Event::latest()->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->where('city_id', request('city'))->get();
                     return $events;
                 } else {
-                    // dd(Auth::user()->city_id);
-                    $events = Event::latest()->where('is_approved', 1)->where('city_id',Auth::user()->city_id )->where('event_date', '>=', Carbon::now()->toDateString())->get();
-                    // dd()
+                    $events = Event::latest()->where('is_approved', 1)->where('event_date', '>=', Carbon::now()->toDateString())->get();
                     return $events;
                 }
             } else {
@@ -107,13 +103,16 @@ class EventService
                     ->addColumn('start_time', function ($row) {
                         return Carbon::parse($row->start_time)->format(config('site.time_format'));
                     })
+                    ->addColumn('end_time', function ($row) {
+                        return Carbon::parse($row->end_time)->format(config('site.time_format'));
+                    })
                     ->addColumn('category_id', function ($row) {
                         return $row->category->name;
                     })
                     ->orderColumn('category_id', function ($query, $order) {
                         $query->orderBy('category_id', $order);
                     })
-                    ->rawColumns(['name', 'event_date', 'start_time', 'is_approved', 'action', 'city_id', 'category_id'])
+                    ->rawColumns(['name', 'event_date', 'start_time', 'end_time', 'is_approved', 'action', 'city_id', 'category_id'])
                     ->setRowId('id')
                     ->addIndexColumn()
                     ->make(true);
@@ -128,8 +127,8 @@ class EventService
             } elseif (request('city')) {
                 $events = Event::latest()->where('is_approved', 1)->where('city_id', request('city'))->where('event_date', '>=', Carbon::now()->toDateString())->get();
                 return $events;
-            } else {                
-                $events = Event::latest()->where('is_approved', 1)->whereDate('event_date', '>=', Carbon::now())->get();                
+            } else {
+                $events = Event::latest()->where('is_approved', 1)->whereDate('event_date', '>=', Carbon::now())->get();
                 return $events;
             }
         }
@@ -160,29 +159,25 @@ class EventService
             'is_free' => $free == 0 ? 1 : 0,
         ]);
 
-        $event->save();
-        $media = MediaUploader::fromSource($request->file('banner'))
-            ->toDisk('public')
-            ->toDirectory('banner')
-            ->upload();
+        if ($request->hasFile('banner')) {
+            $media = MediaUploader::fromSource($request->file('banner'))
+                ->toDisk('public')
+                ->toDirectory('banner')
+                ->upload();
 
-        // $media->uploadMedia($request->file('banner'), 'public', 'banner');
-        // dd($media->toArray());
+            $event->attachMedia($media, 'banner');
+        }
+
+        // $media->attachMedia($request->file('banner'), 'public', 'banner');
         // $media->event_id = $event->id;
         // $media->save();
-        // dd($event);
         // $event = new Event();
-        $event->attachMedia($media, 'banner');
-        $event->save();
-        // $event->media()->save($media);
 
         return true;
     }
 
     public function update(AddEvent $request, Event $event)
     {
-        // dd( $request);
-
         $validated = $request->validated();
 
         $event->update([
@@ -197,25 +192,20 @@ class EventService
             'end_time' => $validated['end_time'],
             'ticket' => $validated['ticket'],
             'event_date' => $validated['event_date'],
-
         ]);
-
-
 
         if ($request->hasFile('banner')) {
             $bannerMedia = $event->getMedia('banner')->first();
 
             if ($bannerMedia) {
                 // Replace the 'banner' media with the new file
-                MediaUploader::fromSource($request->file('banner'))
-                    ->replace($bannerMedia);
+                // MediaUploader::fromSource($request->file('banner'))
+                //     ->replace($bannerMedia);
 
                 // Optionally, you can also update the media's attributes if needed
                 $event->syncMedia($bannerMedia, 'banner');
             }
         }
-        // dd('event updated by the company');
-
     }
 
     public function changeStatus(Status $request, Event $event)
@@ -230,7 +220,6 @@ class EventService
     public function resource($id)
     {
         $event  = Event::find($id);
-        // dd($event);
         return $event;
     }
 }

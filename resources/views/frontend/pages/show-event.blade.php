@@ -1,7 +1,6 @@
 @extends('user.pages.dashboard')
 @section('title', $event->name)
 @section('showEvent')
-
     <div class="container">
         <div class="row">
             <div class="col-8">
@@ -46,8 +45,8 @@
                         @endphp
                         @if (\Carbon\Carbon::parse($event_date)->format('Y-m-d') == date('Y-m-d') && $start_time < $currentTime)
                         @else
-                            <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}" class="booking"
-                                method="post">
+                            <form id="form1" action="{{ route('user.book_ticket', ['event' => $event]) }}"
+                                class="booking" method="post">
                                 @csrf
                                 <div>
                                     <label class="form-label" for="form7Example2">{{ __('showEvent.quantity') }}</label>
@@ -61,28 +60,17 @@
                                         type="submit">{{ __('showEvent.book_ticket') }}</button>
                                 @endauth
                                 @guest
-                                Please <a href="{{route('login')}}"> Login </a>,after you are able to book the event.
+                                    Please <a href="{{ route('login') }}"> Login </a>,after you are able to book the event.
                                 @endguest
-
                             </form>
                         @endif
-
-
-
-                        {{-- {{$event->event_date}} --}}
-
-
                     </div>
-
                 </div>
                 <div class="google-map">
-                    {{-- {{dd($event->location)}} --}}
                     <iframe class="mt-5" src="{{ $event->location }}" width="450" height="450" style="border:0;"
                         allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection

@@ -2,7 +2,6 @@
 @extends('backend.includes.head')
 @section('title', 'Reset Password')
 @section('auth-content')
-    {{-- {{dd('im inside reset password link')}} --}}
 
     <body class="bg-gradient-primary">
         <div class="container">
@@ -18,7 +17,7 @@
                                     <div class="p-5">
 
                                         <form method="POST" action="{{ route('reset.password.post') }}">
-                                            @csrf                                            
+                                            @csrf
                                             <input type="hidden" name="token" value="{{ $token }}">
 
                                             <div class="form-outline mb-4">
@@ -41,14 +40,8 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-
-                                            
-
-
-
                                             <button type="submit" class="btn btn-primary btn-block"> {{__('forget_password_link_update_password')}} </button>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>

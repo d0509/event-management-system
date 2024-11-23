@@ -21,12 +21,10 @@ class Change extends FormRequest
      */
     public function rules(): array
     {
-        // dd(3);
         return [
             'password' => 'required',
             'new_password' => 'required|confirmed',
             'new_password_confirmation' => 'required',
         ];
-        // dd(3);
     }
 }

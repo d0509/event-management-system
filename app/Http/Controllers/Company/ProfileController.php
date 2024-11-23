@@ -39,5 +39,5 @@ class ProfileController extends Controller
     {
         $this->profileService->update($request, $user);
         return redirect()->route('company.profile.index');
-    }   
+    }
 }

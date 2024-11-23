@@ -1,24 +1,17 @@
 @extends('backend.includes.head')
 @section('title', 'Login page')
-{{-- {{dd('im afetr title')}} --}}
 @section('auth-content')
-
     @auth
-
         <script>
             window.location.href = '{{ url()->previous() }}';
         </script>
     @endauth
     @guest
-
         <body class="bg-gradient-primary">
             <div class="container ">
-
                 <!-- Outer Row -->
                 <div class="row justify-content-center">
-
                     <div class="col-xl-10 col-lg-12 col-md-9">
-
                         <div class="card o-hidden border-0 shadow-lg my-5">
                             <div class="card-body p-0">
                                 <!-- Nested Row within Card Body -->
@@ -57,19 +50,10 @@
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox small">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                        <label class="custom-control-label"
-                                                            for="customCheck">{{ __('login_remember') }}</label>
-                                                    </div>
-                                                </div>
                                                 <button type="submit" name="submit"
                                                     class="btn btn-primary btn-user btn-block">
                                                     {{ __('login_login') }}
                                                 </button>
-
-
                                             </form>
                                             <hr>
                                             <div class="text-center">
@@ -80,18 +64,13 @@
                                                 <a class="small"
                                                     href="{{ route('register') }}">{{ __('login_user_create') }}</a>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </body>
     @endguest

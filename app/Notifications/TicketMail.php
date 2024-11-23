@@ -38,7 +38,6 @@ class TicketMail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // dd($this->data->event->name);
         // return (new MailMessage)->view(
         //     'emails.name', ['invoice' => $this->data]
         // );

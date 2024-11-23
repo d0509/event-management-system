@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Company;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class EditCompany extends FormRequest
 {
@@ -23,14 +23,15 @@ class EditCompany extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
+            'name' => 'required|string|max:255',
             'email'=>['required','email', Rule::unique('users')->ignore($this->company->user)],
             'company_name' => 'required|min:3|max:50',
             'description' => 'required|min:5|max:5000',
-            'address' => 'required|min:15|max:500',
+            'address' => 'required|max:500',
             'city_id'=>'required',
             'mobile_no'=>['required','numeric','digits:10', Rule::unique('users')->ignore($this->company->user)],
-            'status'=>'required'
+            'status'=>'required',
+            'profile' => 'nullable|image'
         ];
     }
 }

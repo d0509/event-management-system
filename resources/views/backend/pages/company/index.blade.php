@@ -85,7 +85,7 @@
                 });
             });
 
-            // status 
+            // status
             $(document).on('click', '#flexSwitchCheckChecked', function(e) {
                 e.preventDefault();
                 var id = $(this).attr('data-companyId');

@@ -22,7 +22,7 @@ class Add extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'company_name' => 'required|min:3|max:50',
             'description' => 'required|min:5|max:500',
@@ -31,7 +31,8 @@ class Add extends FormRequest
             'password_confirmation' => 'required',
             'city_id' => 'required',
             'mobile_no' => 'required|numeric|digits:10|unique:users,mobile_no',
-            'status' => 'required'
+            'status' => 'required',
+            'profile' => 'required|image',
         ];
     }
 }

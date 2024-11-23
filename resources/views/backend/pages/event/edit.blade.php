@@ -1,8 +1,6 @@
 @extends('backend.master.layout')
 @section('title', 'View Event')
 @section('content')
-    {{-- {{dd(3)}} --}}
-
     <section style="background-color: #eee;">
         <div class="container py-5">
             <div class="row justify-content-center">
@@ -19,17 +17,6 @@
                                 <div class="mask"></div>
                             </a>
                         </div>
-                        {{-- <div class="card-body pb-0">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p><a href="#!" class="text-dark">{{ucwords($event->name)}}</a></p>
-                                    <p class="small text-muted">{{ucwords($event->description)}}</p>
-                                </div>
-                                <div>
-                                    
-                                </div>
-                            </div>
-                        </div> --}}
 
                         <div class="card-body pb-0">
                             <div class="d-flex justify-content-between">

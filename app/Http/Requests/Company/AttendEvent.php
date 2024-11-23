@@ -21,7 +21,6 @@ class AttendEvent extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this);
         return [
             'event_id' => 'required|not_in:default',
             'booking_number' => 'required|exists:bookings,booking_number',

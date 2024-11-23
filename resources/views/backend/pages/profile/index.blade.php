@@ -1,16 +1,12 @@
 @extends('backend.master.layout')
 @section('title', 'Profile')
 @section('content')
-    {{-- {{dd('im inside profile')}} --}}
     <div class="container">
         <div class="row row-cols-3 g-3">
             <div class="col">
                 <div class="card">
                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                        {{-- {{ dd(Auth::user()->media->toArray()) }} --}}
                         @if (Auth::user()->media('profile'))
-
-
                             @foreach (Auth::user()->media as $item)
                                 <img src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}"
                                     class="img-fluid" alt="">
@@ -46,16 +42,14 @@
                         @if (Auth::user()->role_id == config('site.roles.admin'))
                             <a href="{{ route('admin.profile.edit', ['profile' => Auth::user()]) }}"
                                 class="btn btn-primary">Edit Profile</a>
-                                @else
-                                <a href="{{ route('company.profile.edit', ['profile' => Auth::user()]) }}"
-                                    class="btn btn-primary">Edit Profile</a> 
+                        @else
+                            <a href="{{ route('company.profile.edit', ['profile' => Auth::user()]) }}"
+                                class="btn btn-primary">Edit Profile</a>
                         @endif
 
                     </div>
                 </div>
             </div>
-            {{-- {{dd(Auth::user()->toArray())}} --}}
-
         </div>
     </div>
 

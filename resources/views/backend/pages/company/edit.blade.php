@@ -26,10 +26,10 @@
 
                                 </div>
 
-                                @if (isset($company) == true)
+                                @if (isset($company))
                                     <form action="{{ route('admin.company.update', ['company' => $company]) }}"
                                         method="post" enctype="multipart/form-data">
-                                    @elseif(isset($company) == false)
+                                    @else
                                         <form action="{{ route('admin.company.store') }}" method="post"
                                             enctype="multipart/form-data">
                                 @endif
@@ -57,7 +57,6 @@
                                             class="form-control form-control-user rounded-pill" placeholder="Company name"
                                             @if (isset($company)) value="{{ old('company_name', $company->name) }}">
                                             @else
-                                                
                                             value="{{ old('company_name') }}"> @endif
                                             @error('company_name')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -81,9 +80,8 @@
                                                 <input type="text" id="address" name="address"
                                                     class="form-control form-control-user rounded-pill"
                                                     placeholder="Company Address"
-                                                    @if (isset($company)) value="{{ old('address', $company->address) }}"> 
+                                                    @if (isset($company)) value="{{ old('address', $company->address) }}">
                                             @else
-                                                
                                             value="{{ old('address') }}"> @endif
                                                     @error('address')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -119,13 +117,10 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label" for="form7Example2">City</label>
-                                                            {{-- {{dd($cities)}} --}}
-                                                            {{-- {{dd($company->toArray())}} --}}
                                                             <select style="color: black"
                                                                 class="form-control rounded-pill form-select-lg"
                                                                 aria-label="Default select example" name="city_id"
                                                                 id="city_id">
-
 
                                                                 @foreach ($cities as $city)
                                                                     <option value="{{ $city->id }}"
@@ -146,6 +141,22 @@
                                                             @error('profile')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
+
+                                                            <div class="bg-image hover-overlay ripple">
+                                                                @if (isset($company))
+                                                                    @if ($company->user->media('profile'))
+                                                                        Profile Picture:
+                                                                        @foreach ($company->user->media as $item)
+                                                                            <img src="{{ asset('storage/profile/' . $item['filename'] . '.' . $item['extension']) }}"
+                                                                                class="img-fluid mt-5 ml-5" alt="">
+                                                                        @endforeach
+                                                                    @else
+                                                                        <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp"
+                                                                            class="img-fluid" />
+                                                                    @endif
+                                                                @endif
+
+                                                            </div>
                                                         </div>
 
                                                         @if (isset($company) == false)
@@ -182,8 +193,6 @@
                                                             <select class="form-control rounded-pill form-select-lg"
                                                                 aria-label="Default select example" name="status"
                                                                 id="status">
-
-                                                                {{-- {{dd($cities)}} --}}
 
                                                                 <option value="pending"
                                                                     @if (isset($company)) {{ $company->user->status == 'Pending ' ? 'selected' : '' }} @endif>

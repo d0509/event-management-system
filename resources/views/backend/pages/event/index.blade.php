@@ -125,6 +125,7 @@
             });
 
             $(document).on('click', '#flexSwitchCheckChecked', function(e) {
+
                 e.preventDefault();
                 var id = $(this).attr('data-eventId');
                 var url = "{{ route('admin.event.status') }}";

@@ -2,21 +2,19 @@
 
 namespace App\Services;
 
-use App\Http\Requests\ContactUs\Store;
-use App\Models\ContactUs;
 use App\Models\User;
-use App\Notifications\ContactUsNotification;
+use App\Models\ContactUs;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ContactUs\Store;
 use Yajra\DataTables\Facades\DataTables;
+use App\Notifications\ContactUsNotification;
 
 class ContactUsService
 {
 
     public function collection()
     {
-
         $data = ContactUs::select(['id', 'name', 'email', 'phone', 'message', 'created_at'])->with(['user']);
-        // dd($data);
 
         return DataTables::of($data)
             ->addColumn('action', function ($row) {
@@ -25,7 +23,6 @@ class ContactUsService
                $btn = '<a class="delete_contact" id="delete_target_'.$row->id.'" data-id="'.$row->id.'" onclick="deleteInquiries('.$row->id.')" class="text-white w-3 btn btn-danger mr-2"> <i class="fa-solid fa-trash"></i></a>';
                 return $btn;
             })
-
 
             ->rawColumns(['action'])
             ->setRowId('id')
@@ -37,7 +34,6 @@ class ContactUsService
 
     public function store(Store $request)
     {
-
         $validated = $request->validated();
         $contact_us = ContactUs::create([
             'name' => $validated['name'],
@@ -48,7 +44,6 @@ class ContactUsService
         ]);
 
         $user = User::find(1);
-        // dd($user);
 
         $user->notify(new ContactUsNotification($contact_us));
 
@@ -60,7 +55,7 @@ class ContactUsService
     public function destroy(String $id)
     {
         return ContactUs::where('id', $id)->delete();
-       
-       
+
+
     }
 }

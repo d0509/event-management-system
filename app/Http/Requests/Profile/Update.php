@@ -23,11 +23,12 @@ class Update extends FormRequest
     {
 
         return [
-            'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
+            'name' => 'required|string|max:255',
             'email' => 'required|email',
             'mobile_no' => 'required|numeric|digits:10',
-            'city_id' => 'required',    
+            'city_id' => 'required',
+            'profile' => 'nullable|image'
         ];
-       
+
     }
 }

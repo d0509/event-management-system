@@ -21,14 +21,11 @@ class Store extends FormRequest
      */
     public function rules(): array
     {
-    //  dd(1)  ;
         return [
             'name' => 'required|string|max:255|regex:/^[a-zA-Z]+(\s[a-zA-Z]+)?$/',
             'email' =>'required|email',
             'phone' => ['required','numeric','digits:10'],
             'message' => 'required|min:3'
         ];
-        
     }
- 
 }

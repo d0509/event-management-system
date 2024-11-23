@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Booking;
-use App\Models\Event;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -17,7 +15,6 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        // dd(Auth::user()->role_id);
         if (Auth::user()->role_id == config('site.roles.admin')) {
             $companyCount = User::where('role_id', 2)->count();
             $userCount = User::where('role_id', 3)->count();
@@ -50,7 +47,6 @@ class DashboardController extends Controller
                 ->orderBy('event_count', 'desc')
                 ->limit(10)
                 ->get();
-               
             return view('backend.pages.dashboard', compact('companyCount', 'userCount', 'totalEvent', 'data', 'topCompanies'));
         } else {
 
@@ -59,7 +55,6 @@ class DashboardController extends Controller
             $todayEvent =  Event::where('company_id', '=', $company_id)->where('event_date', '=', Carbon::now())->count();
             $pastEvent = Event::where('company_id', '=', $company_id)->where('event_date', '<', Carbon::now())->count();
             $upcomingEvent = Event::where('company_id', '=', $company_id)->where('event_date', '>', Carbon::now())->count();
-            // dd(Auth::user()->company->id);
             $cityWiseEvents = Event::select('cities.name as city_name')
                 ->selectRaw('count(*) as count')
                 ->where('company_id', Auth::user()->company->id)
@@ -67,7 +62,6 @@ class DashboardController extends Controller
                 ->groupBy('city_name')
                 ->get();
 
-            // dd($cityWiseEvents->toArray());
 
             return view('backend.pages.dashboard', compact('totalEvent', 'todayEvent', 'pastEvent', 'upcomingEvent', 'cityWiseEvents'));
         }

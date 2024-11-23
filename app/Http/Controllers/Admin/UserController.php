@@ -16,7 +16,6 @@ class UserController extends Controller
     {
         $this->userService = $userService;
     }
-    
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -29,11 +28,9 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::where('id', $id)->first();
-        // dd($user);
 
         return view('backend.pages.user.show', [
             'user' => $user,
         ]);
     }
-    
 }

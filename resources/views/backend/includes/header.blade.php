@@ -284,7 +284,6 @@
 
         <script>
             $(document).ready(function() {
-
                 $(document).on('click', '#userDropdown', function(e) {
                     e.preventDefault;
                     $("#profileoptions").toggleClass("show");

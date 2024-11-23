@@ -64,13 +64,10 @@
         </div>
         <script>
             $(document).ready(function() {
-
                 var currentURL = window.location.href;
-
                 var companyURL = "{{ route('company.event.index') }}";
                 if (currentURL == companyURL) {
                     var table = $('#dataTable').DataTable({
-
                         processing: true,
                         serverSide: true,
                         order: [
@@ -94,7 +91,6 @@
                             {
                                 data: 'city.name',
                                 name: 'city.name',
-
                             },
                             {
                                 data: 'category.name',
@@ -135,13 +131,8 @@
                                 orderable: false,
                             }
                         ],
-
                     });
-
-
                 } else {
-
-
                     $(function() {
                         var table = $('#dataTable').DataTable({
                             processing: true,
@@ -225,8 +216,31 @@
                         });
                         table.columns([3]).search('').draw();
                     });
-
                 }
+
+                $(document).on('click', '#flexSwitchCheckChecked', function(e) {
+                    e.preventDefault();
+                    var id = $(this).attr('data-eventId');
+                    var url = "{{ route('admin.event.status') }}";
+                    var token = "{{ csrf_token() }}";
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        data: {
+                            id: id,
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success: function() {
+                            console.log('updated successfuly');
+                            $('#dataTable').DataTable().ajax.reload();
+                        }
+                    });
+
+                });
 
                 function deleteEvent(id) {
                     var id = id;
